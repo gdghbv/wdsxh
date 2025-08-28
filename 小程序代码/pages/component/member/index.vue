@@ -19,6 +19,7 @@
 					<view class="head-name flex-item text-ellipsis">{{item.name}}</view>
 					<view class="head-tag" v-if="item.distance">{{item.distance}}</view>
 				</view>
+				<StarRating :totalPoints=item.total_points />
 				<view class="info-tag text-ellipsis">{{item.native_place}}</view>
 				<view class="info-label flex justify-content-between">
 					<text class="text-ellipsis">{{item.level_name}}</text>
@@ -28,10 +29,11 @@
 		</view>
 	</view>
 </template>
-
 <script>
+	import StarRating from '@/pages/component/member/star-rating.vue'
 	import { mapState } from "vuex"
 	export default {
+		components:{StarRating},
 		name: "memberIndex",
 		props: ["showData"],
 		computed: {

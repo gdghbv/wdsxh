@@ -25,6 +25,7 @@ class Ranking extends Backend
      */
     protected $model = null;
 
+
     public function _initialize()
     {
         parent::_initialize();
@@ -48,31 +49,56 @@ class Ranking extends Backend
      * @throws DbException
      */
     public function index()
-    {
-        //设置过滤方法
-        $this->request->filter(['strip_tags', 'trim']);
-        if (false === $this->request->isAjax()) {
-            return $this->view->fetch();
-        }
-        //如果发送的来源是 Selectpage，则转发到 Selectpage
-        if ($this->request->request('keyField')) {
-            return $this->selectpage();
-        }
-
-        $wechatIdArray = (new UserWechatPointsLog())->distinct(true)->column('wechat_id');
-        $wechatIdArray = (new UserWechat())->where('id','in',$wechatIdArray)->where('points','>',0)->column('id');
-        [$where, $sort, $order, $offset, $limit] = $this->buildparams();
-        $list = (new Member())
-            ->with(['level','wechat'])
-            ->where('wechat_id','in',$wechatIdArray)
-            ->order('points desc')
-            ->paginate($limit);
-        foreach ($list as &$v) {
-            $v->id = $v->wechat_id;
-        }
-        $result = ['total' => $list->total(), 'rows' => $list->items()];
-        return json($result);
+{
+    //设置过滤方法
+    $this->request->filter(['strip_tags', 'trim']);
+    if (false === $this->request->isAjax()) {
+        return $this->view->fetch();
     }
+    //如果发送的来源是 Selectpage，则转发到 Selectpage
+    if ($this->request->request('keyField')) {
+        return $this->selectpage();
+    }
+
+    // 直接查询积分大于等于0的用户ID
+    $wechatIdArray = (new UserWechat())->where('total_points', '>=', 0)->column('id');
+    
+    [$where, $sort, $order, $offset, $limit] = $this->buildparams();
+    
+    $query = (new Member())
+        ->with(['level', 'wechat'])
+        ->where($where)
+        ->where('wechat_id', 'in', $wechatIdArray)
+        ->order('total_points desc');
+
+    $list = $query->paginate($limit);
+    
+    $result = [
+        'total' => $list->total(),
+        'rows' => $list->items()
+    ];
+    
+    // 转换数据格式确保可被JSON序列化
+    $rows = [];
+    foreach ($result['rows'] as $item) {
+        $row = $item->toArray();
+        $row['id'] = $item->wechat_id; // 确保有id字段
+        
+        // 处理关联模型数据
+        if ($item->level) {
+            $row['level'] = $item->level->toArray();
+        }
+        if ($item->wechat) {
+            $row['wechat'] = $item->wechat->toArray();
+        }
+        
+        $rows[] = $row;
+    }
+    
+    $result['rows'] = $rows;
+    
+    return json($result);
+}
 
     /**
      * Desc 一键清零

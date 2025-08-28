@@ -9,5 +9,6 @@ return [
     'Before'     => '变更前积分',
     'After'      => '变更后积分',
     'Memo'       => '备注',
-    'Createtime' => '创建时间'
+    'Createtime' => '创建时间',
+    'Total_points' => '累计积分',
 ];

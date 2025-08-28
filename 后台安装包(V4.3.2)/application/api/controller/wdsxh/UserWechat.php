@@ -241,6 +241,38 @@ class UserWechat extends Api
             'mobile' => $wechatObj->mobile,
         ]);
     }
+
+         /**
+     * Desc  查看用户积分详情
+     * Create on 2025/8/12 10:03
+     * Create by JustWorking
+     */
+    
+         public function points_log(){
+        $param = $this->request->param();
+        $user_id = $this->auth->id;
+        $page=isset($param['page']) ? $param['page'] : 1;
+        $limit=isset($param['limit']) ? $param['limit'] : 10;
+        if(!$this->request->isGet()){
+            $this->error('请求类型错误');
+        }
+        $wechat_id=$this->model->where('user_id',$user_id)->value('id');
+        if (!$wechat_id) {
+            $this->error('用户信息不存在');
+        }
+          $total = (new \app\api\model\wdsxh\PointsLog())
+        ->where('wechat_id', $wechat_id)
+        ->count();
+        $points_log = (new \app\api\model\wdsxh\PointsLog())
+            ->where('wechat_id',$wechat_id)
+            ->order('id desc')
+            ->field("id,points,before,after,total_points,memo,createtime,change")
+            ->page($page,$limit)
+            ->select();
+            //  $this->success('请求成功',$points_log);
+             $this->success('请求成功',['data'=>$points_log,
+             'total'=>$total,]);
+    }
 }
 
 
