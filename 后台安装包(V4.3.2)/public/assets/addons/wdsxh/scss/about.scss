@@ -1,0 +1,77 @@
+body {
+  background: #fff;
+}
+
+.about-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  .container-main {
+    flex: 1;
+    padding-bottom: 2rem;
+
+    .main-screen {
+      background: #F8F8F8;
+
+      .screen-item {
+        font-size: 1rem;
+        line-height: 1.375rem;
+        color: #333333;
+        padding: 1.75rem 2.25rem;
+        transition: color .3s;
+        cursor: pointer;
+
+        &:hover,
+        &.active {
+          color: var(--main-color);
+        }
+      }
+    }
+
+    .main-content {
+      padding: 2.5rem 0;
+      font-size: 1rem;
+      line-height: 1.875rem;
+      color: #555555;
+
+      img {
+        max-width: 100%;
+      }
+
+      .honor,
+      .rules {
+        display: none;
+      }
+    }
+  }
+
+  // 适配手机端
+  @media screen and (max-width: 767px) {
+    .container-main {
+      padding-bottom: 0;
+
+      .main-screen {
+        .screen-item {
+          width: calc(100% / 3);
+          font-size: 1rem;
+          line-height: 1.375rem;
+          padding: 1.25rem .5rem;
+          text-align: center;
+
+          &:hover {
+            color: #333333;
+          }
+
+          &.active:hover {
+            color: var(--main-color);
+          }
+        }
+      }
+
+      .main-content {
+        padding: 1.5rem 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="__CDN__/assets/addons/wdsxh/plugins/element-ui/index.css?v=2.15.6">
+<link rel="stylesheet" href="__CDN__/assets/addons/wdsxh/css/person_center_diy.css?v=4.3.2">
+
+<el-container id="diy" class="container" style="display: none;">
+    <el-header class="container-header" height="auto">
+        <el-button class="header-submit" size="mini" type="primary" @click.stop="handleSubmit">保存模板</el-button>
+    </el-header>
+    <el-main class="container-main">
+        {include file="wdsxh/person_center_diy_page/center" /}
+        {include file="wdsxh/person_center_diy_page/right" /}
+        {include file="wdsxh/person_center_diy_page/typeSelection" /}
+    </el-main>
+</el-container>
+<div id="loading" style="position: fixed;width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;">
+    <img src="/assets/addons/wdsxh/img/loading.gif" width="96px" height="96px" alt="">
+</div>
+
+<script src="__CDN__/assets/libs/jquery/dist/jquery.min.js"></script>
+<script src="__CDN__/assets/addons/wdsxh/plugins/vue/vue.min.js?v=2.6.14"></script>
+<script src="__CDN__/assets/libs/Sortable/Sortable.min.js?v=1.1.40"></script>
+<script src="__CDN__/assets/addons/wdsxh/plugins/element-ui/index.js?v=2.15.6"></script>
+<script src="__CDN__/assets/addons/wdsxh/plugins/vuedraggable/vuedraggable.min.js"></script>
+
+<script>
+    var pageData = {$jsonPageData};
+</script>

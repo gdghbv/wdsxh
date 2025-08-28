@@ -1,0 +1,341 @@
+<div class="main-right">
+	<!-- 标题 -->
+	<div class="right-title">
+		<span v-if="selectedIndex == -1">页面设置</span>
+		<span v-else>{{ currentData.name }}</span>
+	</div>
+	<!-- 内容 -->
+	<div class="right-content">
+		<!-- 页面设置 -->
+		<div v-if="selectedIndex == -1" class="content-form">
+			<div class="form-column">
+				<div class="column-item">
+					<div class="item-label">页面标题</div>
+					<div class="item-box">
+						<el-input placeholder="请输入页面标题" type="text" v-model="pageData.pageTitle" size="small" clearable></el-input>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">页面风格</div>
+					<div class="item-box">
+						<el-radio-group v-model="pageData.pageLayout" size="small" @change="getPageStyle()">
+							<el-radio-button :label="1">样式一</el-radio-button>
+							<el-radio-button :label="2">样式二</el-radio-button>
+							<el-radio-button :label="3">样式三</el-radio-button>
+						</el-radio-group>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">标题颜色</div>
+					<div class="item-box">
+						<el-radio-group v-model="selectPageStyle.titleTextColor" size="small">
+							<el-radio-button label="black">黑色</el-radio-button>
+							<el-radio-button label="white">白色</el-radio-button>
+						</el-radio-group>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">背景颜色</div>
+					<div class="item-box">
+						<el-color-picker v-model="selectPageStyle.backgroundColor" size="small"></el-color-picker>
+						<el-button size="mini" @click.stop="handleResetColor(selectPageStyle, 'backgroundColor', '#F6F7FB')">重置</el-button>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">背景图片</div>
+					<div class="item-box">
+						<div class="upload-image" v-if="selectPageStyle.backgroundImage">
+							<img class="image" :src="selectPageStyle.backgroundImage">
+							<div class="delete" @click="handleDeleteImage(selectPageStyle, 'backgroundImage')"><i class="el-icon-close"></i></div>
+						</div>
+						<el-button type="primary" size="mini" @click="handleSelectImage(selectPageStyle, 'backgroundImage')" v-else>选择图片</el-button>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">是否显示会员：</div>
+					<div class="item-box">
+						<el-switch v-model="selectPageStyle.hideMember" :active-value="false" :inactive-value="true"></el-switch>
+					</div>
+				</div>
+				<div class="column-item" v-if="!selectPageStyle.hideMember">
+					<div class="item-label">是否显示立即申请：</div>
+					<div class="item-box">
+						<el-tooltip content="仅控制 “立即申请” 按钮显示与隐藏，请于前端查看效果" placement="top" effect="light">
+							<el-switch v-model="selectPageStyle.hideApply" :active-value="false" :inactive-value="true"></el-switch>
+						</el-tooltip>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 商城订单 -->
+		<el-tabs v-else-if="currentData.type == 'mallOrderDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">是否显示：</div>
+						<div class="item-box">
+							<el-switch v-model="currentData.show"></el-switch>
+						</div>
+					</div>
+					<el-alert title="最佳图片尺寸100*100" type="info" :closable="false" style="margin-top: 16px;"></el-alert>
+					<div class="column-list">
+						<div class="list-item" v-for="(menu, index) in currentData.data">
+							<div class="item-image">
+								<img class="image" :src="menu.imgUrl">
+							</div>
+							<div class="item-info">
+								<div class="info-row">
+									<div class="row-label">状态</div>
+									<div class="row-text">{{menu.text}}</div>
+								</div>
+								<div class="info-row">
+									<div class="row-label">图片</div>
+									<el-input class="row-input" placeholder="请选择图片或输入图片地址" type="text" v-model="menu.imgUrl" size="small">
+										<div slot="append" class="input-btn" @click="handleSelectImage(menu, 'imgUrl')">
+											<i class="el-icon-picture-outline"></i>
+										</div>
+									</el-input>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.iconSize" controls-position="right" :min="0" :max="100" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">文字尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.fontSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">字体颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.textColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'textColor', '#5A5B6E')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图文间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.graphicSpace" :min="0" :max="30"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 我的名片 -->
+		<el-tabs v-else-if="currentData.type == 'cardDiy'" class="content-form">
+			<div class="form-column">
+				<div class="column-item">
+					<div class="item-label">是否显示：</div>
+					<div class="item-box">
+						<el-switch v-model="currentData.show"></el-switch>
+					</div>
+				</div>
+			</div>
+		</el-tabs>
+		<!-- 导航组 -->
+		<el-tabs v-else-if="currentData.type == 'navDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">是否显示：</div>
+						<div class="item-box">
+							<el-switch v-model="currentData.show"></el-switch>
+						</div>
+					</div>
+					<el-alert title="最佳图片尺寸100*100" type="info" :closable="false" style="margin-top: 16px;"></el-alert>
+					<draggable class="column-list" :list="currentData.data" :options="{ animation: 120, handle: '.item-mover', preventOnFilter: false }">
+						<div class="list-item" v-for="(nav, index) in currentData.data">
+							<div class="item-mover">
+								<img src="/assets/addons/wdsxh/img/drag.png">
+							</div>
+							<div class="item-image">
+								<img class="image" :src="nav.imgUrl">
+							</div>
+							<div class="item-info">
+								<div class="info-row">
+									<div class="row-label">内容</div>
+									<el-input class="row-input" placeholder="请输入内容" type="text" v-model="nav.text" size="small" clearable></el-input>
+								</div>
+								<div class="info-row">
+									<div class="row-label">图片</div>
+									<el-input class="row-input" placeholder="请选择图片或输入图片地址" type="text" v-model="nav.imgUrl" size="small">
+										<div slot="append" class="input-btn" @click="handleSelectImage(nav, 'imgUrl')">
+											<i class="el-icon-picture-outline"></i>
+										</div>
+									</el-input>
+								</div>
+								<div class="info-row">
+									<div class="row-label">类型</div>
+									<el-input class="row-input" placeholder="请选择类型" type="text" v-model="nav.link ? nav.link.title : nav.link" size="small" disabled>
+										<div slot="append" class="input-btn" @click="handleSelectType(nav)">
+											<i class="el-icon-help"></i>
+										</div>
+									</el-input>
+								</div>
+							</div>
+							<div class="item-delete el-icon-close" @click="handleDeleteItem(index)"></div>
+						</div>
+					</draggable>
+					<el-button type="primary" class="column-add" icon="el-icon-circle-plus-outline" @click.stop="handleAddItem">添加导航</el-button>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">组件布局</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.layout" size="small">
+								<el-radio-button :label="1">布局1</el-radio-button>
+								<el-radio-button :label="2">布局2</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">每行数量</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.rowsNum" size="small">
+								<el-radio-button label="3">3个</el-radio-button>
+								<el-radio-button label="4">4个</el-radio-button>
+								<el-radio-button label="5">5个</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.iconSize" controls-position="right" :min="0" :max="100" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">文字尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.fontSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">字体颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.textColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'textColor', '#5A5B6E')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图文间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.graphicSpace" :min="0" :max="30"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">成员间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemSpace" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 管理员中心 -->
+		<el-tabs v-else-if="currentData.type == 'adminDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<el-alert title="提示：该组件会根据相关管理员权限自动显示或隐藏" type="warning" :closable="false"></el-alert>
+					<div class="column-item">
+						<div class="item-label">是否显示：</div>
+						<div class="item-box">
+							<el-switch v-model="currentData.show"></el-switch>
+						</div>
+					</div>
+					<el-alert title="最佳图片尺寸100*100" type="info" :closable="false" style="margin-top: 16px;"></el-alert>
+					<draggable class="column-list" :list="currentData.data" :options="{ animation: 120, handle: '.item-mover', preventOnFilter: false }">
+						<div class="list-item" v-for="(nav, index) in currentData.data">
+							<div class="item-mover">
+								<img src="/assets/addons/wdsxh/img/drag.png">
+							</div>
+							<div class="item-image">
+								<img class="image" :src="nav.imgUrl">
+							</div>
+							<div class="item-info">
+								<div class="info-row">
+									<div class="row-label">类型</div>
+									<div class="row-text">{{nav.text}}</div>
+								</div>
+								<div class="info-row">
+									<div class="row-label">图片</div>
+									<el-input class="row-input" placeholder="请选择图片或输入图片地址" type="text" v-model="nav.imgUrl" size="small">
+										<div slot="append" class="input-btn" @click="handleSelectImage(nav, 'imgUrl')">
+											<i class="el-icon-picture-outline"></i>
+										</div>
+									</el-input>
+								</div>
+							</div>
+						</div>
+					</draggable>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">组件布局</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.layout" size="small">
+								<el-radio-button :label="1">布局1</el-radio-button>
+								<el-radio-button :label="2">布局2</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">每行数量</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.rowsNum" size="small">
+								<el-radio-button label="3">3个</el-radio-button>
+								<el-radio-button label="4">4个</el-radio-button>
+								<el-radio-button label="5">5个</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.iconSize" controls-position="right" :min="0" :max="100" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">文字尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.fontSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">字体颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.textColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'textColor', '#5A5B6E')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图文间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.graphicSpace" :min="0" :max="30"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">成员间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemSpace" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+	</div>
+</div>

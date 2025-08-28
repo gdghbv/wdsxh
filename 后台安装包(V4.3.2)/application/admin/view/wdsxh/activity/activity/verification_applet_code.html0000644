@@ -1,0 +1,49 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    {if !empty($path)}
+    <!-- 图片居中显示 -->
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+            <img id="qr-image" style="width: 330px; height: 330px;" src="{$path|htmlentities}">
+        </div>
+    </div>
+
+    <!-- 下载按钮 -->
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+            <button id="download-qr" class="btn btn-primary mt-3">下载二维码</button>
+        </div>
+    </div>
+    {else /}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2" style="color: red;">注意:</label>
+        <div class="col-xs-12 col-sm-8">
+            无法生成小程序码
+        </div>
+    </div>
+    {/if}
+
+</form>
+
+<script>
+    // 下载二维码图片
+    document.getElementById('download-qr').addEventListener('click', function (event) {
+        event.preventDefault(); // 阻止默认行为
+
+        const imageUrl = document.getElementById('qr-image').src; // 获取图片URL
+        const fileName = "{$row['name']}.jpeg"; // 设置下载的文件名
+
+        // 使用 Fetch API 获取图片并触发下载
+        fetch(imageUrl)
+            .then(response => response.blob()) // 将响应转换为 Blob 对象
+            .then(blob => {
+                // 创建一个 <a> 元素
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob); // 创建 Blob URL
+                link.download = fileName; // 设置下载的文件名
+                link.click(); // 触发下载
+                URL.revokeObjectURL(link.href); // 释放 Blob URL
+            })
+            .catch(error => console.error('下载失败:', error));
+    });
+</script>

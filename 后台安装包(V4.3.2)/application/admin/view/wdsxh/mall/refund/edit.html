@@ -1,0 +1,57 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Order_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-order_id" data-rule="required" data-source="order/index" class="form-control selectpage" name="row[order_id]" type="text" value="{$row.order_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Refund_price')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-refund_price" data-rule="required" class="form-control" step="0.01" name="row[refund_price]" type="number" value="{$row.refund_price|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Refund_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-refund_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[refund_time]" type="text" value="{:$row.refund_time?datetime($row.refund_time):''}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Refund_reason')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-refund_reason" data-rule="required" class="form-control" name="row[refund_reason]" type="text" value="{$row.refund_reason|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Refund_express_no')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-refund_express_no" data-rule="required" class="form-control" name="row[refund_express_no]" type="text" value="{$row.refund_express_no|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Add_express_no_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-add_express_no_time" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[add_express_no_time]" type="text" value="{:$row.add_express_no_time?datetime($row.add_express_no_time):''}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('State')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-state" class="form-control" name="row[state]" type="text" value="{$row.state|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Wdsxh_user_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-wdsxh_user_id" data-rule="required" data-source="wdsxh/user/index" class="form-control selectpage" name="row[wdsxh_user_id]" type="text" value="{$row.wdsxh_user_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+        </div>
+    </div>
+</form>

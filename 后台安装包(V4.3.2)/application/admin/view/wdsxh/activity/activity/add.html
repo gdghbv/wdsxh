@@ -1,0 +1,216 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-name" data-rule="required" class="form-control" name="row[name]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Fees')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-fees" data-rule="required" class="form-control" step="0.01" name="row[fees]" type="number" placeholder="免费活动输入0即可">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">可否退款:</label>
+        <div class="col-xs-12 col-sm-8">
+            {:build_radios('row[refund]',['0'=>'否','1'=>'是'],0)}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Images')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-images" data-rule="required" class="form-control" size="50" name="row[images]" type="textarea">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-images" class="btn btn-danger faupload" data-input-id="c-images" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="true" data-preview-id="p-images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-images" class="btn btn-primary fachoose" data-input-id="c-images" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-images"></span>
+            </div>
+            <div>图片建议尺寸(686*320)</div>
+            <ul class="row list-inline faupload-preview" id="p-images"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Contacts')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-contacts" data-rule="required" class="form-control" name="row[contacts]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Mobile')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-mobile" data-rule="required" class="form-control" name="row[mobile]" type="number">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Organizing_method')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                {foreach name="organizingMethodList" item="vo"}
+                <label for="row[organizing_method]-{$key|htmlentities}"><input id="row[organizing_method]-{$key|htmlentities}" data-rule="required" name="row[organizing_method]" type="radio" value="{$key|htmlentities}" /> {$vo|htmlentities}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group url hide">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Url')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-url" class="form-control" name="row[url]" type="text" placeholder="输入完整网址链接，如“http://www.baidu.com”">
+        </div>
+    </div>
+    <div class="form-group address hide">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Address')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-address" class="form-control" name="row[address]" type="text" value="">
+                <input id="c-lat" name="row[latitude]" type="hidden" value="">
+                <input id="c-lng" name="row[longitude]" type="hidden" value="">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" class="btn btn-danger" data-input-id="c-address" data-lat-id="c-lat" data-lng-id="c-lng" data-toggle="addresspicker"><i class="fa fa-location-arrow"></i> 选择位置</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-images"></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Apply_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-apply_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[apply_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Start_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-start_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[start_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('End_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-end_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[end_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-content" data-rule="required" class="form-control editor" rows="5" name="row[content]" cols="50"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Is_verifying')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                {foreach name="isVerifyingList" item="vo"}
+                <label for="row[is_verifying]-{$key|htmlentities}"><input id="row[is_verifying]-{$key|htmlentities}" name="row[is_verifying]" data-rule="required" type="radio" value="{$key|htmlentities}" {in name="key" value="2"}checked{/in} /> {$vo|htmlentities}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group hide verification_method">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Verification_method')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                {foreach name="verificationMethodList" item="vo"}
+                <label for="row[verification_method]-{$key|htmlentities}"><input id="row[verification_method]-{$key|htmlentities}" name="row[verification_method]" data-rule="required" type="radio" value="{$key|htmlentities}" {in name="key" value="1"}checked{/in} /> {$vo|htmlentities}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group hide verifying_wechat_ids">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Verifying_wechat_ids')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-verifying_wechat_ids" min="0" data-source="wdsxh/user/wechat" data-multiple="true" class="form-control selectpage" data-field='nickname' name="row[verifying_wechat_ids]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Weigh')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-weigh" class="form-control" name="row[weigh]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                {foreach name="statusList" item="vo"}
+                <label for="row[status]-{$key|htmlentities}"><input id="row[status]-{$key|htmlentities}" name="row[status]" type="radio" value="{$key|htmlentities}" {in name="key" value="normal"}checked{/in} /> {$vo|htmlentities}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Activity_auth')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                {foreach name="activityAuthList" item="vo"}
+                <label for="row[activity_auth]-{$key|htmlentities}"><input id="row[activity_auth]-{$key|htmlentities}" name="row[activity_auth]" type="radio" value="{$key|htmlentities}" {in name="key" value="1"}checked{/in} /> {$vo|htmlentities}</label>
+                {/foreach}
+            </div>
+            备注：1.对外开放:所有信息对外，可以进入活动详情；<br>            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            2.会员专属:是指只有入会成功后成为商会会员的人才可以进入活动详情(只有会员才能查看)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Non_member_registration_status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="radio">
+                {foreach name="nonMemberRegistrationStatusList" item="vo"}
+                <label for="row[non_member_registration_status]-{$key|htmlentities}"><input id="row[non_member_registration_status]-{$key|htmlentities}" name="row[non_member_registration_status]" type="radio" value="{$key|htmlentities}" {in name="key" value="1"}checked{/in} /> {$vo|htmlentities}</label>
+                {/foreach}
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Points_status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="radio">
+                {foreach name="pointsStatusList" item="vo"}
+                <label for="row[points_status]-{$key|htmlentities}"><input id="row[points_status]-{$key|htmlentities}" name="row[points_status]" type="radio" value="{$key|htmlentities}" {in name="key" value="2"}checked{/in} /> {$vo|htmlentities}</label>
+                {/foreach}
+            </div>
+        </div>
+    </div>
+    <div class="form-group points hide">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Points')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-points" class="form-control" name="row[points]" type="number" placeholder="请输入积分">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Apply_field_state')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                {foreach name="applyFieldStateList" item="vo"}
+                <label for="row[apply_field_state]-{$key|htmlentities}"><input id="row[apply_field_state]-{$key|htmlentities}" name="row[apply_field_state]" type="radio" value="{$key|htmlentities}" {in name="key" value="2"}checked{/in} /> {$vo|htmlentities}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Apply_limit_number')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-apply_limit_number" class="form-control" step="1" name="row[apply_limit_number]" type="number" placeholder="不填没有人数限制">
+            备注：不填没有人数限制<br>            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+        </div>
+    </div>
+</form>

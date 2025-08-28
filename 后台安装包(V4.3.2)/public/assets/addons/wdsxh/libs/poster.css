@@ -1,0 +1,204 @@
+#poster {
+	width: 375px;
+	height: auto;
+	border: 1px solid #ccc;
+	position: relative;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	min-width: 375px;
+	min-height: 667px;
+	background-color: #f7f6f6;
+}
+
+#poster .bg {
+	position: relative;
+	width: 100%;
+	z-index: 0;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+#poster .rRightDown,
+.rLeftDown,
+.rLeftUp,
+.rRightUp,
+.rRight,
+.rLeft,
+.rUp,
+.rDown {
+	position: absolute;
+	width: 7px;
+	height: 7px;
+	z-index: 1;
+	font-size: 0;
+	border-radius: 50%;
+	border: 1px solid #666;
+	background: #fff;
+	display: none;
+}
+
+#poster .drag.active {
+	border: 1px solid #4e73df;
+}
+
+#poster .active .rRightDown,
+.active .rLeftDown,
+.active .rLeftUp,
+.active .rRightUp,
+.active .rRight,
+.active .rLeft,
+.active .rUp,
+.active .rDown {
+	border-color: #4e73df;
+	display: block;
+}
+
+#poster .drag[type=img] img,
+#poster .drag[type=thumb] img {
+	width: 100%;
+	height: 100%;
+}
+
+#poster .drag {
+	position: absolute;
+	width: 80px;
+	height: 80px;
+	border: 1px dashed #000;
+	cursor: move;
+}
+
+#poster .drag[data-type="text"],
+#poster .drag[type=number] {
+	width: 80px;
+	height: 40px;
+	font-size: 16px;
+	font-family: 黑体;
+}
+
+#poster .drag[data-item="banner"] {
+	height: 40px;
+}
+
+#poster .drag img {
+	position: absolute;
+	z-index: 0;
+	width: 100%;
+}
+
+.rLeftDown {
+	left: -4px;
+	bottom: -4px;
+}
+
+.rRightUp {
+	right: -4px;
+	top: -4px;
+}
+
+.rLeftUp {
+	left: -4px;
+	top: -4px;
+}
+
+.rRight {
+	right: -4px;
+	top: 50%;
+	margin-top: -4px;
+}
+
+.rLeft {
+	left: -4px;
+	top: 50%;
+	margin-top: -4px;
+}
+
+.rUp {
+	top: -4px;
+	left: 50%;
+	margin-left: -4px;
+}
+
+.rRightDown {
+	right: -4px;
+	bottom: -4px;
+}
+
+.rLeftDown,
+.rRightUp {
+	cursor: ne-resize;
+}
+
+.rRightDown,
+.rLeftUp {
+	cursor: nw-resize;
+}
+
+.rRight,
+.rLeft {
+	cursor: e-resize;
+}
+
+.rUp,
+.rDown {
+	cursor: n-resize;
+}
+
+.rRightDown {
+	background-color: #00F;
+}
+
+.qrs {
+	display: none;
+}
+
+.rDown {
+	bottom: -4px;
+	left: 50%;
+	margin-left: -4px;
+}
+
+.context-menu-layer {
+	z-index: 9999;
+}
+
+.context-menu-list {
+	z-index: 9999;
+}
+
+.qrset {
+	display: none;
+}
+
+.form-horizontal .control-label {
+	text-align: left;
+}
+
+#styleset .control-radio-group {
+	border-radius: 4px;
+	overflow: hidden;
+}
+
+#styleset .control-radio-group .control-radio {
+	border: 1px solid #dcdfe6;
+	border-left: none;
+	padding: 9px 15px;
+	font-size: 12px;
+	line-height: 12px;
+	cursor: pointer;
+}
+
+#styleset .control-radio-group .control-radio:first-child {
+	border-left: 1px solid #dcdfe6;
+}
+
+#styleset .control-radio-group .control-radio.active {
+	color: #fff;
+	background: #409eff;
+}
+
+#styleset .control-radio-group .control-radio:hover {
+	color: #409eff;
+}
+#styleset .control-radio-group .control-radio.active:hover {
+	color: #ffffff;
+}

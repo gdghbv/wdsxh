@@ -1,0 +1,100 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Share_title')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-share_title" data-rule="required" class="form-control" name="row[share_title]" type="text" value="{$row.share_title|htmlentities}">
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-name" data-rule="required" class="form-control" name="row[name]" type="text" value="{$row.name|htmlentities}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Company_name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-company_name" class="form-control" name="row[company_name]" type="text" value="{$row.company_name|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Company_position')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-company_position" class="form-control" name="row[company_position]" type="text" value="{$row.company_position|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group company_address">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Company_address')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-company_address" class="form-control" name="row[company_address]" type="text" value="{$row.company_address|htmlentities}">
+                <input id="c-company_lat" name="row[company_lat]" type="hidden" value="{$row.company_lat|htmlentities}">
+                <input id="c-company_lng" name="row[company_lng]" type="hidden" value="{$row.company_lng|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" class="btn btn-danger" data-input-id="c-company_address" data-lat-id="c-company_lat" data-lng-id="c-company_lng" data-toggle="addresspicker"><i class="fa fa-location-arrow"></i> 选择位置</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-images"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Main_business')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <dl class="list-unstyled fieldlist" data-name="row[main_business]" data-template="row[main_business]tpl">
+                <dd>
+                    <ins></ins>
+                </dd>
+                <dd>
+                    <ins><a href="javascript:;" class="btn btn-sm btn-success btn-append"><i class="fa fa-plus"></i> {:__('Append')}</a></ins>
+                </dd>
+            </dl>
+
+            <textarea name="row[main_business]" class="form-control hide" cols="30" rows="5">{$row.main_business|htmlentities}</textarea>
+            <script id="row[main_business]tpl" type="text/html">
+                <dd class="form-inline">
+                    <ins><input type="text" name="<%=name%>[<%=index%>][value]" class="form-control" size="15" value="<%=row%>"/></ins>
+                    <ins>
+                        <span class="btn btn-sm btn-danger btn-remove"><i class="fa fa-times"></i></span>
+                        <span class="btn btn-sm btn-primary btn-dragsort"><i class="fa fa-arrows"></i></span>
+                    </ins>
+                </dd>
+            </script>
+
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Mobile')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-mobile" class="form-control" name="row[mobile]" type="text" value="{$row.mobile|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Wechat_number')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-wechat_number" class="form-control" name="row[wechat_number]" type="text" value="{$row.wechat_number|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Company_introduction')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-company_introduction" class="form-control editor" rows="5" name="row[company_introduction]" cols="50">{$row.company_introduction|htmlentities}</textarea>
+        </div>
+    </div>
+
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+        </div>
+    </div>
+</form>

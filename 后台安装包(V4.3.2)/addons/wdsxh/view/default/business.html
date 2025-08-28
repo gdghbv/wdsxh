@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Page-Enter" content="blendTrans(Duration=0.5)" />
+  <title>供需大厅</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <link rel="stylesheet" href="__CDN__/assets/addons/wdsxh/css/normalize.css" />
+  <link rel="stylesheet" href="__CDN__/assets/addons/wdsxh/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="__CDN__/assets/addons/wdsxh/css/public.css" />
+  <link rel="stylesheet" href="__CDN__/assets/addons/wdsxh/css/business.css" />
+</head>
+
+<body>
+  <div class="business-container container-fluid">
+    <!-- 头部导航栏模块 -->
+    <header class="container-header" data-type="business">{include file="header" /}</header>
+    <!-- 顶部大图 -->
+    <div class="container-banner row">
+      <img class="banner-image">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <div class="banner-title">
+          <span class="title">供需大厅</span>
+          <span class="subtitle">supply and demand</span>
+        </div>
+      </div>
+      <div class="col-2"></div>
+    </div>
+    <!-- 内容区 -->
+    <main class="container-main row">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <div class="main-content flex flex-wrap"></div>
+        <div class="empty">
+          <img src="__CDN__/assets/addons/wdsxh/img/empty.png">
+          <span>暂无数据</span>
+        </div>
+        <div id="page"></div>
+      </div>
+      <div class="col-2"></div>
+    </main>
+    <!-- 底部 -->
+    <footer class="container-footer">{include file="footer" /}</footer>
+    <!-- 小程序码模态框 -->
+    <div class="modal fade" id="codeModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">小程序二维码</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="tips">扫描二维码进入小程序</div>
+            <img class="code">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="__CDN__/assets/addons/wdsxh/common/jquery.min.js"></script>
+  <script src="__CDN__/assets/addons/wdsxh/common/bootstrap.min.js"></script>
+  <script src="__CDN__/assets/addons/wdsxh/common/xlPaging.js"></script>
+  <script src="__CDN__/assets/addons/wdsxh/js/main.js"></script>
+  <script src="__CDN__/assets/addons/wdsxh/js/public.js"></script>
+  <script src="__CDN__/assets/addons/wdsxh/js/business.js"></script>
+</body>
+
+</html>

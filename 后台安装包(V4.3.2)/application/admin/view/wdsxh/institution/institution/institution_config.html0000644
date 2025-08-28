@@ -1,0 +1,22 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">对外状态：</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="radio">
+                {foreach name="IsStatusList" item="vo"}
+                <label for="row[is_status]-{$key|htmlentities}"><input id="row[is_status]-{$key|htmlentities}" name="row[is_status]" type="radio" value="{$key|htmlentities}" {in name="key" value="$row.is_status"}checked{/in} /> {$vo|htmlentities}</label>
+                {/foreach}
+                <br>
+                备注:<br>
+                1.对外开放:所有信息对外，可进入机构列表和机构详情<br>
+                2.不对外开放:点击机构列表信息，不进入机构详情页<br>
+            </div>
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,124 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+
+    {volist name="content" id="vo"}
+    {if $vo['type'] == 'text'}
+    <div lass="form-group">
+        <label>{$vo.topic|htmlentities}</label>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-8">
+            <input  class="form-control" type="text" value="{$vo.content|htmlentities}" disabled>
+        </div>
+        {if $vo['is_explain'] == '1'}
+        <div class=" col-sm-8">
+            <input  class="form-control" type="text" value="说明:{$vo.explain|htmlentities}" disabled>
+        </div>
+        {/if}
+    </div>
+    {elseif $vo['type'] == 'number'}
+    <div lass="form-group">
+        <label>{$vo.topic|htmlentities}</label>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-8">
+            <input class="form-control" type="number" value="{$vo.content|htmlentities}" disabled>
+        </div>
+        {if $vo['is_explain'] == '1'}
+        <div class=" col-sm-8">
+            <input  class="form-control" type="text" value="说明:{$vo.explain|htmlentities}" disabled>
+        </div>
+        {/if}
+    </div>
+    {elseif $vo['type'] == 'radio'}
+    <div lass="form-group">
+        <label>{$vo.topic|htmlentities}</label>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-8">
+            <input class="form-control" type="text" value="{$vo.content|htmlentities}" disabled>
+        </div>
+        {if $vo['is_explain'] == '1'}
+            <div class=" col-sm-8">
+                <input  class="form-control" type="text" value="说明:{$vo.explain|htmlentities}" disabled>
+            </div>
+        {/if}
+    </div>
+    {elseif $vo['type'] == 'checkbox'}
+    <div lass="form-group">
+        <label>{$vo.topic|htmlentities}</label>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-8">
+            <input class="form-control" type="text" value="{$vo.content|htmlentities}" disabled>
+        </div>
+        {if $vo['is_explain'] == '1'}
+        <div class=" col-sm-8">
+            <input  class="form-control" type="text" value="说明:{$vo.explain|htmlentities}" disabled>
+        </div>
+        {/if}
+    </div>
+    {elseif $vo['type'] == 'select'}
+    <div lass="form-group">
+        <label>{$vo.topic|htmlentities}</label>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-8">
+            <input class="form-control" type="text" value="{$vo.content|htmlentities}" disabled>
+        </div>
+        {if $vo['is_explain'] == '1'}
+        <div class=" col-sm-8">
+            <input  class="form-control" type="text" value="说明:{$vo.explain|htmlentities}" disabled>
+        </div>
+        {/if}
+    </div>
+    {elseif $vo['type'] == 'datetime'}
+    <div lass="form-group">
+        <label>{$vo.topic|htmlentities}</label>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-8">
+            <input class="form-control" type="text" value="{$vo.content|htmlentities}" disabled>
+        </div>
+        {if $vo['is_explain'] == '1'}
+        <div class=" col-sm-8">
+            <input  class="form-control" type="text" value="说明:{$vo.explain|htmlentities}" disabled>
+        </div>
+        {/if}
+    </div>
+    {elseif $vo['type'] == 'textarea'}
+    <div lass="form-group">
+        <label>{$vo.topic|htmlentities}</label>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-8">
+            <textarea disabled class="form-control" rows="5" cols="50">{$vo.content|htmlentities}</textarea>
+        </div>
+        {if $vo['is_explain'] == '1'}
+        <div class=" col-sm-8">
+            <input  class="form-control" type="text" value="说明:{$vo.explain|htmlentities}" disabled>
+        </div>
+        {/if}
+    </div>
+    {elseif $vo['type'] == 'images'}
+    <div lass="form-group">
+        <label>{$vo.topic|htmlentities}</label>
+    </div>
+    {if $vo.content}
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-8">
+            <!-- 使用foreach循环遍历图片列表 -->
+            {foreach $vo.content as $image}
+            <img src="{$image|htmlentities}" style="width: 30%;height: 30%;">
+            {/foreach}
+        </div>
+        {if $vo['is_explain'] == '1'}
+        <div class=" col-sm-8">
+            <input  class="form-control" type="text" value="说明:{$vo.explain|htmlentities}" disabled>
+        </div>
+        {/if}
+    </div>
+    {/if}
+    {/if}
+    {/volist}
+</form>

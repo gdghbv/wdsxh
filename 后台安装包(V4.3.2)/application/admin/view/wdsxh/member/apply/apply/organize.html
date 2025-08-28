@@ -1,0 +1,356 @@
+
+
+    {volist name="person_fieldset" id="vo"}
+    {if $vo['type'] == 'text' && $vo['field'] != 'address'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control" name="row[person][{$vo['field']}]" type="text" value="{$vo.value|htmlentities}">
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'number'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-{$vo['label']}" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control" name="row[person][{$vo['field']}]" type="number" value="{$vo.value|htmlentities}" {if $vo['field'] == 'mobile'}readonly="readonly"{/if}>
+        </div>
+    </div>
+    {/if}
+    {if $vo['field'] == 'member_level_id'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-{$vo['label']}" {if $vo['required'] == '1'}data-rule="required"{/if} data-source="wdsxh/member/level/index" data-order-by="weigh" class="form-control selectpage" name="row[person][{$vo['field']}]" type="text" value="{$vo.value|htmlentities}" disabled>
+        </div>
+    </div>
+    {/if}
+    {if $vo['field'] == 'industry_category_id'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-{$vo['label']}" {if $vo['required'] == '1'}data-rule="required"{/if} data-source="wdsxh/member/industry_category/index" data-order-by="weigh" class="form-control selectpage" name="row[person][{$vo['field']}]" type="text" value="{$vo.value|htmlentities}">
+        </div>
+    </div>
+    {/if}
+    {if $vo['field'] == 'native_place'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{:__('Native_place')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class='control-relative'><input id="c-native_place" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control" data-level="area" data-toggle="city-picker" name="row[person][{$vo['field']}]" type="text" value="{$vo.value|htmlentities}"></div>
+        </div>
+    </div>
+    {/if}
+    {if $vo['field'] == 'address'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{:__('Address')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-address" class="form-control" {if $vo['required'] == '1'}data-rule="required"{/if} name="row[person][address][address]" type="text" value="{$vo.value.address|htmlentities}">
+                <input id="c-lat" name="row[person][address][latitude]" type="hidden" value="{$vo.value.latitude|htmlentities}">
+                <input id="c-lng" name="row[person][address][longitude]" type="hidden" value="{$vo.value.longitude|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" class="btn btn-danger" data-input-id="c-address" data-lat-id="c-lat" data-lng-id="c-lng" data-toggle="addresspicker"><i class="fa fa-location-arrow"></i> 选择位置</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-images"></span>
+            </div>
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'radio'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <?php $radio_array = explode(',',$vo['option']);?>
+            <div class="radio">
+                {foreach name="radio_array" item="vv"}
+                <label for="row[{$vo['field']}]-{$key|htmlentities}"><input id="row[{$vo['field']}]-{$key|htmlentities}" name="row[person][{$vo['field']}]" {if $vo['required'] == '1'}data-rule="checked"{/if} type="radio" value="{$vv|htmlentities}" {if $vv==$vo.value}checked{/if} /> {$vv|htmlentities}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'checkbox'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <?php $check_array = explode(',',$vo['option']);
+        $value_array = explode(',',$vo['value']);
+        ?>
+            <div class="checkbox">
+                {foreach name="check_array" item="vv"}
+                <label for="row[{$vo['field']}][]-{$key|htmlentities}"><input {if $vo['required'] == '1'}data-rule="checked"{/if} id="row[{$vo['field']}][]-{$key|htmlentities}" name="row[person][{$vo['field']}][]" type="checkbox" value="{$vv|htmlentities}" {if in_array($vv,$value_array)}checked{/if} /> {$vv|htmlentities}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'select' && $vo['field'] != 'member_level_id' && $vo['field'] != 'industry_category_id' && $vo['field'] != 'native_place'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <?php $select_array = explode(',',$vo['option']);?>
+            <select  id="c-{$vo['field']}}" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control selectpicker" name="row[person][{$vo['field']}]">
+            <option value="">请选择</option>
+            {foreach name="select_array" item="vv"}
+            <option value="{$vv|htmlentities}" {if $vv==$vo.value}selected{/if}>{$vv|htmlentities}</option>
+            {/foreach}
+            </select>
+
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'date'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-startdate" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control datetimepicker" data-date-format="YYYY-MM-DD" data-use-current="true" name="row[person][{$vo['field']}]" type="text" value="{$vo.value|htmlentities}">
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'time'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-{$vo['field']}}" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control datetimepicker" data-date-format="HH:mm" data-use-current="true" name="row[person][{$vo['field']}]" type="text" value="{$vo.value|htmlentities}">
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'datetime'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-{$vo['field']}}" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[person][{$vo['field']}]" type="text" value="{$vo.value|htmlentities}">
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'image'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-{$vo['label']}" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control" size="50" name="row[person][{$vo['field']}]" type="text" value="{$vo.value|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-{$vo['label']}" class="btn btn-danger faupload" data-input-id="c-{$vo['label']}" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="{if $vo['field'] == 'avatar'}false{else /}true{/if}" data-preview-id="p-{$vo['label']}"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-{$vo['label']}" class="btn btn-primary fachoose" data-input-id="c-{$vo['label']}" data-mimetype="image/*" data-multiple="{if $vo['field'] == 'avatar'}false{else /}true{/if}"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-{$vo['label']}"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-{$vo['label']}"></ul>
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'video'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-{$vo['label']}" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control" size="50" name="row[person][{$vo['field']}]" type="text" value="{$vo.value|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-{$vo['label']}" class="btn btn-danger faupload" data-input-id="c-{$vo['label']}" data-mimetype="video/*" data-multiple="false" data-preview-id="p-{$vo['label']}"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-{$vo['label']}" class="btn btn-primary fachoose" data-input-id="c-{$vo['label']}" data-mimetype="video/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-{$vo['label']}"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-{$vo['label']}"></ul>
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'textarea'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea class="form-control {if $vo['field'] == 'introduce_content'}editor{/if}" {if $vo['required'] == '1'}data-rule="required"{/if} rows="5" name="row[person][{$vo['field']}]" cols="50">{$vo.value|htmlentities}</textarea>
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'cert'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}姓名:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control" name="row[person][{$vo.field|htmlentities}][name]" type="text" value="{$vo.value.name ? $vo.value.name :''}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}证书编号:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control" name="row[person][{$vo.field|htmlentities}][number]" type="text" value="{$vo.value.number ? $vo.value.number :''}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}证书图片:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-{$vo['field']}_image" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control" size="50" name="row[person][{$vo.field|htmlentities}][image]" type="text" value="{$vo.value.image ? $vo.value.image :''}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-{$vo['field']}_image" class="btn btn-danger faupload" data-input-id="c-{$vo['field']}_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-{$vo['field']}_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-{$vo['field']}_image" class="btn btn-primary fachoose" data-input-id="c-{$vo['field']}_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-{$vo['field']}_image"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-{$vo['field']}_image"></ul>
+        </div>
+    </div>
+    {/if}
+    {/volist}
+    {volist name="organize_fieldset" id="vo"}
+    {if $vo['type'] == 'text'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control" name="row[organize][{$vo['field']}]" type="text" value="{$vo.value|htmlentities}">
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'number'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-contacts" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control" name="row[organize][{$vo['field']}]" type="number" value="{$vo.value|htmlentities}">
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'radio'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <?php $radio_array = explode(',',$vo['option']);?>
+            <div class="radio">
+                {foreach name="radio_array" item="vv"}
+                <label for="row[{$vo['field']}]-{$key|htmlentities}"><input id="row[{$vo['field']}]-{$key|htmlentities}" name="row[organize][{$vo['field']}]" {if $vo['required'] == '1'}data-rule="checked"{/if} type="radio" value="{$vv|htmlentities}" {if $vv==$vo.value}checked{/if} /> {$vv|htmlentities}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'checkbox'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <?php $check_array = explode(',',$vo['option']);
+        $value_array = explode(',',$vo['value']);
+        ?>
+            <div class="checkbox">
+                {foreach name="check_array" item="vv"}
+                <label for="row[{$vo['field']}][]-{$key|htmlentities}"><input {if $vo['required'] == '1'}data-rule="checked"{/if} id="row[{$vo['field']}][]-{$key|htmlentities}" name="row[organize][{$vo['field']}][]" type="checkbox" value="{$vv|htmlentities}" {if in_array($vv,$value_array)}checked{/if} /> {$vv|htmlentities}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'select'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <?php $select_array = explode(',',$vo['option']);?>
+            <select  id="c-{$vo['field']}}" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control selectpicker" name="row[organize][{$vo['field']}]">
+            <option value="">请选择</option>
+            {foreach name="select_array" item="vv"}
+            <option value="{$vv|htmlentities}" {if $vv==$vo.value}selected{/if}>{$vv|htmlentities}</option>
+            {/foreach}
+            </select>
+
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'date'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-startdate" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control datetimepicker" data-date-format="YYYY-MM-DD" data-use-current="true" name="row[organize][{$vo['field']}]" type="text" value="{$vo.value|htmlentities}">
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'time'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-{$vo['field']}}" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control datetimepicker" data-date-format="HH:mm" data-use-current="true" name="row[organize][{$vo['field']}]" type="text" value="{$vo.value|htmlentities}">
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'datetime'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-{$vo['field']}}" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[organize][{$vo['field']}]" type="text" value="{$vo.value|htmlentities}">
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'image'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-{$vo['label']}" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control" size="50" name="row[organize][{$vo['field']}]" type="text" value="{$vo.value|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-{$vo['label']}" class="btn btn-danger faupload" data-input-id="c-{$vo['label']}" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="{if in_array($vo['field'],array('avatar','organize_logo'))}false{else /}true{/if}" data-preview-id="p-{$vo['label']}"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-{$vo['label']}" class="btn btn-primary fachoose" data-input-id="c-{$vo['label']}" data-mimetype="image/*" data-multiple="{if in_array($vo['field'],array('avatar','organize_logo'))}false{else /}true{/if}"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-{$vo['label']}"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-{$vo['label']}"></ul>
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'video'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-{$vo['label']}" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control" size="50" name="row[organize][{$vo['field']}]" type="text" value="{$vo.value|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-{$vo['label']}" class="btn btn-danger faupload" data-input-id="c-{$vo['label']}" data-mimetype="video/*" data-multiple="false" data-preview-id="p-{$vo['label']}"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-{$vo['label']}" class="btn btn-primary fachoose" data-input-id="c-{$vo['label']}" data-mimetype="video/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-{$vo['label']}"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-{$vo['label']}"></ul>
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'textarea'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea class="form-control {if $vo['field'] == 'organize_introduction'}editor{/if}" {if $vo['required'] == '1'}data-rule="required"{/if} rows="5" name="row[organize][{$vo['field']}]" cols="50">{$vo.value|htmlentities}</textarea>
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'cert'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}姓名:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control" name="row[organize][{$vo.field|htmlentities}][name]" type="text" value="{$vo.value.name ? $vo.value.name :''}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}证书编号:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control" name="row[organize][{$vo.field|htmlentities}][number]" type="text" value="{$vo.value.number ? $vo.value.number :''}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{if $vo['required'] == '1'}<span class="star">*</span>{/if}证书图片:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-{$vo['field']}_image" {if $vo['required'] == '1'}data-rule="required"{/if} class="form-control" size="50" name="row[organize][{$vo.field|htmlentities}][image]" type="text" value="{$vo.value.image ? $vo.value.image :''}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-{$vo['field']}_image" class="btn btn-danger faupload" data-input-id="c-{$vo['field']}_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-{$vo['field']}_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-{$vo['field']}_image" class="btn btn-primary fachoose" data-input-id="c-{$vo['field']}_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-{$vo['field']}_image"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-{$vo['field']}_image"></ul>
+        </div>
+    </div>
+    {/if}
+    {/volist}
+
+
+

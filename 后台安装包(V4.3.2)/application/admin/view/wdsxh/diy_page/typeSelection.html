@@ -1,0 +1,150 @@
+<el-dialog title="选择类型" :modal-append-to-body="false" :visible.sync="selectVisible" custom-class="main-selection">
+  <div class="selection-box">
+    <div class="box-header">
+      <el-tabs v-model="selectType" tab-position="left" @tab-click="tabChange" style="height: 100%;">
+        <el-tab-pane v-for="item in selectData" :label="item.name" :name="item.type"></el-tab-pane>
+      </el-tabs>
+    </div>
+    <div class="box-content" v-if="selectVisible">
+      <div class="content-item" v-if="selectType === 'Inlay' && selectData">
+        <el-table :data="selectData.Inlay.list" header-cell-class-name="table-head" size="mini" height="420">
+          <el-table-column property="id" label="页面ID"></el-table-column>
+          <el-table-column property="title" label="标题"></el-table-column>
+          <el-table-column property="path" label="路径"></el-table-column>
+          <el-table-column label="操作" width="120">
+            <template slot-scope="scope">
+              <el-button @click.native.prevent="selectCallback('Inlay', selectData.Inlay.list[scope.$index])" size="mini" plain type="primary"> 选择</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="content-item" v-if="selectType === 'Custom' && selectData">
+        <el-table :data="selectData.Custom.list" header-cell-class-name="table-head" size="mini" height="420">
+          <el-table-column property="title" label="标题"></el-table-column>
+          <el-table-column property="path" label="路径"></el-table-column>
+          <el-table-column label="页面参数（选填）">
+            <template slot-scope="scope">
+              <el-input style="width: 100%;" v-model="scope.row.parameter" placeholder="例：id=2，2代表分类id" size="mini"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" width="120">
+            <template slot-scope="scope">
+              <el-button @click.native.prevent="selectCallback('Custom', selectData.Custom.list[scope.$index])" size="mini" plain type="primary"> 选择</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="content-item" v-if="selectType === 'Editor' && selectData">
+        <el-form ref="form" @submit.native.prevent :model="selectForm" size="small" label-width="100px">
+          <el-form-item label="页面标题">
+            <el-input placeholder="选填，默认图文详情" v-model="selectForm.title"></el-input>
+          </el-form-item>
+        </el-form>
+        <form role="form">
+          <textarea id="Editor" class="editor">{{selectForm.content}}</textarea>
+        </form>
+      </div>
+      <div class="content-item" v-if="selectType === 'WXMp' && selectData">
+        <el-form ref="form" :model="selectForm" label-width="120px">
+          <el-form-item label="小程序APPID">
+            <el-input v-model="selectForm.appid"></el-input>
+          </el-form-item>
+          <el-form-item label="小程序路径">
+            <el-input v-model="selectForm.path"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="content-item" v-if="selectType === 'Outside' && selectData">
+        <el-alert title="说明" type="info" :closable="false">
+          <div>
+            <p>1.必须添加业务域名，才可以跳转；</p>
+            <p>2.业务域名添加方式：（1）登录小程序（https://mp.weixin.qq.com/）；（2）左侧菜单开发→开发管理→开发设置→业务域名</p>
+          </div>
+        </el-alert>
+        <el-input style="margin-top: 22px;" placeholder="请输入链接" v-model="selectForm.url">
+          <el-select v-model="selectForm.protocol" slot="prepend" placeholder="请选择" style="width: 100px;">
+            <el-option label="http://" value="http://"></el-option>
+            <el-option label="https://" value="https://"></el-option>
+          </el-select>
+        </el-input>
+      </div>
+      <div class="content-item" v-if="selectType === 'Phone' && selectData">
+        <el-form ref="form" @submit.native.prevent :model="selectForm">
+          <el-form-item label="电话号码">
+            <el-input type="tel" v-model="selectForm.phone" placeholder="请输入电话号码"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="content-item" v-if="selectType === 'Service' && selectData">
+        <el-alert title="说明" type="info" :closable="false">
+          <div>
+            <p>1. 仅微信小程序可用，其他平台无法使用</p>
+            <p>2. 在本小程序打开小程序客服</p>
+          </div>
+        </el-alert>
+      </div>
+      <div class="content-item" v-if="selectType === 'Member' && selectData">
+        <el-table :data="selectData.Member.list" header-cell-class-name="table-head" size="mini" height="420">
+          <el-table-column property="id" label="Id" width="80"></el-table-column>
+          <el-table-column property="name" label="姓名"></el-table-column>
+          <el-table-column property="mobile" label="手机号"></el-table-column>
+          <el-table-column property="member_level_name" label="级别"></el-table-column>
+          <el-table-column property="type" label="类型">
+            <template slot-scope="scope">
+              <span v-if="scope.row.type == 1">个人会员</span>
+              <span v-if="scope.row.type == 2">企业会员</span>
+              <span v-if="scope.row.type == 3">团体会员</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" width="120">
+            <template slot-scope="scope">
+              <el-button @click.native.prevent="selectCallback('Member', selectData.Member.list[scope.$index])" size="mini" plain type="primary"> 选择</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="content-item" v-if="selectType === 'Article' && selectData">
+        <el-table :data="selectData.Article.list" header-cell-class-name="table-head" size="mini" height="420">
+          <el-table-column property="id" label="Id" width="80"></el-table-column>
+          <el-table-column property="title" label="文章标题"></el-table-column>
+          <el-table-column label="操作" width="120">
+            <template slot-scope="scope">
+              <el-button @click.native.prevent="selectCallback('Article', selectData.Article.list[scope.$index])" size="mini" plain type="primary"> 选择</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="content-item" v-if="selectType === 'Activity' && selectData">
+        <el-table :data="selectData.Activity.list" header-cell-class-name="table-head" size="mini" height="420">
+          <el-table-column property="id" label="Id" width="80"></el-table-column>
+          <el-table-column property="name" label="活动名称"></el-table-column>
+          <el-table-column label="操作" width="120">
+            <template slot-scope="scope">
+              <el-button @click.native.prevent="selectCallback('Activity', selectData.Activity.list[scope.$index])" size="mini" plain type="primary"> 选择</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="content-item" v-if="selectType === 'Goods' && selectData">
+        <el-table :data="selectData.Goods.list" header-cell-class-name="table-head" size="mini" height="420">
+          <el-table-column property="id" label="Id" width="80"></el-table-column>
+          <el-table-column property="name" label="商品名称"></el-table-column>
+          <el-table-column property="price" label="商品价格"></el-table-column>
+          <el-table-column label="操作" width="120">
+            <template slot-scope="scope">
+              <el-button @click.native.prevent="selectCallback('Goods', selectData.Goods.list[scope.$index])" size="mini" plain type="primary"> 选择</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </div>
+  </div>
+  <div slot="footer" class="dialog-footer">
+    <el-button v-if="selectType === 'Editor' && selectData" @click.native.prevent="selectCallback('Editor',selectData.Editor)" type="primary">确 定</el-button>
+    <el-button v-if="selectType === 'WXMp' && selectData" @click.native.prevent="selectCallback('WXMp',selectData.WXMp)" type="primary">确 定</el-button>
+    <el-button v-if="selectType === 'Outside' && selectData" @click.native.prevent="selectCallback('Outside',selectData.Outside)" type="primary">确 定</el-button>
+    <el-button v-if="selectType === 'Phone' && selectData" @click.native.prevent="selectCallback('Phone',selectData.Phone)" type="primary">确 定</el-button>
+    <el-button v-if="selectType === 'Service' && selectData" @click.native.prevent="selectCallback('Service',selectData.Service)" type="primary">确 定</el-button>
+    <el-button @click="selectVisible = false">取 消</el-button>
+  </div>
+</el-dialog>

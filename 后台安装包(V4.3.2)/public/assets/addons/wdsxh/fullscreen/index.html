@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>可视化数据大屏</title><script src="./staic/config.js"></script><link href="css/chunk-8e671834.887708b9.css" rel="prefetch"><link href="js/chunk-8e671834.a8d3df5b.js" rel="prefetch"><link href="css/app.c104457f.css" rel="preload" as="style"><link href="css/chunk-vendors.8f0aa5e9.css" rel="preload" as="style"><link href="js/app.c338a9c6.js" rel="preload" as="script"><link href="js/chunk-vendors.93c491e0.js" rel="preload" as="script"><link href="css/chunk-vendors.8f0aa5e9.css" rel="stylesheet"><link href="css/app.c104457f.css" rel="stylesheet"></head><body><noscript><strong>页面加载失败</strong></noscript><div id="index-loading"><div class="spinner"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div></div><div id="app"></div><script src="js/chunk-vendors.93c491e0.js"></script><script src="js/app.c338a9c6.js"></script></body><style type="text/css">.spinner {
+		margin: 100px auto;
+		width: 50px;
+		height: 60px;
+		text-align: center;
+		font-size: 10px;
+	}
+
+	.spinner>div {
+		background-color: #67CF22;
+		height: 100%;
+		width: 6px;
+		display: inline-block;
+		-webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+		animation: stretchdelay 1.2s infinite ease-in-out;
+	}
+
+	.spinner .rect2 {
+		-webkit-animation-delay: -1.1s;
+		animation-delay: -1.1s;
+	}
+
+	.spinner .rect3 {
+		-webkit-animation-delay: -1.0s;
+		animation-delay: -1.0s;
+	}
+
+	.spinner .rect4 {
+		-webkit-animation-delay: -0.9s;
+		animation-delay: -0.9s;
+	}
+
+	.spinner .rect5 {
+		-webkit-animation-delay: -0.8s;
+		animation-delay: -0.8s;
+	}
+
+	@-webkit-keyframes stretchdelay {
+
+		0%,
+		40%,
+		100% {
+			-webkit-transform: scaleY(0.4)
+		}
+
+		20% {
+			-webkit-transform: scaleY(1.0)
+		}
+	}
+
+	@keyframes stretchdelay {
+
+		0%,
+		40%,
+		100% {
+			transform: scaleY(0.4);
+			-webkit-transform: scaleY(0.4);
+		}
+
+		20% {
+			transform: scaleY(1.0);
+			-webkit-transform: scaleY(1.0);
+		}
+	}</style></html>

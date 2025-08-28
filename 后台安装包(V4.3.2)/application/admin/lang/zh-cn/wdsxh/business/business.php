@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'Category_id'   => '选择分类',
+    'Member_id'     => '发布人名称',
+    'Wdsxh_user_id' => '用户id',
+    'Title'         => '标题',
+    'Content'       => '内容',
+    'Images'        => '图片',
+    'Createtime'    => '创建时间',
+    'Updatetime'    => '更新时间',
+    'Deletetime'    => '删除时间',
+    'Weigh'         => '权重',
+    'Status'        => '状态',
+    'Status normal' => '显示',
+    'Set status to normal'=> '设为显示',
+    'Status hidden' => '隐藏',
+    'Set status to hidden'=> '设为隐藏',
+    'State'         => '状态',
+    'State 1'       => '待审核',
+    'State 2'       => '已通过',
+    'State 3'       => '已驳回',
+    'Reject'        => '驳回原因',
+    'Are you sure you want to delete this item?'            => '警告：一旦删除，数据无法恢复，谨慎处理！！！',
+];

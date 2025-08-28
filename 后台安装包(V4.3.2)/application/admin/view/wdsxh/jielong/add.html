@@ -1,0 +1,99 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-name" data-rule="required" class="form-control" name="row[name]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Member_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select id="c-cat-id" data-rule="required" class="form-control selectpicker" name="row[member_id]">
+                {foreach $memberList as $vo}
+                <option value="{$vo.id|htmlentities}" {if $vo.id == ''}selected{/if}>{$vo.name|htmlentities}</option>
+                {/foreach}
+            </select>
+            备注：<br>
+            1.如果平台发布，默认显示商协信息和电话；<br>
+            2.如果会员发布，默认显示会员信息和电话；
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Expire_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-expire_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[expire_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Type')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                {foreach name="typeList" item="vo"}
+                <label for="row[type]-{$key|htmlentities}"><input id="row[type]-{$key|htmlentities}" name="row[type]" type="radio" value="{$key|htmlentities}" {in name="key" value="1"}checked{/in} /> {$vo|htmlentities}</label>
+                {/foreach}
+                <br>
+                备注： <br>
+                1.自由接龙指的是会员中任何人都可以接龙 <br>
+                2.限定接龙指的是只有选择其中的会员可以接龙
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group MemberIds hide">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Member_ids')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-member_ids" data-source="wdsxh/member/member/index" data-multiple="true" class="form-control selectpage" name="row[member_ids]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-content" data-rule="required" class="form-control" rows="5" name="row[content]" cols="50"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Weigh')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-weigh" class="form-control" name="row[weigh]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            
+            <div class="radio">
+            {foreach name="statusList" item="vo"}
+            <label for="row[status]-{$key|htmlentities}"><input id="row[status]-{$key|htmlentities}" name="row[status]" type="radio" value="{$key|htmlentities}" {in name="key" value="normal"}checked{/in} /> {$vo|htmlentities}</label>
+            {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Page_view')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-page_view" class="form-control" name="row[page_view]" type="number">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Jielong_auth')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                {foreach name="jielongAuthList" item="vo"}
+                <label for="row[jielong_auth]-{$key|htmlentities}"><input id="row[jielong_auth]-{$key|htmlentities}" name="row[jielong_auth]" type="radio" value="{$key|htmlentities}" {in name="key" value="1"}checked{/in} /> {$vo|htmlentities}</label>
+                {/foreach}
+            </div>
+            备注：1.对外开放:所有信息对外，可以进入活动详情；<br>            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            2.会员专属:是指只有入会成功后成为商会会员的人才可以进入活动详情(只有会员才能查看)
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+        </div>
+    </div>
+</form>

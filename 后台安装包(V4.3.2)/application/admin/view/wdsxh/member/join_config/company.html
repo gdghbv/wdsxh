@@ -1,0 +1,167 @@
+<style>
+    .select-readonly {
+        background: #eee;
+        cursor: no-drop;
+    }
+
+    .select-readonly option {
+        display: none;
+    }
+</style>
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <div class="alert alert-danger-light" style="margin-bottom:10px;">
+        <b>温馨提示:</b><br>
+        <b>1.请在正式使用小程序前，确定入会信息；</b><br>
+        <b>2.请勿频繁修改入会信息，否则会导致前后入会会员信息不一致；</b><br>
+        <b>3.导出表格，取最新自定义字段作为表头；</b><br>
+        <b>4.如果批量导入会员，选择最新自定义的字段作为表头。</b>
+    </div>
+    <div class="alert">
+        <b>{:__('Status')}:</b>
+        <b>
+            <div class="radio">
+                {foreach name="statusList" item="vo"}
+                <label for="row[status]-{$key|htmlentities}"><input id="row[status]-{$key|htmlentities}" name="row[status]" type="radio" value="{$key|htmlentities}" {in name="key" value="$row.status"}checked{/in} /> {$vo|htmlentities}</label>
+                {/foreach}
+            </div>
+            <div>备注:是否展示启用企业入会类型</div>
+        </b>
+    </div>
+
+    <div class="label label-danger">注意：用户登记信息所有为必填字段，“字段名”必须为小写英文，且保证唯一性。单选、多选、下拉字段多个配置项之间用英文逗号“,”分割。</div>
+
+    <div>个人信息</div>
+
+    <table class="table table-responsive fieldlist" data-name="person" data-template="person" data-tag="tr">
+        <tr>
+            <th>是否展示</th>
+            <th>是否必填</th>
+            <th>字段类型</th>
+            <th>标签名称</th>
+            <th>字段名(小写英文字母,特殊字符可以用下划线_代替)</th>
+            <th>提示信息/配置项</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td colspan="6"><a href="javascript:;" class="btn btn-sm btn-info btn-append"><i class="fa fa-plus"></i> 追加</a></td>
+        </tr>
+        <textarea name="person" class="form-control hide" cols="30" rows="5">{$person_fieldset|htmlentities}</textarea>
+    </table>
+    <!--定义模板-->
+    <script type="text/html" id="person">
+        <tr class="form-inline">
+            <td>
+                <select name="row[<%=name%>][<%=index%>][show]" class="form-control <%if (row.field == "name" || row.field == "avatar" || row.field == "mobile" || row.field == "member_level_id" || row.field == "address" || row.field == "native_place" || row.field == "introduce_content" || row.field == "industry_category_id" || row.type == "file") { %> select-readonly <% } %> " style="min-width: 100px;" >
+                <option value="1" <%if (row.show=="1"){ %>selected<% } %>>是</option>
+                <option value="2" <%if (row.show=="2"){ %>selected<% } %>>否</option>
+                </select>
+            </td>
+            <td>
+                <select name="row[<%=name%>][<%=index%>][required]" class="form-control <%if (row.field == "name" || row.field == "avatar" || row.field == "mobile" || row.field == "member_level_id" || row.field == "native_place" || row.field == "introduce_content" || row.field == "industry_category_id") { %> select-readonly <% } %> " style="min-width: 100px;" >
+                <option value="1" <%if (row.required=="1"){ %>selected<% } %>>是</option>
+                <option value="2" <%if (row.required=="2"){ %>selected<% } %>>否</option>
+                </select>
+            </td>
+            <td>
+                <select name="row[<%=name%>][<%=index%>][type]" class="form-control <%if (row.field == "name" || row.field == "avatar" || row.field == "mobile" || row.field == "member_level_id" || row.field == "address" || row.field == "cert" || row.field == "company_position" || row.field == "industry_category_id" || row.field == "native_place" || row.field == "introduce_content") { %> select-readonly <% } %> " style="min-width: 100px;" >
+                    <option value="text" <%if (row.type=="text"){ %>selected<% } %>>文本字段</option>
+                    <option value="number" <%if (row.type=="number"){ %>selected<% } %> >数字字段</option>
+                    <option value="radio" <%if (row.type=="radio"){ %>selected<% } %>>单选按钮</option>
+                    <option value="checkbox" <%if (row.type=="checkbox"){ %>selected<% } %>>复选按钮</option>
+                    <option value="select" <%if (row.type=="select"){ %>selected<% } %>>下拉列表</option>
+                    <option value="date" <%if (row.type=="date"){ %>selected<% } %>>日期字段</option>
+                    <option value="time" <%if (row.type=="time"){ %>selected<% } %>>时间字段</option>
+                    <option value="datetime" <%if (row.type=="datetime"){ %>selected<% } %>>日期时间</option>
+                    <option value="textarea" <%if (row.type=="textarea"){ %>selected<% } %>>文本域</option>
+                    <option value="image" <%if (row.type=="image"){ %>selected<% } %>>图片上传</option>
+                    <option value="video" <%if (row.type=="video"){ %>selected<% } %>>视频上传</option>
+                    <option value="cert" <%if (row.type=="cert"){ %>selected<% } %>>证书上传</option>
+                    <option value="file" <%if (row.type=="file"){ %>selected<% } %>>文件上传</option>
+                </select>
+            </td>
+            <td><input type="text" data-rule="required" name="row[<%=name%>][<%=index%>][label]" class="form-control" value="<%=row['label']%>" size="30" <%if (row.field == "name" || row.field == "avatar" || row.field == "mobile" || row.field == "member_level_id" || row.field == "address"  || row.field == "cert" || row.field == "company_position" || row.field == "industry_category_id" || row.field == "native_place" || row.field == "introduce_content") { %> readonly <% } %> ></td>
+            <td><input type="text" <%if (row.field == "name" || row.field == "avatar" || row.field == "mobile" || row.field == "member_level_id" || row.field == "address"  || row.field == "cert" || row.field == "company_position" || row.field == "industry_category_id" || row.field == "native_place" || row.field == "introduce_content") { %> readonly <% } %> data-rule="required;" style="text-transform:lowercase" name="row[<%=name%>][<%=index%>][field]" class="form-control" value="<%=row['field']%>" size="30"></td>
+            <td><input type="text" data-rule="required" name="row[<%=name%>][<%=index%>][option]" class="form-control" value="<%=row['option']%>" size="30"></td>
+            <td> <%if (row.field != "name" && row.field != "avatar" && row.field != "mobile" && row.field != "member_level_id" && row.field != "address" && row.field != "cert" && row.field != "company_position" && row.field != "industry_category_id"  && row.field != "native_place" && row.field != "introduce_content") { %> <span class="btn btn-sm btn-danger btn-remove"><i class="fa fa-times"></i></span> <% } %><span class="btn btn-sm btn-primary btn-dragsort"><i class="fa fa-arrows"></i></span></td>
+
+
+        </tr>
+    </script>
+    <div>企业信息</div>
+
+    <table class="table table-responsive fieldlist" data-name="company" data-template="company" data-tag="tr">
+        <tr>
+            <th>是否展示</th>
+            <th>是否必填</th>
+            <th>字段类型</th>
+            <th>标签名称</th>
+            <th>字段名(小写英文字母,特殊字符可以用下划线_代替)</th>
+            <th>提示信息/配置项</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td colspan="6"><a href="javascript:;" class="btn btn-sm btn-info btn-append"><i class="fa fa-plus"></i> 追加</a></td>
+        </tr>
+        <textarea name="company" class="form-control hide" cols="30" rows="5">{$company_fieldset|htmlentities}</textarea>
+    </table>
+    <!--定义模板-->
+    <script type="text/html" id="company">
+        <tr class="form-inline">
+            <td>
+                <select name="row[<%=name%>][<%=index%>][show]" class="form-control <%if (row.field == "company_name" || row.field == "company_logo" || row.field == "industry_category_id" || row.field == "company_introduction" || row.type == "file") { %> select-readonly <% } %> " style="min-width: 100px;" >
+                <option value="1" <%if (row.show=="1"){ %>selected<% } %>>是</option>
+                <option value="2" <%if (row.show=="2"){ %>selected<% } %>>否</option>
+                </select>
+            </td>
+            <td>
+                <select name="row[<%=name%>][<%=index%>][required]" class="form-control <%if (row.field == "company_name" || row.field == "company_logo" || row.field == "industry_category_id" || row.field == "company_introduction") { %> select-readonly <% } %> " style="min-width: 100px;" >
+                <option value="1" <%if (row.required=="1"){ %>selected<% } %>>是</option>
+                <option value="2" <%if (row.required=="2"){ %>selected<% } %>>否</option>
+                </select>
+            </td>
+            <td>
+                <select name="row[<%=name%>][<%=index%>][type]" class="form-control <%if (row.field == "company_name" || row.field == "company_logo"  || row.field == "industry_category_id" || row.field == "company_introduction") { %> select-readonly <% } %> " style="min-width: 100px;" >
+                <option value="text" <%if (row.type=="text"){ %>selected<% } %>>文本字段</option>
+                <option value="number" <%if (row.type=="number"){ %>selected<% } %> >数字字段</option>
+                <option value="radio" <%if (row.type=="radio"){ %>selected<% } %>>单选按钮</option>
+                <option value="checkbox" <%if (row.type=="checkbox"){ %>selected<% } %>>复选按钮</option>
+                <option value="select" <%if (row.type=="select"){ %>selected<% } %>>下拉列表</option>
+                <option value="date" <%if (row.type=="date"){ %>selected<% } %>>日期字段</option>
+                <option value="time" <%if (row.type=="time"){ %>selected<% } %>>时间字段</option>
+                <option value="datetime" <%if (row.type=="datetime"){ %>selected<% } %>>日期时间</option>
+                <option value="textarea" <%if (row.type=="textarea"){ %>selected<% } %>>文本域</option>
+                <option value="image" <%if (row.type=="image"){ %>selected<% } %>>图片上传</option>
+                <option value="video" <%if (row.type=="video"){ %>selected<% } %>>视频上传</option>
+                <option value="cert" <%if (row.type=="cert"){ %>selected<% } %>>证书上传</option>
+                <option value="file" <%if (row.type=="file"){ %>selected<% } %>>文件上传</option>
+                </select>
+            </td>
+            <td><input type="text" data-rule="required" name="row[<%=name%>][<%=index%>][label]" class="form-control" value="<%=row['label']%>" size="30" <%if (row.field == "company_name" || row.field == "company_logo" || row.field == "industry_category_id" || row.field == "company_introduction") { %> readonly <% } %> ></td>
+            <td><input type="text" <%if (row.field == "company_name" || row.field == "company_logo" || row.field == "industry_category_id" || row.field == "company_introduction") { %> readonly <% } %> data-rule="required;" style="text-transform:lowercase" name="row[<%=name%>][<%=index%>][field]" class="form-control" value="<%=row['field']%>" size="30"></td>
+            <td><input type="text" data-rule="required" name="row[<%=name%>][<%=index%>][option]" class="form-control" value="<%=row['option']%>" size="30"></td>
+            <td> <%if (row.field != "company_name" && row.field != "company_logo" && row.field != "industry_category_id" && row.field != "company_introduction") { %> <span class="btn btn-sm btn-danger btn-remove"><i class="fa fa-times"></i></span> <% } %><span class="btn btn-sm btn-primary btn-dragsort"><i class="fa fa-arrows"></i></span></td>
+
+
+        </tr>
+    </script>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+<div class="text-muted">
+    提示： 添加所有字段信息为必填字段。姓名/头像/手机号/级别/籍贯/介绍/行业分类/公司名称/公司Logo/公司简介为强制必填信息，不能删除。为保证准确获取用户手机号码 手机号码字段名请使用“mobile”，如不清楚请咨询客服。</br>
+    具体设置如下：</br>
+    文本字段：适用于用户填写文本内容信息，例如：名称，标题，电话，传真等信息</br>
+    数字字段：适用于用户填写数字内容信息，例如：年龄，数量等信息</br>
+    单选按钮：适用于用户单选内容信息，例如：性别 ，请填写至“提示信息/配置项”格式如下：男,女</br>
+    复选按钮：适用于用户多选内容信息，例如：爱好 ，请填写至“提示信息/配置项”格式如下：音乐,足球,画画</br>
+    下拉列表：适用于用户多选项单选内容信息，例如：行业 ，请填写至“提示信息/配置项”格式如下：教育行业,餐饮行业,医疗行业</br>
+    日期字段：适用于用户日期选择信息，例如：2021-10-01，生日等信息</br>
+    时间字段：适用于用户时间选择信息，例如：14:00:00等信息</br>
+    日期时间：适用于用户日期时间选择信息，例如：2021-10-01 14:00:00等信息</br>
+    文本域：适用于用户较多文本信息填充，例如：备注，简介等信息</br>
+</div>

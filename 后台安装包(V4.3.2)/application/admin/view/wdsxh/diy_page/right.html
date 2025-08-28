@@ -1,0 +1,3109 @@
+<div class="main-right">
+	<!-- 标题 -->
+	<div class="right-title">
+		<span v-if="selectedIndex == -1">{{ pageData.page.name }}</span>
+		<span v-else>{{ currentData.name }}</span>
+	</div>
+	<!-- 内容 -->
+	<div class="right-content">
+		<!-- 页面设置 -->
+		<el-tabs v-if="selectedIndex == -1" class="content-form" v-model="pageData.page.activeName">
+			<el-tab-pane label="标题栏设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">模板名称</div>
+						<div class="item-box">
+							<el-input placeholder="请输入模板名称" type="text" v-model="pageData.page.params.name" size="small" clearable></el-input>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">页面标题</div>
+						<div class="item-box">
+							<el-input placeholder="请输入页面标题" type="text" v-model="pageData.page.params.title" size="small" clearable></el-input>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题颜色</div>
+						<div class="item-box">
+							<el-radio-group v-model="pageData.page.style.titleTextColor" size="small">
+								<el-radio-button label="black">黑色</el-radio-button>
+								<el-radio-button label="white">白色</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="pageData.page.style.titleBackgroundColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(pageData.page.style, 'titleBackgroundColor', '#fff')">重置</el-button>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="内容区设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="pageData.page.style.backgroundColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(pageData.page.style, 'backgroundColor', '#F6F7FB')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">背景图片</div>
+						<div class="item-box">
+							<div class="upload-image" v-if="pageData.page.style.backgroundImage">
+								<img class="image" :src="pageData.page.style.backgroundImage">
+								<div class="delete" @click="handleDeleteImage(pageData.page.style, 'backgroundImage')"><i class="el-icon-close"></i></div>
+							</div>
+							<el-button type="primary" size="mini" @click="handleSelectImage(pageData.page.style, 'backgroundImage')" v-else>选择图片</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="pageData.page.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="pageData.page.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 轮播图 -->
+		<el-tabs v-else-if="currentData.type == 'carouselDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<el-alert title="轮播图片建议尺寸750*360" type="info" :closable="false"></el-alert>
+					<draggable class="column-list" :list="currentData.data" :options="{ animation: 120, handle: '.item-mover', preventOnFilter: false }">
+						<div class="list-item" v-for="(carousel, index) in currentData.data">
+							<div class="item-mover">
+								<img src="/assets/addons/wdsxh/img/drag.png">
+							</div>
+							<div class="item-image">
+								<img class="image" :src="carousel.imgUrl">
+							</div>
+							<div class="item-info">
+								<div class="info-row">
+									<div class="row-label">图片</div>
+									<el-input class="row-input" placeholder="请选择图片或输入图片地址" type="text" v-model="carousel.imgUrl" size="small">
+										<div slot="append" class="input-btn" @click="handleSelectImage(carousel, 'imgUrl')">
+											<i class="el-icon-picture-outline"></i>
+										</div>
+									</el-input>
+								</div>
+								<div class="info-row">
+									<div class="row-label">类型</div>
+									<el-input class="row-input" placeholder="请选择类型" disabled type="text" v-model="carousel.link ? carousel.link.title : carousel.link" size="small">
+										<div slot="append" class="input-btn" @click="handleSelectType(carousel)">
+											<i class="el-icon-help"></i>
+										</div>
+									</el-input>
+								</div>
+							</div>
+							<div class="item-delete el-icon-close" @click="handleDeleteItem(index)"></div>
+						</div>
+					</draggable>
+					<el-button type="primary" class="column-add" icon="el-icon-circle-plus-outline" @click.stop="handleAddItem">添加图片</el-button>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">样式</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.type" size="small">
+								<el-radio-button label="normal">常规</el-radio-button>
+								<el-tooltip content="卡片效果仅在前端展示" placement="top" effect="light">
+									<el-radio-button label="card">卡片</el-radio-button>
+								</el-tooltip>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">切换时间</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.params.interval" controls-position="right" :min="1000" :max="10000" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="width: 105px;">指示点选中颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.dotColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'dotColor', '#409EFF')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件高度</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.height" controls-position="right" :min="0" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图片圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.borderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 单图组 -->
+		<el-tabs v-else-if="currentData.type == 'imagesDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<el-alert title="最佳图片尺寸750*360" type="info" :closable="false"></el-alert>
+					<draggable class="column-list" :list="currentData.data" :options="{ animation: 120, handle: '.item-mover', preventOnFilter: false }">
+						<div class="list-item" v-for="(images, index) in currentData.data">
+							<div class="item-mover">
+								<img src="/assets/addons/wdsxh/img/drag.png">
+							</div>
+							<div class="item-image">
+								<img class="image" :src="images.imgUrl">
+							</div>
+							<div class="item-info">
+								<div class="info-row">
+									<div class="row-label">图片</div>
+									<el-input class="row-input" placeholder="请选择图片或输入图片地址" type="text" v-model="images.imgUrl" size="small">
+										<div slot="append" class="input-btn" @click="handleSelectImage(images, 'imgUrl')">
+											<i class="el-icon-picture-outline"></i>
+										</div>
+									</el-input>
+								</div>
+								<div class="info-row">
+									<div class="row-label">类型</div>
+									<el-input class="row-input" placeholder="请选择类型" type="text" v-model="images.link ? images.link.title : images.link" size="small" disabled>
+										<div slot="append" class="input-btn" @click="handleSelectType(images)">
+											<i class="el-icon-help"></i>
+										</div>
+									</el-input>
+								</div>
+							</div>
+							<div class="item-delete el-icon-close" @click="handleDeleteItem(index)"></div>
+						</div>
+					</draggable>
+					<el-button type="primary" class="column-add" icon="el-icon-circle-plus-outline" @click.stop="handleAddItem">添加图片</el-button>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图片圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.borderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">成员间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemSpace" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 导航组 -->
+		<el-tabs v-else-if="currentData.type == 'navDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<el-alert title="最佳图片尺寸100*100" type="info" :closable="false"></el-alert>
+					<draggable class="column-list" :list="currentData.data" :options="{ animation: 120, handle: '.item-mover', preventOnFilter: false }">
+						<div class="list-item" v-for="(nav, index) in currentData.data">
+							<div class="item-mover">
+								<img src="/assets/addons/wdsxh/img/drag.png">
+							</div>
+							<div class="item-image">
+								<img class="image" :src="nav.imgUrl">
+							</div>
+							<div class="item-info">
+								<div class="info-row">
+									<div class="row-label">内容</div>
+									<el-input class="row-input" placeholder="请输入内容" type="text" v-model="nav.text" size="small" clearable></el-input>
+								</div>
+								<div class="info-row">
+									<div class="row-label">图片</div>
+									<el-input class="row-input" placeholder="请选择图片或输入图片地址" type="text" v-model="nav.imgUrl" size="small">
+										<div slot="append" class="input-btn" @click="handleSelectImage(nav, 'imgUrl')">
+											<i class="el-icon-picture-outline"></i>
+										</div>
+									</el-input>
+								</div>
+								<div class="info-row">
+									<div class="row-label">类型</div>
+									<el-input class="row-input" placeholder="请选择类型" type="text" v-model="nav.link ? nav.link.title : nav.link" size="small" disabled>
+										<div slot="append" class="input-btn" @click="handleSelectType(nav)">
+											<i class="el-icon-help"></i>
+										</div>
+									</el-input>
+								</div>
+							</div>
+							<div class="item-delete el-icon-close" @click="handleDeleteItem(index)"></div>
+						</div>
+					</draggable>
+					<el-button type="primary" class="column-add" icon="el-icon-circle-plus-outline" @click.stop="handleAddItem">添加导航</el-button>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">每页行数</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.rowsLimit" size="small">
+								<el-radio-button label="-1">无限制</el-radio-button>
+								<el-radio-button label="2">2行</el-radio-button>
+								<el-radio-button label="3">3行</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.style.rowsLimit == 2 || currentData.style.rowsLimit == 3">
+						<div class="item-label" style="width: 105px;">指示点选中颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.dotColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'dotColor', '#409EFF')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">每行数量</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.rowsNum" size="small">
+								<el-radio-button label="3">3个</el-radio-button>
+								<el-radio-button label="4">4个</el-radio-button>
+								<el-radio-button label="5">5个</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.iconSize" controls-position="right" :min="0" :max="100" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图标圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.borderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">文字尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.fontSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">字体颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.textColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'textColor', '#666666')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">成员间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemSpace" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 图片魔方 -->
+		<el-tabs v-else-if="currentData.type == 'cubeDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<draggable class="column-list" :list="currentData.data" :options="{ animation: 120, handle: '.item-mover', preventOnFilter: false }">
+						<div class="list-item" v-for="(cube, index) in currentData.data">
+							<div class="item-mover">
+								<img src="/assets/addons/wdsxh/img/drag.png">
+							</div>
+							<div class="item-image">
+								<img class="image" :src="cube.imgUrl">
+							</div>
+							<div class="item-info">
+								<div class="info-row">
+									<div class="row-label">图片</div>
+									<el-input class="row-input" placeholder="请选择图片或输入图片地址" type="text" v-model="cube.imgUrl" size="small">
+										<div slot="append" class="input-btn" @click="handleSelectImage(cube, 'imgUrl')">
+											<i class="el-icon-picture-outline"></i>
+										</div>
+									</el-input>
+								</div>
+								<div class="info-row">
+									<div class="row-label">类型</div>
+									<el-input class="row-input" placeholder="请选择类型" type="text" v-model="cube.link ? cube.link.title : cube.link" size="small" disabled>
+										<div slot="append" class="input-btn" @click="handleSelectType(cube)">
+											<i class="el-icon-help"></i>
+										</div>
+									</el-input>
+								</div>
+							</div>
+							<div class="item-delete el-icon-close" @click="handleDeleteItem(index)"></div>
+						</div>
+					</draggable>
+					<el-button type="primary" class="column-add" icon="el-icon-circle-plus-outline" @click.stop="handleAddItem">添加图片</el-button>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<el-alert title="魔方最大仅支持4张图片" type="info" :closable="false"></el-alert>
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">布局</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.layout" size="small">
+								<el-radio-button label="2">两列</el-radio-button>
+								<el-radio-button label="3">三列</el-radio-button>
+								<el-radio-button label="4">四列</el-radio-button>
+								<el-radio-button label="-1">魔方</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.style.layout == -1">
+						<div class="item-label">魔方样式</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.model" size="small">
+								<el-radio-button label="1">样式一</el-radio-button>
+								<el-radio-button label="2">样式二</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.style.layout == -1">
+						<div class="item-label">大图占比</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.imgWidth" :min="0" :max="100"></el-slider>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.style.layout == -1">
+						<div class="item-label">大图位置</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.imgFloat" size="small">
+								<el-radio-button label="left">居左</el-radio-button>
+								<el-radio-button label="right">居右</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图片圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.borderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">成员间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemSpace" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 信息卡片 -->
+		<el-tabs v-else-if="currentData.type == 'infoCardDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">图片</div>
+						<div class="item-box">
+							<div class="upload-image" v-if="currentData.params.image">
+								<img class="image" :src="currentData.params.image">
+								<div class="delete" @click="handleDeleteImage(currentData.params, 'image')"><i class="el-icon-close"></i></div>
+							</div>
+							<el-button type="primary" size="mini" @click="handleSelectImage(currentData.params, 'image')" v-else>选择图片</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">按钮内容</div>
+						<div class="item-box">
+							<el-input placeholder="请输入按钮内容" type="text" v-model="currentData.params.btnTxt" size="small" clearable></el-input>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题内容</div>
+						<div class="item-box">
+							<el-input placeholder="请输入标题内容" type="text" v-model="currentData.params.title" size="small" clearable></el-input>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">信息内容</div>
+						<div class="item-box">
+							<el-input placeholder="请输入信息内容" type="textarea" v-model="currentData.params.content" size="small" clearable></el-input>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">类型</div>
+						<el-input class="item-input" placeholder="请选择类型" type="text" v-model="currentData.params.link?currentData.params.link.title:currentData.params.link" size="small" disabled>
+							<div slot="append" class="input-btn" @click="handleSelectType(currentData.params)">
+								<i class="el-icon-help"></i>
+							</div>
+						</el-input>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图片圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.borderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">按钮圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.btnBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="width: 92px;">按钮字体颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.btnColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'btnColor', '#ffffff')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="width: 92px;">按钮背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.btnBackground" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'btnBackground', '#409EFF')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 按钮组 -->
+		<el-tabs v-else-if="currentData.type == 'textButtonDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<draggable class="column-list" :list="currentData.data" :options="{ animation: 120, handle: '.item-mover', preventOnFilter: false }">
+						<div class="list-item" v-for="(textButton, index) in currentData.data">
+							<div class="item-mover" style="margin-right: 10px;">
+								<img src="/assets/addons/wdsxh/img/drag.png">
+							</div>
+							<div class="item-info">
+								<div class="info-row">
+									<div class="row-label">内容</div>
+									<el-input class="row-input" placeholder="请输入内容" type="text" v-model="textButton.text" size="small" clearable></el-input>
+								</div>
+								<div class="info-row">
+									<div class="row-label">类型</div>
+									<el-input class="row-input" placeholder="请选择类型" type="text" v-model="textButton.link ? textButton.link.title : textButton.link" size="small" disabled>
+										<div slot="append" class="input-btn" @click="handleSelectType(textButton)">
+											<i class="el-icon-help"></i>
+										</div>
+									</el-input>
+								</div>
+							</div>
+							<div class="item-delete el-icon-close" @click="handleDeleteItem(index)"></div>
+						</div>
+					</draggable>
+					<el-button type="primary" class="column-add" icon="el-icon-circle-plus-outline" @click.stop="handleAddItem">添加按钮</el-button>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">文字尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.fontSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">字体颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.textColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'textColor', '#666666')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 标题 -->
+		<el-tabs v-else-if="currentData.type == 'titleDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">内容</div>
+						<div class="item-box">
+							<el-input placeholder="请输入内容" type="text" v-model="currentData.params.title" size="small" clearable></el-input>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">按钮类型</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.btnType" size="small">
+								<el-radio-button label="text">文字</el-radio-button>
+								<el-radio-button label="icon">图标</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.btnType == 'text'">
+						<div class="item-label">按钮文字</div>
+						<div class="item-box">
+							<el-input placeholder="请输入按钮文字" type="text" v-model="currentData.params.btnText" size="small" clearable></el-input>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">类型</div>
+						<el-input class="item-input" placeholder="请选择类型" type="text" v-model="currentData.params.link?currentData.params.link.title:currentData.params.link" size="small" disabled>
+							<div slot="append" class="input-btn" @click="handleSelectType(currentData.params)">
+								<i class="el-icon-help"></i>
+							</div>
+						</el-input>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.color" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'color', '#000000')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.fontSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题样式</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.fontStyle" size="small">
+								<el-radio-button label="normal">正常</el-radio-button>
+								<el-radio-button label="italic">斜体</el-radio-button>
+								<el-radio-button label="bold">加粗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.btnType == 'text'">
+						<div class="item-label">按钮尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.btnSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item" v-else>
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.iconSize" controls-position="right" :min="12" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">{{currentData.params.btnType == 'text'? '按钮颜色' : '图标颜色'}}</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.btnColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'btnColor', '#888')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 视频 -->
+		<el-tabs v-else-if="currentData.type == 'videoDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">封面图片</div>
+						<div class="item-box">
+							<div class="upload-image" v-if="currentData.params.poster">
+								<img class="image" :src="currentData.params.poster">
+								<div class="delete" @click="handleDeleteImage(currentData.params, 'poster')"><i class="el-icon-close"></i></div>
+							</div>
+							<el-button type="primary" size="mini" @click="handleSelectImage(currentData.params, 'poster')" v-else>选择图片</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">播放地址</div>
+						<div class="item-box">
+							<el-input placeholder="请输入播放地址" type="text" v-model="currentData.params.videoUrl" size="small" clearable></el-input>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">播放方式</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.autoplay" size="small">
+								<el-radio-button label="1">自动</el-radio-button>
+								<el-radio-button label="2">手动</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 地图 -->
+		<el-tabs v-else-if="currentData.type == 'mapDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label" style="min-width: 40px;">经度</div>
+						<div class="item-box">
+							<el-tooltip content="浮点数，范围 -180 ~ 180" placement="top" effect="light">
+								<el-input-number v-model="currentData.params.longitude" controls-position="right" :min="-180" :max="180" size="small"></el-input-number>
+							</el-tooltip>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 40px;">纬度</div>
+						<div class="item-box">
+							<el-tooltip content="浮点数，范围 -90 ~ 90" placement="top" effect="light">
+								<el-input-number v-model="currentData.params.latitude" controls-position="right" :min="-90" :max="90" size="small"></el-input-number>
+							</el-tooltip>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">地图高度</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.height" controls-position="right" :min="80" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">地图圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.borderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 新闻资讯 -->
+		<el-tabs v-else-if="currentData.type == 'articleDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">标题</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.showTitle" size="small">
+								<el-radio-button :label="true">显示</el-radio-button>
+								<el-radio-button :label="false">隐藏</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<template v-if="currentData.params.showTitle">
+						<div class="column-item">
+							<div class="item-label">标题内容</div>
+							<div class="item-box">
+								<el-input placeholder="请输入标题内容" type="text" v-model="currentData.params.titleText" size="small" clearable></el-input>
+							</div>
+						</div>
+						<div class="column-item">
+							<div class="item-label">按钮类型</div>
+							<div class="item-box">
+								<el-radio-group v-model="currentData.params.titleBtnType" size="small">
+									<el-radio-button label="text">文字</el-radio-button>
+									<el-radio-button label="icon">图标</el-radio-button>
+								</el-radio-group>
+							</div>
+						</div>
+						<div class="column-item" v-if="currentData.params.titleBtnType == 'text'">
+							<div class="item-label">按钮文字</div>
+							<div class="item-box">
+								<el-input placeholder="请输入按钮文字" type="text" v-model="currentData.params.titleBtnText" size="small" clearable></el-input>
+							</div>
+						</div>
+					</template>
+					<div class="column-item">
+						<div class="item-label">图片</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.showImg" size="small">
+								<el-radio-button :label="true">显示</el-radio-button>
+								<el-radio-button :label="false">隐藏</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">文章数量</div>
+						<div class="item-box">
+							<el-input-number placeholder="请输入文章数量" v-model="currentData.params.count" :precision="0" :min="1" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">文章分类</div>
+						<el-select v-model="currentData.params.category" placeholder="全部分类" size="small" clearable @change="handleSelectArticleCategory(currentData.params, $event)">
+							<el-option label="全部分类" value=""></el-option>
+							<el-option v-for="category in articleCategoryList" :key="category.id" :label="category.name" :value="category.id"></el-option>
+						</el-select>
+					</div>
+					<div class="column-item">
+						<div class="item-label">阅读量</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.showReadNum" size="small">
+								<el-radio-button :label="true">显示</el-radio-button>
+								<el-radio-button :label="false">隐藏</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="标题栏设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">标题颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.titleColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'titleColor', '#000000')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleFontSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题样式</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.titleFontStyle" size="small">
+								<el-radio-button label="normal">正常</el-radio-button>
+								<el-radio-button label="italic">斜体</el-radio-button>
+								<el-radio-button label="bold">加粗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.titleBtnType == 'text'">
+						<div class="item-label">按钮尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleBtnSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item" v-else>
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleIconSize" controls-position="right" :min="12" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">{{currentData.params.titleBtnType == 'text'? '按钮颜色' : '图标颜色'}}</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.titleBtnColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'titleBtnColor', '#888')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="width: 92px;">标题栏下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.titleSpace"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="third">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.showImg">
+						<div class="item-label">图片宽度</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.imgWidth" :min="80" :max="120"></el-slider>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.showImg">
+						<div class="item-label">图片高度</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.imgHeight" :min="80" :max="120"></el-slider>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.showImg">
+						<div class="item-label">图片位置</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.imgFloat" size="small">
+								<el-radio-button label="left">居左</el-radio-button>
+								<el-radio-button label="right">居右</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.showImg">
+						<div class="item-label">图片圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.borderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.nameSize" controls-position="right" :min="12" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">是否加粗</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.nameWeight" size="small">
+								<el-radio-button label="normal">正常</el-radio-button>
+								<el-radio-button label="bold">加粗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label"><span v-if="currentData.params.showReadNum">阅读量/</span>日期尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.dateSize" controls-position="right" :min="10" :max="16" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">成员间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemSpace" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 商会介绍 -->
+		<el-tabs v-else-if="currentData.type == 'introduceDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">图标</div>
+						<div class="item-box">
+							<img class="box-icon" style="cursor: pointer;" :src="currentData.params.imgUrl" @click="handleSelectImage(currentData.params, 'imgUrl')">
+							<el-radio-group v-model="currentData.params.showImg" size="small">
+								<el-radio-button :label="true">显示</el-radio-button>
+								<el-radio-button :label="false">隐藏</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">协会名称</div>
+						<div class="item-box">
+							<el-input placeholder="请输入协会名称" type="text" v-model="currentData.params.name" size="small" clearable></el-input>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">按钮名称</div>
+						<div class="item-box">
+							<el-input placeholder="请输入按钮名称" type="text" v-model="currentData.params.btnName" size="small" clearable></el-input>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.showImg">
+						<div class="item-label">图标圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.borderRadius" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.showImg">
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.iconSize" controls-position="right" :min="20" :max="60" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">按钮圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.btnBorderRadius" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">按钮尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.btnSize" controls-position="right" :min="10" :max="18" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">按钮颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.btnColor1" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'btnColor1', '#325DFF')">重置</el-button>
+							<el-color-picker v-model="currentData.style.btnColor2" size="small" style="margin-left: 10px;"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'btnColor2', '#489FFF')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">名称尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.nameSize" controls-position="right" :min="12" :max="18" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">是否加粗</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.nameWeight" size="small">
+								<el-radio-button label="normal">正常</el-radio-button>
+								<el-radio-button label="bold">加粗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 会员列表 -->
+		<el-tabs v-else-if="currentData.type == 'memberDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">标题</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.showTitle" size="small">
+								<el-radio-button :label="true">显示</el-radio-button>
+								<el-radio-button :label="false">隐藏</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<template v-if="currentData.params.showTitle">
+						<div class="column-item">
+							<div class="item-label">标题内容</div>
+							<div class="item-box">
+								<el-input placeholder="请输入标题内容" type="text" v-model="currentData.params.titleText" size="small" clearable></el-input>
+							</div>
+						</div>
+						<div class="column-item">
+							<div class="item-label">按钮类型</div>
+							<div class="item-box">
+								<el-radio-group v-model="currentData.params.titleBtnType" size="small">
+									<el-radio-button label="text">文字</el-radio-button>
+									<el-radio-button label="icon">图标</el-radio-button>
+								</el-radio-group>
+							</div>
+						</div>
+						<div class="column-item" v-if="currentData.params.titleBtnType == 'text'">
+							<div class="item-label">按钮文字</div>
+							<div class="item-box">
+								<el-input placeholder="请输入按钮文字" type="text" v-model="currentData.params.titleBtnText" size="small" clearable></el-input>
+							</div>
+						</div>
+					</template>
+					<div class="column-item">
+						<div class="item-label">会员数量</div>
+						<div class="item-box">
+							<el-input-number placeholder="请输入会员数量" v-model="currentData.params.count" :precision="0" :min="1" size="small"></el-input-number>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="标题栏设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">标题颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.titleColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'titleColor', '#000000')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleFontSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题样式</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.titleFontStyle" size="small">
+								<el-radio-button label="normal">正常</el-radio-button>
+								<el-radio-button label="italic">斜体</el-radio-button>
+								<el-radio-button label="bold">加粗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.titleBtnType == 'text'">
+						<div class="item-label">按钮尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleBtnSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item" v-else>
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleIconSize" controls-position="right" :min="12" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图标颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.titleBtnColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'titleBtnColor', '#888')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="width: 100px;">标题栏下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.titleSpace"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="third">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">自动滚动</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.isAutoRoll" size="small">
+								<el-radio-button :label="false">关闭</el-radio-button>
+								<el-tooltip content="自动滚动效果仅在前端展示" placement="top" effect="light">
+									<el-radio-button :label="true">开启</el-radio-button>
+								</el-tooltip>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">滚动间隔</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.rollDelay" controls-position="right" :min="10" :max="10000" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">滚动速度</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.rollSpeed" controls-position="right" :min="10" :max="10000" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.iconSize" controls-position="right" :min="40" :max="80" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图标圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.iconRadius" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">职位尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.pSize" controls-position="right" :min="10" :max="16" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">圆角类型</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.pRadiusType" size="small">
+								<el-radio-button label="none">无</el-radio-button>
+								<el-radio-button label="half">半</el-radio-button>
+								<el-radio-button label="full">全</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.style.pRadiusType != 'none'">
+						<div class="item-label">职位圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.pRadius" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">职位颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.pColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'pColor', '#fff')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">职位背景</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.pBackground" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'pBackground', '#325DFF')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">姓名尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.nameSize" controls-position="right" :min="10" :max="18" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">姓名颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.nameColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'nameColor', '#333333')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">成员间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemSpace" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 商会活动 -->
+		<el-tabs v-else-if="currentData.type == 'activityDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">标题</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.showTitle" size="small">
+								<el-radio-button :label="true">显示</el-radio-button>
+								<el-radio-button :label="false">隐藏</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<template v-if="currentData.params.showTitle">
+						<div class="column-item">
+							<div class="item-label">标题内容</div>
+							<div class="item-box">
+								<el-input placeholder="请输入标题内容" type="text" v-model="currentData.params.titleText" size="small" clearable></el-input>
+							</div>
+						</div>
+						<div class="column-item">
+							<div class="item-label">按钮类型</div>
+							<div class="item-box">
+								<el-radio-group v-model="currentData.params.titleBtnType" size="small">
+									<el-radio-button label="text">文字</el-radio-button>
+									<el-radio-button label="icon">图标</el-radio-button>
+								</el-radio-group>
+							</div>
+						</div>
+						<div class="column-item" v-if="currentData.params.titleBtnType == 'text'">
+							<div class="item-label">按钮文字</div>
+							<div class="item-box">
+								<el-input placeholder="请输入按钮文字" type="text" v-model="currentData.params.titleBtnText" size="small" clearable></el-input>
+							</div>
+						</div>
+					</template>
+					<div class="column-item">
+						<div class="item-label">图片</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.showImg" size="small">
+								<el-radio-button :label="true">显示</el-radio-button>
+								<el-radio-button :label="false">隐藏</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">活动数量</div>
+						<div class="item-box">
+							<el-input-number placeholder="请输入活动数量" v-model="currentData.params.count" :precision="0" :min="1" size="small"></el-input-number>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="标题栏设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">标题颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.titleColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'titleColor', '#000000')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleFontSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题样式</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.titleFontStyle" size="small">
+								<el-radio-button label="normal">正常</el-radio-button>
+								<el-radio-button label="italic">斜体</el-radio-button>
+								<el-radio-button label="bold">加粗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.titleBtnType == 'text'">
+						<div class="item-label">按钮尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleBtnSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item" v-else>
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleIconSize" controls-position="right" :min="12" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图标颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.titleBtnColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'titleBtnColor', '#888')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="width: 100px;">标题栏下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.titleSpace"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="third">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.showImg">
+						<div class="item-label">图片宽度</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.imgWidth" :min="80" :max="120"></el-slider>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.showImg">
+						<div class="item-label">图片高度</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.imgHeight" :min="80" :max="120"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图片圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.borderRadius" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">名称尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.nameSize" controls-position="right" :min="10" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">是否加粗</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.nameWeight" size="small">
+								<el-radio-button label="normal">正常</el-radio-button>
+								<el-radio-button label="bold">加粗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">展示图标</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.showIcon" size="small">
+								<el-radio-button :label="true">是</el-radio-button>
+								<el-radio-button :label="false">否</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.style.showIcon">
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.iconSize" controls-position="right" :min="10" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.style.showIcon">
+						<div class="item-label">图标颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.iconColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'iconColor', '#325DFF')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">内容尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.contentSize" controls-position="right" :min="8" :max="16" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">成员间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemSpace" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 活动接龙 -->
+		<el-tabs v-else-if="currentData.type == 'chainsDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">标题</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.showTitle" size="small">
+								<el-radio-button :label="true">显示</el-radio-button>
+								<el-radio-button :label="false">隐藏</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<template v-if="currentData.params.showTitle">
+						<div class="column-item">
+							<div class="item-label">标题内容</div>
+							<div class="item-box">
+								<el-input placeholder="请输入标题内容" type="text" v-model="currentData.params.titleText" size="small" clearable></el-input>
+							</div>
+						</div>
+						<div class="column-item">
+							<div class="item-label">按钮类型</div>
+							<div class="item-box">
+								<el-radio-group v-model="currentData.params.titleBtnType" size="small">
+									<el-radio-button label="text">文字</el-radio-button>
+									<el-radio-button label="icon">图标</el-radio-button>
+								</el-radio-group>
+							</div>
+						</div>
+						<div class="column-item" v-if="currentData.params.titleBtnType == 'text'">
+							<div class="item-label">按钮文字</div>
+							<div class="item-box">
+								<el-input placeholder="请输入按钮文字" type="text" v-model="currentData.params.titleBtnText" size="small" clearable></el-input>
+							</div>
+						</div>
+					</template>
+					<div class="column-item">
+						<div class="item-label">接龙数量</div>
+						<div class="item-box">
+							<el-input-number placeholder="请输入接龙数量" v-model="currentData.params.count" :precision="0" :min="1" size="small"></el-input-number>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="标题栏设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">标题颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.titleColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'titleColor', '#000000')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleFontSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题样式</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.titleFontStyle" size="small">
+								<el-radio-button label="normal">正常</el-radio-button>
+								<el-radio-button label="italic">斜体</el-radio-button>
+								<el-radio-button label="bold">加粗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.titleBtnType == 'text'">
+						<div class="item-label">按钮尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleBtnSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item" v-else>
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleIconSize" controls-position="right" :min="12" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图标颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.titleBtnColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'titleBtnColor', '#888')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="width: 100px;">标题栏下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.titleSpace"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="third">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.nameSize" controls-position="right" :min="12" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">是否加粗</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.nameWeight" size="small">
+								<el-radio-button label="normal">正常</el-radio-button>
+								<el-radio-button label="bold">加粗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">内容尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.contentSize" controls-position="right" :min="8" :max="16" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">展示图标</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.showIcon" size="small">
+								<el-radio-button :label="true">是</el-radio-button>
+								<el-radio-button :label="false">否</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.style.showIcon">
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.iconSize" controls-position="right" :min="12" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.style.showIcon">
+						<div class="item-label">图标颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.iconColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'iconColor', '#325DFF')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">按钮尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.btnSize" controls-position="right" :min="12" :max="18" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">成员间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemSpace" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 活动相册 -->
+		<el-tabs v-else-if="currentData.type == 'albumDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">标题</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.showTitle" size="small">
+								<el-radio-button :label="true">显示</el-radio-button>
+								<el-radio-button :label="false">隐藏</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<template v-if="currentData.params.showTitle">
+						<div class="column-item">
+							<div class="item-label">标题内容</div>
+							<div class="item-box">
+								<el-input placeholder="请输入标题内容" type="text" v-model="currentData.params.titleText" size="small" clearable></el-input>
+							</div>
+						</div>
+						<div class="column-item">
+							<div class="item-label">按钮类型</div>
+							<div class="item-box">
+								<el-radio-group v-model="currentData.params.titleBtnType" size="small">
+									<el-radio-button label="text">文字</el-radio-button>
+									<el-radio-button label="icon">图标</el-radio-button>
+								</el-radio-group>
+							</div>
+						</div>
+						<div class="column-item" v-if="currentData.params.titleBtnType == 'text'">
+							<div class="item-label">按钮文字</div>
+							<div class="item-box">
+								<el-input placeholder="请输入按钮文字" type="text" v-model="currentData.params.titleBtnText" size="small" clearable></el-input>
+							</div>
+						</div>
+					</template>
+					<div class="column-item">
+						<div class="item-label">相册数量</div>
+						<div class="item-box">
+							<el-input-number placeholder="请输入相册数量" v-model="currentData.params.count" :precision="0" :min="1" size="small"></el-input-number>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="标题栏设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">标题颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.titleColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'titleColor', '#000000')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleFontSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题样式</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.titleFontStyle" size="small">
+								<el-radio-button label="normal">正常</el-radio-button>
+								<el-radio-button label="italic">斜体</el-radio-button>
+								<el-radio-button label="bold">加粗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.titleBtnType == 'text'">
+						<div class="item-label">按钮尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleBtnSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item" v-else>
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleIconSize" controls-position="right" :min="12" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图标颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.titleBtnColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'titleBtnColor', '#888')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="width: 100px;">标题栏下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.titleSpace"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="third">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">日期尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.timeSize" controls-position="right" :min="14" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图标颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.iconColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'iconColor', '#325DFF')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.nameSize" controls-position="right" :min="12" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">是否加粗</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.nameWeight" size="small">
+								<el-radio-button label="normal">正常</el-radio-button>
+								<el-radio-button label="bold">加粗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图片圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.borderRadius" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">成员间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemSpace" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 商城商品 -->
+		<el-tabs v-else-if="currentData.type == 'goodsDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">标题</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.showTitle" size="small">
+								<el-radio-button :label="true">显示</el-radio-button>
+								<el-radio-button :label="false">隐藏</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<template v-if="currentData.params.showTitle">
+						<div class="column-item">
+							<div class="item-label">标题内容</div>
+							<div class="item-box">
+								<el-input placeholder="请输入标题内容" type="text" v-model="currentData.params.titleText" size="small" clearable></el-input>
+							</div>
+						</div>
+						<div class="column-item">
+							<div class="item-label">按钮类型</div>
+							<div class="item-box">
+								<el-radio-group v-model="currentData.params.titleBtnType" size="small">
+									<el-radio-button label="text">文字</el-radio-button>
+									<el-radio-button label="icon">图标</el-radio-button>
+								</el-radio-group>
+							</div>
+						</div>
+						<div class="column-item" v-if="currentData.params.titleBtnType == 'text'">
+							<div class="item-label">按钮文字</div>
+							<div class="item-box">
+								<el-input placeholder="请输入按钮文字" type="text" v-model="currentData.params.titleBtnText" size="small" clearable></el-input>
+							</div>
+						</div>
+					</template>
+					<div class="column-item">
+						<div class="item-label">商品数量</div>
+						<div class="item-box">
+							<el-input-number placeholder="请输入商品数量" v-model="currentData.params.count" :precision="0" :min="2" :step="2" step-strictly size="small"></el-input-number>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="标题栏设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">标题颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.titleColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'titleColor', '#000000')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleFontSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题样式</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.titleFontStyle" size="small">
+								<el-radio-button label="normal">正常</el-radio-button>
+								<el-radio-button label="italic">斜体</el-radio-button>
+								<el-radio-button label="bold">加粗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.titleBtnType == 'text'">
+						<div class="item-label">按钮尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleBtnSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item" v-else>
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleIconSize" controls-position="right" :min="12" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图标颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.titleBtnColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'titleBtnColor', '#888')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="width: 100px;">标题栏下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.titleSpace"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="third">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图片高度</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.imgHeight" controls-position="right" :min="50" :max="200" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图片圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.borderRadius" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.nameSize" controls-position="right" :min="12" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">是否加粗</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.nameWeight" size="small">
+								<el-radio-button label="normal">正常</el-radio-button>
+								<el-radio-button label="bold">加粗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">价格尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.priceSize" controls-position="right" :min="12" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">价格颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.priceColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'priceColor', '#325DFF')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">成员间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemSpace" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 会员供需 -->
+		<el-tabs v-else-if="currentData.type == 'demandDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">标题</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.showTitle" size="small">
+								<el-radio-button :label="true">显示</el-radio-button>
+								<el-radio-button :label="false">隐藏</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<template v-if="currentData.params.showTitle">
+						<div class="column-item">
+							<div class="item-label">标题内容</div>
+							<div class="item-box">
+								<el-input placeholder="请输入标题内容" type="text" v-model="currentData.params.titleText" size="small" clearable></el-input>
+							</div>
+						</div>
+						<div class="column-item">
+							<div class="item-label">标题按钮类型</div>
+							<div class="item-box">
+								<el-radio-group v-model="currentData.params.titleBtnType" size="small">
+									<el-radio-button label="text">文字</el-radio-button>
+									<el-radio-button label="icon">图标</el-radio-button>
+								</el-radio-group>
+							</div>
+						</div>
+						<div class="column-item" v-if="currentData.params.titleBtnType == 'text'">
+							<div class="item-label">标题按钮文字</div>
+							<div class="item-box">
+								<el-input placeholder="请输入按钮文字" type="text" v-model="currentData.params.titleBtnText" size="small" clearable></el-input>
+							</div>
+						</div>
+					</template>
+					<div class="column-item">
+						<div class="item-label">联系按钮</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.showContact" size="small">
+								<el-radio-button :label="true">显示</el-radio-button>
+								<el-radio-button :label="false">隐藏</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">供需数量</div>
+						<div class="item-box">
+							<el-input-number placeholder="请输入供需数量" v-model="currentData.params.count" :precision="0" :min="1" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">供需分类</div>
+						<el-select v-model="currentData.params.category" placeholder="全部分类" size="small" clearable @change="handleSelectArticleCategory(currentData.params, $event)">
+							<el-option label="全部分类" value=""></el-option>
+							<el-option v-for="category in demandCategoryList" :key="category.id" :label="category.name" :value="category.id"></el-option>
+						</el-select>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="标题栏设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">标题颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.titleColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'titleColor', '#000000')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleFontSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题样式</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.titleFontStyle" size="small">
+								<el-radio-button label="normal">正常</el-radio-button>
+								<el-radio-button label="italic">斜体</el-radio-button>
+								<el-radio-button label="bold">加粗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.params.titleBtnType == 'text'">
+						<div class="item-label">按钮尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleBtnSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item" v-else>
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.titleIconSize" controls-position="right" :min="12" :max="20" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">{{currentData.params.titleBtnType == 'text'? '按钮颜色' : '图标颜色'}}</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.titleBtnColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'titleBtnColor', '#888')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="width: 92px;">标题栏下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.titleSpace"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="third">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<template v-if="currentData.params.showContact">
+						<div class="column-item">
+							<div class="item-label">联系按钮背景颜色</div>
+							<div class="item-box">
+								<el-color-picker v-model="currentData.style.btnColor" size="small"></el-color-picker>
+								<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'btnColor', '#325DFF')">重置</el-button>
+							</div>
+						</div>
+						<div class="column-item">
+							<div class="item-label">联系按钮字体颜色</div>
+							<div class="item-box">
+								<el-color-picker v-model="currentData.style.btnTextColor" size="small"></el-color-picker>
+								<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'btnTextColor', '#ffffff')">重置</el-button>
+							</div>
+						</div>
+					</template>
+					<div class="column-item">
+						<div class="item-label">标题尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.nameSize" controls-position="right" :min="12" :max="32" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">是否加粗</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.style.nameWeight" size="small">
+								<el-radio-button label="normal">正常</el-radio-button>
+								<el-radio-button label="bold">加粗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">内容尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.contentSize" controls-position="right" :min="10" :max="32" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">地址标签颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.addressColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'addressColor', '#325DFF')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">成员间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemSpace" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 会员地图 -->
+		<el-tabs v-else-if="currentData.type == 'memberMapDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="地图设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label" style="min-width: 76px;">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.map.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.map, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 76px;">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.map.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 76px;">地图高度</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.map.heightType" size="small">
+								<el-radio-button :label="1">占满屏幕</el-radio-button>
+								<el-radio-button :label="2">自定义高度</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item" v-if="currentData.map.heightType == 2">
+						<div class="item-label" style="min-width: 76px;">自定义高度</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.map.height" controls-position="right" :min="200" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 76px;">地图圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.map.borderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 76px;">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.map.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 76px;">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.map.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="分类设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label" style="min-width: 76px;">分类方式</div>
+						<el-select v-model="currentData.category.type" placeholder="按会员级别" size="small">
+							<el-option label="按会员级别" :value="1"></el-option>
+							<el-option label="按行业分类" :value="2"></el-option>
+							<el-option label="按分支机构" :value="3"></el-option>
+						</el-select>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 76px;">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.category.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.category, 'background', '#FFFFFF')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 76px;">分类样式</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.category.styleMode" size="small">
+								<el-radio-button :label="1">样式一</el-radio-button>
+								<el-radio-button :label="2">样式二</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">展开收起字体颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.category.expandColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.category, 'expandColor', '#325DFF')">重置</el-button>
+						</div>
+					</div>
+					<template v-if="currentData.category.styleMode == 1">
+						<div class="column-item">
+							<div class="item-label" style="min-width: 76px;">分类位置</div>
+							<div class="item-box">
+								<el-radio-group v-model="currentData.category.position" size="small">
+									<el-radio-button label="left">左侧</el-radio-button>
+									<el-radio-button label="right">右侧</el-radio-button>
+								</el-radio-group>
+							</div>
+						</div>
+						<div class="column-item">
+							<div class="item-label" style="min-width: 76px;">分类圆角</div>
+							<div class="item-box">
+								<el-slider v-model="currentData.category.borderRadius"></el-slider>
+							</div>
+						</div>
+						<div class="column-item">
+							<div class="item-label" style="min-width: 76px;">分类宽度</div>
+							<div class="item-box">
+								<el-radio-group v-model="currentData.category.widthType" size="small">
+									<el-tooltip content="根据分类中文字内容自适应宽度" placement="top" effect="light">
+										<el-radio-button :label="1">自适应宽度</el-radio-button>
+									</el-tooltip>
+									<el-radio-button :label="2">自定义宽度</el-radio-button>
+								</el-radio-group>
+							</div>
+						</div>
+						<div class="column-item" v-if="currentData.category.widthType == 2">
+							<div class="item-label" style="min-width: 96px;">自定义宽度(%)</div>
+							<div class="item-box">
+								<el-slider v-model="currentData.category.widthNumber"></el-slider>
+							</div>
+						</div>
+						<div class="column-item">
+							<div class="item-label" style="min-width: 76px;">上下外边距</div>
+							<div class="item-box">
+								<el-slider v-model="currentData.category.marginTop"></el-slider>
+							</div>
+						</div>
+						<div class="column-item">
+							<div class="item-label" style="min-width: 76px;">左右外边距</div>
+							<div class="item-box">
+								<el-slider v-model="currentData.category.marginLeft" :min="0" :max="50"></el-slider>
+							</div>
+						</div>
+					</template>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 76px;">上下内边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.category.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 76px;">左右内边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.category.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 76px;">成员间距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.category.itemSpace" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 76px;">按钮未选背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.category.btnBackground" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.category, 'btnBackground', '#F6F7FB')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">按钮选中背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.category.btnActiveBackground" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.category, 'btnActiveBackground', '#325DFF')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 116px;">按钮未选字体颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.category.btnColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.category, 'btnColor', '#5A5B6E')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 116px;">按钮选中字体颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.category.btnActiveColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.category, 'btnActiveColor', '#FFFFFF')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 76px;">按钮圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.category.btnBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 90px;">按钮上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.category.btnPaddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 90px;">按钮左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.category.btnPaddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 搜索 -->
+		<el-tabs v-else-if="currentData.type == 'searchDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<el-alert title="1. 搜索内容：会员名称，会员单位名称，活动名称，文章名称，商品名称" type="info" :closable="false"></el-alert>
+					<el-alert title="2. 权限问题：当会员显示权限设置为“会员专属”时，非会员搜索时会员列表和会员单位列表将不显示" type="info" :closable="false"></el-alert>
+					<div class="column-item">
+						<div class="item-label">提示内容</div>
+						<div class="item-box">
+							<el-input placeholder="请输入提示内容" type="text" v-model="currentData.params.placeholder" size="small" clearable></el-input>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 106px;">提示文字颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.placeholderColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'placeholderColor', '#BBBBBB')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 106px;">输入文字颜色</div>
+						<div class="item-box">
+							<el-tooltip content="该效果仅在前端展示" placement="top" effect="light">
+								<el-color-picker v-model="currentData.style.inputColor" size="small"></el-color-picker>
+							</el-tooltip>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'inputColor', '#5A5B6E')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">文字尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.fontSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图标颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.iconColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'iconColor', '#BBBBBB')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.iconSize" controls-position="right" :min="0" :max="100" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 106px;">输入框背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.inputBackground" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'inputBackground', '#FFFFFF')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 106px;">输入框圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.inputBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 106px;">输入框上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.inputPaddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 106px;">输入框左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.inputPaddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 辅助线条 -->
+		<div v-else-if="currentData.type == 'lineDiy'" class="content-form">
+			<div class="form-column" style="overflow-y: auto;">
+				<div class="column-item">
+					<div class="item-label">背景颜色</div>
+					<div class="item-box">
+						<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+						<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">组件圆角</div>
+					<div class="item-box">
+						<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">线条样式</div>
+					<div class="item-box">
+						<el-radio-group v-model="currentData.style.lineStyle" size="small">
+							<el-radio-button label="solid">实线</el-radio-button>
+							<el-radio-button label="dashed">虚线</el-radio-button>
+							<el-radio-button label="dotted">点状</el-radio-button>
+						</el-radio-group>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">线条颜色</div>
+					<div class="item-box">
+						<el-color-picker v-model="currentData.style.lineColor" size="small"></el-color-picker>
+						<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'lineColor', '#000000')">重置</el-button>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">线条高度</div>
+					<div class="item-box">
+						<el-slider v-model="currentData.style.lineHeight" :min="1" :max="50"></el-slider>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">上下边距</div>
+					<div class="item-box">
+						<el-slider v-model="currentData.style.paddingTop"></el-slider>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">左右边距</div>
+					<div class="item-box">
+						<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 辅助空白 -->
+		<div v-else-if="currentData.type == 'blankDiy'" class="content-form">
+			<div class="form-column" style="overflow-y: auto;">
+				<div class="column-item">
+					<div class="item-label">背景颜色</div>
+					<div class="item-box">
+						<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+						<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">组件圆角</div>
+					<div class="item-box">
+						<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">组件高度</div>
+					<div class="item-box">
+						<el-input-number v-model="currentData.style.height" controls-position="right" :min="0" :max="10000" size="small"></el-input-number>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 消息通知 -->
+		<el-tabs v-else-if="currentData.type == 'noticeDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">公告图标</div>
+						<div class="item-box">
+							<img class="box-icon" style="cursor: pointer;" :src="currentData.params.icon" @click="handleSelectImage(currentData.params, 'icon')">
+							<el-radio-group v-model="currentData.params.showImg" size="small">
+								<el-radio-button :label="true">显示</el-radio-button>
+								<el-radio-button :label="false">隐藏</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">公告内容</div>
+						<div class="item-box">
+							<el-input placeholder="请输入内容" type="textarea" v-model="currentData.params.text" size="small" clearable></el-input>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">字体颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.textColor" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'textColor', '#000000')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">文字尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.fontSize" controls-position="right" :min="0" :max="50" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">图标尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.iconSize" controls-position="right" :min="0" :max="100" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 文本组 -->
+		<div v-else-if="currentData.type == 'textDiy'" class="content-form">
+			<div class="form-column" style="overflow-y: auto;">
+				<div class="column-item">
+					<div class="item-label">文本内容</div>
+					<div class="item-box">
+						<el-input placeholder="请输入文本内容" type="textarea" v-model="currentData.style.text" size="small" clearable></el-input>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">背景颜色</div>
+					<div class="item-box">
+						<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+						<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">组件圆角</div>
+					<div class="item-box">
+						<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">字体颜色</div>
+					<div class="item-box">
+						<el-color-picker v-model="currentData.style.textColor" size="small"></el-color-picker>
+						<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'textColor', '#000000')">重置</el-button>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">字体大小</div>
+					<div class="item-box">
+						<el-input-number controls-position="right" v-model="currentData.style.fontSize" :min="10" :max="200" size="small"></el-input-number>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">文本位置</div>
+					<div class="item-box">
+						<el-radio-group v-model="currentData.style.textAlign" size="small">
+							<el-radio-button label="left">居左</el-radio-button>
+							<el-radio-button label="center">居中</el-radio-button>
+							<el-radio-button label="right">居右</el-radio-button>
+						</el-radio-group>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">文本样式</div>
+					<div class="item-box">
+						<el-radio-group v-model="currentData.style.fontStyle" size="small">
+							<el-radio-button label="normal">正常</el-radio-button>
+							<el-radio-button label="italic">斜体</el-radio-button>
+							<el-radio-button label="bold">加粗</el-radio-button>
+						</el-radio-group>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">上下边距</div>
+					<div class="item-box">
+						<el-slider v-model="currentData.style.paddingTop"></el-slider>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="item-label">左右边距</div>
+					<div class="item-box">
+						<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 富文本 -->
+		<el-tabs v-else-if="currentData.type == 'richTextDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<form class="form-column" role="form">
+					<textarea class="editor" id="richTextDiy">{{currentData.params.content}}</textarea>
+				</form>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 警告提示 -->
+		<el-tabs v-else-if="currentData.type == 'warnDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">左侧图标</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.showIcon" size="small">
+								<el-radio-button :label="true">显示</el-radio-button>
+								<el-radio-button :label="false">隐藏</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">关闭按钮</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.closable" size="small">
+								<el-radio-button :label="true">显示</el-radio-button>
+								<el-radio-button :label="false">隐藏</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">标题内容</div>
+						<div class="item-box">
+							<el-input placeholder="请输入标题内容" type="text" v-model="currentData.params.title" size="small" clearable></el-input>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">信息内容</div>
+						<div class="item-box">
+							<el-input placeholder="请输入信息内容" type="textarea" v-model="currentData.params.description" size="small" clearable></el-input>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">主题类型</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.type" size="small">
+								<el-radio-button label="success">成功</el-radio-button>
+								<el-radio-button label="warning">警告</el-radio-button>
+								<el-radio-button label="info">消息</el-radio-button>
+								<el-radio-button label="error">错误</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">主题样式</div>
+						<div class="item-box">
+							<el-radio-group v-model="currentData.params.effect" size="small">
+								<el-radio-button label="light">亮</el-radio-button>
+								<el-radio-button label="dark">暗</el-radio-button>
+							</el-radio-group>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 时间线 -->
+		<el-tabs v-else-if="currentData.type == 'timelineDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<draggable class="column-list" :list="currentData.data" :options="{ animation: 120, handle: '.item-mover', preventOnFilter: false }">
+						<div class="list-item" v-for="(timeline, index) in currentData.data">
+							<div class="item-mover" style="margin-right: 10px;">
+								<img src="/assets/addons/wdsxh/img/drag.png">
+							</div>
+							<div class="item-info">
+								<div class="info-row">
+									<div class="row-label" style="width: 66px;">节点颜色</div>
+									<div class="row-cont">
+										<el-color-picker v-model="timeline.color" size="small"></el-color-picker>
+										<el-button size="mini" @click.stop="handleResetColor(timeline, 'color', '#0FAFFF')">重置</el-button>
+									</div>
+								</div>
+								<div class="info-row">
+									<div class="row-label" style="width: 66px;">选择日期</div>
+									<el-date-picker size="small" v-model="timeline.time" type="date" value-format="yyyy-MM-dd" placeholder="请选择日期"></el-date-picker>
+								</div>
+								<div class="info-row">
+									<div class="row-label" style="width: 66px;">时间显示</div>
+									<el-radio-group v-model="timeline.hide" size="small">
+										<el-radio-button :label="true">显示</el-radio-button>
+										<el-radio-button :label="false">隐藏</el-radio-button>
+									</el-radio-group>
+								</div>
+								<div class="info-row">
+									<div class="row-label" style="width: 66px;">内容</div>
+									<el-input class="row-input" placeholder="请输入内容" type="textarea" v-model="timeline.content" size="small" clearable></el-input>
+								</div>
+							</div>
+							<div class="item-delete el-icon-close" @click="handleDeleteItem(index)"></div>
+						</div>
+					</draggable>
+					<el-button type="primary" class="column-add" icon="el-icon-circle-plus-outline" @click.stop="handleAddItem">添加节点</el-button>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">背景颜色</div>
+						<div class="item-box">
+							<el-color-picker v-model="currentData.style.background" size="small"></el-color-picker>
+							<el-button size="mini" @click.stop="handleResetColor(currentData.style, 'background', '')">重置</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">组件圆角</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.itemBorderRadius"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">上下边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingTop"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">左右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.paddingLeft" :min="0" :max="50"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<!-- 悬浮按钮 -->
+		<el-tabs v-else-if="currentData.type == 'floatDiy'" class="content-form" v-model="currentData.activeName">
+			<el-tab-pane label="内容设置" name="first">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label" style="min-width: 40px;">图标</div>
+						<div class="item-box">
+							<div class="upload-image" v-if="currentData.params.image">
+								<img class="image" :src="currentData.params.image">
+								<div class="delete" @click="handleDeleteImage(currentData.params, 'image')"><i class="el-icon-close"></i></div>
+							</div>
+							<el-button type="primary" size="mini" @click="handleSelectImage(currentData.params, 'image')" v-else>选择图标</el-button>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label" style="min-width: 40px;">类型</div>
+						<el-input class="item-input" placeholder="请选择类型" type="text" v-model="currentData.params.link ? currentData.params.link.title : currentData.params.link" size="small" disabled>
+							<div slot="append" class="input-btn" @click="handleSelectType(currentData.params)">
+								<i class="el-icon-help"></i>
+							</div>
+						</el-input>
+					</div>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="样式设置" name="second">
+				<div class="form-column">
+					<div class="column-item">
+						<div class="item-label">按钮尺寸</div>
+						<div class="item-box">
+							<el-input-number v-model="currentData.style.btnSize" controls-position="right" :min="0" :max="300" size="small"></el-input-number>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">底部边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.bottom"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">右边距</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.right"></el-slider>
+						</div>
+					</div>
+					<div class="column-item">
+						<div class="item-label">透明度</div>
+						<div class="item-box">
+							<el-slider v-model="currentData.style.opacity"></el-slider>
+						</div>
+					</div>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+	</div>
+</div>

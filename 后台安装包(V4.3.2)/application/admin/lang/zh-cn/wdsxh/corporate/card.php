@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'Wechat_id'                 => '微信id',
+    'Share_title'               => '分享标题',
+    'Font_color'                => '字体颜色',
+    'Card_background_image'     => '背景图片',
+    'Name'                      => '姓名',
+    'Avatar'                    => '头像',
+    'Company_name'              => '企业名称',
+    'Company_position'          => '担任职务',
+    'Company_address'           => '企业地址',
+    'Company_lat'               => '纬度',
+    'Company_lng'               => '经度',
+    'Main_business'             => '主营业务',
+    'Mobile'                    => '联系电话',
+    'Wechat_number'             => '微信号',
+    'Company_introduction'      => '企业介绍',
+    'Is_default'                => '是否默认名片',
+    'Is_default 1'              => '是',
+    'Is_default 2'              => '否',
+    'Is_hide_avatar'            => '隐藏名片头像',
+    'Is_hide_avatar 1'          => '是',
+    'Is_hide_avatar 2'          => '否',
+    'Is_wechat_number_public'   => '微信号是否对外',
+    'Is_wechat_number_public 1' => '是',
+    'Is_wechat_number_public 2' => '否',
+    'Image'                     => '名片',
+    'Createtime'                => '创建时间',
+    'Updatetime'                => '更新时间'
+];

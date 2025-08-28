@@ -1,0 +1,29 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Promotion_img')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-promotion_img" class="form-control" size="50" name="row[promotion_img]" type="text" value="{$row.promotion_img|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-promotion_img" class="btn btn-danger faupload" data-input-id="c-promotion_img" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-promotion_img"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-promotion_img" class="btn btn-primary fachoose" data-input-id="c-promotion_img" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-promotion_img"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-promotion_img"></ul>
+        </div>
+        <div></div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            背景图建议尺寸: 宽248px 高241px
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed">{:__('OK')}</button>
+        </div>
+    </div>
+</form>

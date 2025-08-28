@@ -1,0 +1,480 @@
+<div class="container-main">
+    <!-- 顶部更新信息 -->
+    <div class="container-main-top">
+        <div class="main-top-box">
+            <div class="top-box-title">产品名称:</div>
+            <div class="top-box-name">沃德商协会2.0系统</div>
+        </div>
+        <div class="main-top-box">
+            <div class="top-box-title">版本号:</div>
+            <div class="top-box-name">{$product_info.version}</div>
+            <div class="top-box-button">检查更新</div>
+        </div>
+        <div class="main-top-box">
+            <div class="top-box-code">授权码:</div>
+            {if $product_info.code}
+            <div class="top-box-name">{$product_info.code}</div>
+            {else}
+            <input type="text" class="top-box-name-code" value="{$product_info.code|htmlentities}">
+            {/if}
+            {if $product_info.code == ''}
+            <div class="top-box-button-code">授权编码</div>
+            {/if}
+        </div>
+        <div class="main-top-box">
+            <div class="top-box-title">开发商:</div>
+            <div class="top-box-name">青岛麦沃德网络科技有限公司</div>
+        </div>
+    </div>
+    <!-- 更新时间树 -->
+    <div class="container-main-content">
+        <div class="main-content-title">更新日志</div>
+        <div id="timeline">
+            <ul>
+                {volist name="version_list" id="vo"}
+                <li>
+                    <div class="content">
+                        <div class="content-date">{$vo.createtime|date="Y-m-d",###}</div>
+                        <div class="content-box">
+                            <div class="box-version">
+                                <div class="box-version-num">{$vo.version}</div>
+                                <div class="box-version-info">{$vo.introduction}</div>
+                            </div>
+                            <div class="box-txt">
+                                {$vo.log_content}
+                            </div>
+                            <!-- 添加下载按钮 -->
+                            {if !empty($vo['zip_url'])}
+                            <div class="box-download">
+                                <a href="{:url('wdsxh/upgrade/down_mini_zip',['version' => $vo.version])}" download="{$vo.version}.zip" class="download-btn">下载微信小程序代码</a>
+                            </div>
+                            {/if}
+                        </div>
+                    </div>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+        <div class="main-content-bottom">
+            <div class="main-content-bottom-button">查看更多</div>
+        </div>
+    </div>
+    <!-- 更新弹窗 -->
+    <div class="renew-popup">
+        <div class="popup-content">
+            <div class="popup-content-title">
+                <div class="title-txt">发现新版本</div>
+                <div class="title-num">V2.1.1</div>
+            </div>
+            <div class="popup-content-info">
+                <div class="info-title">沃德商协会邀您体验新版本</div>
+                <div id="log" style="padding-top: 16px;">
+
+                </div>
+                <div class="info-button" onclick="handleUpdate()">立即更新</div>
+                <div class="info-buttons" onclick="handleNoUpdate()">暂不更新</div>
+            </div>
+        </div>
+    </div>
+    <div class="latest-popup">
+        <div class="popup-content" id="latest-version">
+            V2.1.1已是最新版本
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .container-main {
+        padding: 9px;
+    }
+
+    .container-main .container-main-top {
+        padding: 26px 32px 6px 32px;
+        background: #FFFFFF;
+    }
+
+    /*  */
+    .container-main .container-main-top .main-top-box {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .container-main .container-main-top .main-top-box .top-box-title {
+        width: 100px;
+        line-height: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333333;
+    }
+
+    .top-box-code{
+        width: 100px;
+        line-height: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333333;
+    }
+
+    .container-main .container-main-top .main-top-box .top-box-name {
+        padding-left: 16px;
+        line-height: 20px;
+        font-size: 14px;
+        color: #5A5B6E;
+    }
+
+    .top-box-name-code {
+        /*padding-left: 16px;*/
+        line-height: 30px;
+        font-size: 20px;
+        color: #5A5B6E;
+    }
+
+    .container-main .container-main-top .main-top-box .top-box-button {
+        margin-left: 32px;
+        padding: 6px 8px;
+        font-size: 12px;
+        border-radius: 4px;
+        color: #FFFFFF;
+        background: #325DFF;
+    }
+
+    .top-box-button-code {
+        margin-left: 32px;
+        padding: 6px 8px;
+        font-size: 12px;
+        border-radius: 4px;
+        color: #FFFFFF;
+        background: #325DFF;
+    }
+
+    .container-main-content {
+        margin-top: 16px;
+        padding: 16px 24px;
+        background: #FFFFFF;
+    }
+
+    .container-main-content .main-content-title {
+        line-height: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333333;
+    }
+
+    .container-main-content .main-content-bottom {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 48px;
+    }
+
+    .container-main-content .main-content-bottom .main-content-bottom-button {
+        width: 112px;
+        padding: 12px 24px;
+        border-radius: 27px;
+        text-align: center;
+        background: #325DFF;
+        color: #ffff;
+    }
+
+    .latest-popup {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .latest-popup .popup-content{
+        margin: 15% auto;
+        width: 500px;
+        padding: 60px 0px;
+        border-radius: 8px;
+        background: linear-gradient(270deg, #325DFF 0%, #819BFF 100%);
+        font-size: 36px;
+        line-height: 50px;
+        color: #FFFFFF;
+        text-align: center;
+    }
+
+    .renew-popup {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .renew-popup .popup-content {
+        margin: 8% auto;
+        width: 500px;
+    }
+
+    .renew-popup .popup-content .popup-content-title {
+        padding: 32px;
+        border-radius: 8px 8px 0px 0px;
+        background: linear-gradient(270deg, #325DFF 0%, #819BFF 100%);
+    }
+
+    .renew-popup .popup-content .popup-content-title .title-txt {
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 50px;
+        color: #FFFFFF;
+    }
+
+    .renew-popup .popup-content .popup-content-title .title-num {
+        padding-top: 16px;
+        font-size: 16px;
+        line-height: 22px;
+        color: #FFFFFF;
+    }
+
+    .renew-popup .popup-content .popup-content-info {
+        padding: 32px;
+        border-radius: 0px 0px 8px 8px;
+        background: #FFFFFF;
+    }
+
+    .renew-popup .popup-content .popup-content-info .info-title {
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 24px;
+        color: #5A5B6E;
+    }
+
+    .renew-popup .popup-content .popup-content-info .info-button {
+        margin-top: 16px;
+        padding: 21px 0px;
+        border-radius: 8px;
+        background: #325DFF;
+        color: #FFFFFF;
+        font-size: 16px;
+        line-height: 22px;
+        text-align: center;
+    }
+
+    .renew-popup .popup-content .popup-content-info .info-buttons {
+        margin-top: 16px;
+        color: #8D929C;
+        font-size: 16px;
+        line-height: 22px;
+        text-align: center;
+    }
+
+    #timeline {
+        position: relative;
+        margin: 0 auto;
+        padding: 25px;
+        width: 1000px;
+        /* 设置一个最小高度，以防没有内容时高度为0  */
+        min-height: 300px;
+        box-sizing: border-box;
+    }
+
+    #timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        width: 8px;
+        height: 100%;
+        /* 使用百分比来撑开整个高度 */
+        background: #F0F0F0;
+    }
+
+    #timeline ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    #timeline ul li {
+        list-style: none;
+        line-height: normal;
+        position: relative;
+        width: 50%;
+        padding: 20px 40px;
+        box-sizing: border-box;
+    }
+
+    #timeline ul li:nth-child(odd) {
+        float: left;
+        text-align: right;
+        clear: both;
+    }
+
+    #timeline ul li:nth-child(even) {
+        float: right;
+        text-align: left;
+        clear: both;
+    }
+
+    #timeline ul li:nth-child(odd)::before {
+        content: '';
+        position: absolute;
+        top: 24px;
+        right: -12px;
+        width: 16px;
+        height: 16px;
+        background: #325DFF;
+        border-radius: 50%;
+        box-shadow: 0 0 0 3px #E4EDFF;
+    }
+
+    #timeline ul li:nth-child(even)::before {
+        content: '';
+        position: absolute;
+        top: 24px;
+        left: -4px;
+        width: 16px;
+        height: 16px;
+        background: #325DFF;
+        border-radius: 50%;
+        box-shadow: 0 0 0 3px #E4EDFF;
+    }
+
+    #timeline ul li .time h4 {
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+    }
+
+    #timeline ul li:nth-child(odd) .time {
+        position: absolute;
+        top: 10px;
+        right: -165px;
+        margin: 0;
+        padding: 8px 16px;
+        background: rgba(71, 68, 59, 1);
+        color: white;
+        border-radius: 18px;
+        box-shadow: 0 0 0 3px rgba(71, 68, 59, 0.2);
+    }
+
+    #timeline ul li:nth-child(even) .time {
+        position: absolute;
+        top: 10px;
+        left: -165px;
+        margin: 0;
+        padding: 8px 16px;
+        background: rgba(71, 68, 59, 1);
+        color: white;
+        border-radius: 18px;
+        box-shadow: 0 0 0 3px rgba(71, 68, 59, 0.2);
+    }
+
+    #timeline ul li .content {}
+
+    #timeline ul li .content .content-date {
+        padding: 8px 16px;
+        border-radius: 8px 8px 0px 0px;
+        text-align: left;
+        font-size: 14px;
+        line-height: 20px;
+        color: #ffff;
+        background: #325DFF;
+    }
+
+    #timeline ul li .content .content-box {
+        padding: 16px;
+        border-radius: 0px 0px 8px 8px;
+        background: #F7F8FB;
+    }
+
+    #timeline ul li .content .content-box .box-version {
+        display: flex;
+        align-items: center;
+    }
+
+    #timeline ul li .content .content-box .box-version .box-version-num {
+        font-size: 16px;
+        line-height: 22px;
+        font-weight: 600;
+        color: #325DFF;
+    }
+
+    #timeline ul li .content .content-box .box-version .box-version-info {
+        padding-left: 8px;
+        font-size: 12px;
+        line-height: 17px;
+        color: #8D929C;
+    }
+
+    #timeline ul li .content .content-box .box-txt {
+        padding-top: 16px;
+        font-size: 14px;
+        line-height: 24px;
+        color: #5A5B6E;
+        text-align: left;
+    }
+</style>
+<script>
+    let window_bg = document.getElementsByClassName("renew-popup")[0]
+    // let window_bg = document.getElementsByClassName("latest-popup")[0]
+
+    function handleNoUpdate() {
+        window_bg.style.display = "none"
+    }
+    function handleUpdate() {
+        window_bg.style.display = "none"
+    }
+    window.onclick = function (event) {
+        if (event.target == window_bg) {
+            event.target.style.display = "none"
+        }
+    }
+    // function show() {
+    //     window_bg.style.display = "block"
+    // }
+
+    // 获取需要操作的元素
+    const timeline = document.getElementById('timeline');
+    const ul = timeline.querySelector('ul');
+    const listItems = timeline.querySelectorAll('li');
+    const showMoreButton = document.querySelector('.main-content-bottom-button');
+
+    // 初始状态下，隐藏除了前两个以外的所有li元素
+    for (let i = 2; i < listItems.length; i++) {
+        listItems[i].style.display = 'none';
+    }
+
+    // 点击 "查看更多" 按钮时的事件处理函数
+    showMoreButton.addEventListener('click', function () {
+        // 显示所有li元素
+        listItems.forEach(item => {
+            item.style.display = 'block';
+        });
+
+        // 隐藏 "查看更多" 按钮
+        this.style.display = 'none';
+
+        // 重新计算时间轴高度
+        adjustTimelineHeight();
+    });
+
+    function adjustTimelineHeight() {
+        let totalHeight = 0;
+
+        // 遍历每个 li 元素，获取内容区域的高度并累加到 totalHeight
+        listItems.forEach(item => {
+            const content = item.querySelector('.content');
+            const contentHeight = content.offsetHeight; // 获取内容区域的高度
+            item.style.height = `${contentHeight}px`; // 设置 li 的高度为内容区域的高度
+            totalHeight += contentHeight;
+        });
+
+        // 设置 ul 元素的高度为总高度
+        ul.style.height = `${totalHeight}px`;
+    }
+
+    // 页面加载完毕时调用
+    document.addEventListener('DOMContentLoaded', adjustTimelineHeight);
+</script>

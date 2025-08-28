@@ -1,0 +1,209 @@
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation"  class="active"><a href="#search_engine_optimization" aria-controls="search_engine_optimization" data-toggle="tab">基础信息</a></li>
+            <li role="presentation"><a href="#introduce" aria-controls="introduce" role="tab" data-toggle="tab">商会介绍</a></li>
+            <li role="presentation"><a href="#applet" aria-controls="applet" role="tab" data-toggle="tab">顶部图片</a></li>
+        </ul>
+    </div>
+    <form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+        <div class="tab-content">
+            <!--商会介绍-->
+            <div role="tabpanel" class="tab-pane" id="introduce">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Introduce')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <textarea id="c-introduce" class="form-control" rows="3" name="row[introduce]" cols="30">{$row.introduce|htmlentities}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Image')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-image" class="form-control" size="50" name="row[image]" type="text" value="{$row.image|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-image" class="btn btn-danger faupload" data-input-id="c-image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-image" class="btn btn-primary fachoose" data-input-id="c-image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-image"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-image"></ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Background_image')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-background_image" class="form-control" size="50" name="row[background_image]" type="text" value="{$row.background_image|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-background_image" class="btn btn-danger faupload" data-input-id="c-background_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-background_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-background_image" class="btn btn-primary fachoose" data-input-id="c-background_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-background_image"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-background_image"></ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Applet_qr_code')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-applet_qr_code" class="form-control" size="50" name="row[applet_qr_code]" type="text" value="{$row.applet_qr_code|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-applet_qr_code" class="btn btn-danger faupload" data-input-id="c-applet_qr_code" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-applet_qr_code"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-applet_qr_code" class="btn btn-primary fachoose" data-input-id="c-applet_qr_code" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-applet_qr_code"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-applet_qr_code"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--顶部图片-->
+            <div role="tabpanel" class="tab-pane" id="applet">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Association_image')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-association_image" class="form-control" size="50" name="row[association_image]" type="text" value="{$row.association_image|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-association_image" class="btn btn-danger faupload" data-input-id="c-association_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-association_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-association_image" class="btn btn-primary fachoose" data-input-id="c-association_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-association_image"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-association_image"></ul>
+                            <div style="color: #f11414">图片建议尺寸(1920*420)</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Member_image')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-member_image" class="form-control" size="50" name="row[member_image]" type="text" value="{$row.member_image|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-member_image" class="btn btn-danger faupload" data-input-id="c-member_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-member_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-member_image" class="btn btn-primary fachoose" data-input-id="c-member_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-member_image"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-member_image"></ul>
+                            <div style="color: #f11414">图片建议尺寸(1920*420)</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Activity_image')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-activity_image" class="form-control" size="50" name="row[activity_image]" type="text" value="{$row.activity_image|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-activity_image" class="btn btn-danger faupload" data-input-id="c-activity_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-activity_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-activity_image" class="btn btn-primary fachoose" data-input-id="c-activity_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-activity_image"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-activity_image"></ul>
+                            <div style="color: #f11414">图片建议尺寸(1920*420)</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Business_image')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-business_image" class="form-control" size="50" name="row[business_image]" type="text" value="{$row.business_image|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-business_image" class="btn btn-danger faupload" data-input-id="c-business_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-business_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-business_image" class="btn btn-primary fachoose" data-input-id="c-business_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-business_image"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-business_image"></ul>
+                            <div style="color: #f11414">图片建议尺寸(1920*420)</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Article_image')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-article_image" class="form-control" size="50" name="row[article_image]" type="text" value="{$row.article_image|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-article_image" class="btn btn-danger faupload" data-input-id="c-article_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-article_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-article_image" class="btn btn-primary fachoose" data-input-id="c-article_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-article_image"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-article_image"></ul>
+                            <div style="color: #f11414">图片建议尺寸(1920*420)</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Contact_image')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-contact_image" class="form-control" size="50" name="row[contact_image]" type="text" value="{$row.contact_image|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-contact_image" class="btn btn-danger faupload" data-input-id="c-contact_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-contact_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-contact_image" class="btn btn-primary fachoose" data-input-id="c-contact_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-contact_image"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-contact_image"></ul>
+                            <div style="color: #f11414">图片建议尺寸(1920*420)</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Album_image')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-album_image" class="form-control" size="50" name="row[album_image]" type="text" value="{$row.album_image|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-album_image" class="btn btn-danger faupload" data-input-id="c-album_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-album_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-album_image" class="btn btn-primary fachoose" data-input-id="c-album_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-album_image"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-album_image"></ul>
+                            <div style="color: #f11414">图片建议尺寸(1920*420)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--搜索引擎优化-->
+            <div role="tabpanel" class="tab-pane active" id="search_engine_optimization">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">标题:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-title" class="form-control" name="row[title]" type="text" value="{$row.title|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">关键词:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-keywords" class="form-control" name="row[keywords]" type="text" value="{$row.keywords|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">描述:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-description" class="form-control" name="row[description]" type="text" value="{$row.description|htmlentities}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group layer-footer">
+                <label class="control-label col-xs-12 col-sm-2"></label>
+                <div class="col-xs-12 col-sm-8">
+                    <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+                    <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

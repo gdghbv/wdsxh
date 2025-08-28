@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Page-Enter" content="blendTrans(Duration=0.5)" />
+  <title>首页</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <link rel="stylesheet" href="__CDN__/assets/addons/wdsxh/css/normalize.css" />
+  <link rel="stylesheet" href="__CDN__/assets/addons/wdsxh/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="__CDN__/assets/addons/wdsxh/css/public.css" />
+  <link rel="stylesheet" href="__CDN__/assets/addons/wdsxh/css/index.css" />
+</head>
+
+<body>
+  <div class="index-container container-fluid">
+    <!-- 头部导航栏模块 -->
+    <header class="container-header" data-type="index">{include file="header" /}</header>
+    <!-- 轮播图 -->
+    <article id="carouselExampleIndicators" class="container-carousel carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators"></ol>
+      <div class="carousel-inner"></div>
+    </article>
+    <!-- 内容区 -->
+    <main class="container-main">
+      <!-- 介绍 -->
+      <div class="main-column column-1 row">
+        <div class="col-2"></div>
+        <div class="col-8">
+          <div class="flex justify-content-between align-items-center">
+            <div class="column-title">
+              <span class="title"><i class="versionName"></i>介绍</span>
+              <span class="subtitle">brief introduction</span>
+            </div>
+            <a href="{:addon_url('wdsxh/index/about')}" class="column-more">
+              <span>查看更多</span>
+              <img src="__CDN__/assets/addons/wdsxh/img/more.png">
+            </a>
+          </div>
+          <div class="column-cont flex">
+            <div class="cont-left txthide-more"></div>
+            <div class="cont-right">
+              <img>
+            </div>
+          </div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      <!-- 申请加入 -->
+      <div class="main-column column-2 row">
+        <div class="column-bg"><img></div>
+        <div class="col-2"></div>
+        <div class="col-8">
+          <div class="column-title">
+            欢迎加入
+            <span></span>
+          </div>
+          <div class="column-subtitle">— 期待您的加入 —</div>
+          <button type="button" class="column-apply" data-toggle="modal" data-target="#codeModal">
+            <span>立即申请</span>
+            <img src="__CDN__/assets/addons/wdsxh/img/right.png">
+          </button>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      <!-- 会员风采 -->
+      <div class="main-column column-3 row">
+        <div class="col-2"></div>
+        <div class="col-8">
+          <div class="flex justify-content-between align-items-center">
+            <div class="column-title">
+              <span class="title">会员风采</span>
+              <span class="subtitle">Membership</span>
+            </div>
+            <a href="{:addon_url('wdsxh/index/membership')}" class="column-more">
+              <span>查看更多</span>
+              <img src="__CDN__/assets/addons/wdsxh/img/more.png">
+            </a>
+          </div>
+          <div class="column-cont flex"></div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      <!-- 商会活动 -->
+      <div class="main-column column-4 row">
+        <div class="col-2"></div>
+        <div class="col-8">
+          <div class="flex justify-content-between align-items-center">
+            <div class="column-title">
+              <span class="title"><i class="versionName"></i>活动</span>
+              <span class="subtitle">activity</span>
+            </div>
+            <a href="{:addon_url('wdsxh/index/activity')}" class="column-more">
+              <span>查看更多</span>
+              <img src="__CDN__/assets/addons/wdsxh/img/more.png">
+            </a>
+          </div>
+          <div class="column-cont flex flex-wrap"></div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      <!-- 活动相册 -->
+      <div class="main-column column-5 row">
+        <div class="col-2"></div>
+        <div class="col-8">
+          <div class="flex justify-content-between align-items-center">
+            <div class="column-title">
+              <span class="title">活动相册</span>
+              <span class="subtitle">Activity album</span>
+            </div>
+            <a href="{:addon_url('wdsxh/index/album')}" class="column-more">
+              <span>查看更多</span>
+              <img src="__CDN__/assets/addons/wdsxh/img/more.png">
+            </a>
+          </div>
+          <div class="column-cont flex"></div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      <!-- 新闻列表1 -->
+      <div class="main-column column-6 row">
+        <div class="col-2"></div>
+        <div class="col-8">
+          <div class="flex justify-content-between align-items-center">
+            <div class="column-title">
+              <span class="title"></span>
+            </div>
+            <a href="{:addon_url('wdsxh/index/news')}?type=0" class="column-more">
+              <span>查看更多</span>
+              <img src="__CDN__/assets/addons/wdsxh/img/more.png">
+            </a>
+          </div>
+          <div class="column-cont"></div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      <!-- 新闻列表2/新闻列表3 -->
+      <div class="main-column column-7 row">
+        <div class="col-2"></div>
+        <div class="col-8 flex justify-content-between flex-wrap">
+          <div class="column-left">
+            <div class="flex justify-content-between align-items-center">
+              <div class="column-title">
+                <span class="title"></span>
+              </div>
+              <a href="{:addon_url('wdsxh/index/news')}?type=1" class="column-more">
+                <span>查看更多</span>
+                <img src="__CDN__/assets/addons/wdsxh/img/more.png">
+              </a>
+            </div>
+            <div class="column-cont"></div>
+          </div>
+          <div class="column-right">
+            <div class="flex justify-content-between align-items-center">
+              <div class="column-title">
+                <span class="title"></span>
+              </div>
+              <a href="{:addon_url('wdsxh/index/news')}?type=2" class="column-more">
+                <span>查看更多</span>
+                <img src="__CDN__/assets/addons/wdsxh/img/more.png">
+              </a>
+            </div>
+            <div class="column-cont"></div>
+          </div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+    </main>
+    <!-- 底部 -->
+    <footer class="container-footer">{include file="footer" /}</footer>
+    <!-- 小程序码模态框 -->
+    <div class="modal fade" id="codeModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">小程序二维码</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="tips">扫描二维码进入小程序</div>
+            <img class="code">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="__CDN__/assets/addons/wdsxh/common/jquery.min.js"></script>
+  <script src="__CDN__/assets/addons/wdsxh/common/bootstrap.min.js"></script>
+  <script src="__CDN__/assets/addons/wdsxh/js/main.js"></script>
+  <script src="__CDN__/assets/addons/wdsxh/js/public.js"></script>
+  <script src="__CDN__/assets/addons/wdsxh/js/index.js"></script>
+</body>
+
+</html>

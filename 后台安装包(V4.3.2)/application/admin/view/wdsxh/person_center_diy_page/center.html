@@ -1,0 +1,201 @@
+<div class="main-center">
+  <div class="center-box" style="background: url('/assets/addons/wdsxh/img/phone-bg.png') no-repeat center / contain;">
+    <div class="box-phone" :style="{backgroundColor: selectPageStyle.backgroundColor}">
+      <div class="phone-header" :style="{backgroundImage: `url(${selectPageStyle.backgroundImage})`}" @click="handleEdit(-1)" :class="{selected: -1 == selectedIndex}">
+        <div class="header-status">
+          <img class="status-camera" src="/assets/addons/wdsxh/img/phone-camera.png">
+          <img class="status-bar" :src="`/assets/addons/wdsxh/img/${selectPageStyle.titleTextColor}.png`">
+        </div>
+        <div class="header-title" :style="{color: selectPageStyle.titleTextColor}">{{ pageData.pageTitle }}</div>
+        <div class="header-column layout-1" v-if="pageData.pageLayout == 1">
+          <div class="column-user">
+            <img class="user-avatar" src="/assets/addons/wdsxh/img/mine/avatar.png">
+            <div class="user-info">
+              <div class="info-name" :style="{color: selectPageStyle.titleTextColor == 'black' ? '#5A5B6E' : selectPageStyle.titleTextColor}">用户001</div>
+              <div class="info-number" :style="{color: selectPageStyle.titleTextColor == 'black' ? '#5A5B6E' : selectPageStyle.titleTextColor}">188****8888</div>
+            </div>
+          </div>
+          <div class="column-member" v-if="!selectPageStyle.hideMember">
+            <div class="member-image">
+              <img class="image-circular" src="/assets/addons/wdsxh/img/mine/member_bg.png">
+              <img class="image-auth" src="/assets/addons/wdsxh/img/mine/member_blue.png">
+            </div>
+            <div class="member-box">
+              <div class="box-title">
+                <span class="title">会员</span>
+                <span class="subtitle"> | 到期时间{{currentDate || "2025/01/01"}}</span>
+              </div>
+              <div class="box-btn">
+                <span class="text">电子会牌</span>
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="none">
+                  <path d="M6 0.5C4.81331 0.5 3.65327 0.851894 2.66658 1.51118C1.67988 2.17047 0.910851 3.10754 0.456725 4.2039C0.00259974 5.30025 -0.11622 6.50665 0.115291 7.67054C0.346802 8.83442 0.918246 9.90352 1.75736 10.7426C2.59648 11.5817 3.66557 12.1532 4.82946 12.3847C5.99334 12.6162 7.19974 12.4974 8.2961 12.0433C9.39245 11.5891 10.3295 10.8201 10.9888 9.83341C11.6481 8.84672 12 7.68668 12 6.5C11.9982 4.90925 11.3655 3.38416 10.2407 2.25933C9.11583 1.1345 7.59075 0.501787 6 0.5ZM6 11.3C5.05065 11.3 4.12262 11.0185 3.33326 10.491C2.54391 9.96362 1.92868 9.21396 1.56538 8.33687C1.20208 7.45979 1.10702 6.49467 1.29223 5.56356C1.47744 4.63245 1.9346 3.77718 2.60589 3.10589C3.27718 2.43459 4.13246 1.97744 5.06357 1.79223C5.99467 1.60702 6.95979 1.70208 7.83688 2.06538C8.71396 2.42868 9.46362 3.04391 9.99105 3.83326C10.5185 4.62262 10.8 5.55065 10.8 6.5C10.7985 7.77259 10.2924 8.99264 9.3925 9.8925C8.49264 10.7924 7.27259 11.2985 6 11.3Z" fill="currentColor" />
+                  <path d="M4.3252 3.96463L6.95494 6.50013L4.3252 9.03588L5.19044 9.86988L8.68694 6.50013L5.19044 3.12988L4.3252 3.96463Z" fill="currentColor" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="header-column layout-2" v-if="pageData.pageLayout == 2">
+          <div class="column-user">
+            <img class="user-avatar" src="/assets/addons/wdsxh/img/mine/avatar.png">
+            <div class="user-info">
+              <div class="info-name" :style="{color: selectPageStyle.titleTextColor == 'black' ? '#5A5B6E' : selectPageStyle.titleTextColor}">用户001</div>
+              <div class="info-number" :style="{color: selectPageStyle.titleTextColor == 'black' ? '#5A5B6E' : selectPageStyle.titleTextColor}">188****8888</div>
+            </div>
+          </div>
+          <div class="column-member" v-if="!selectPageStyle.hideMember">
+            <img class="box-icon" src="/assets/addons/wdsxh/img/mine/auth.png">
+            <div class="box-title">
+              <span class="title">会员</span>
+              <span class="subtitle">到期时间{{currentDate || "2025/01/01"}}</span>
+            </div>
+            <div class="box-btn">
+              <span class="text">电子会牌</span>
+              <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="none">
+                <path d="M6 0.5C4.81331 0.5 3.65327 0.851894 2.66658 1.51118C1.67988 2.17047 0.910851 3.10754 0.456725 4.2039C0.00259974 5.30025 -0.11622 6.50665 0.115291 7.67054C0.346802 8.83442 0.918246 9.90352 1.75736 10.7426C2.59648 11.5817 3.66557 12.1532 4.82946 12.3847C5.99334 12.6162 7.19974 12.4974 8.2961 12.0433C9.39245 11.5891 10.3295 10.8201 10.9888 9.83341C11.6481 8.84672 12 7.68668 12 6.5C11.9982 4.90925 11.3655 3.38416 10.2407 2.25933C9.11583 1.1345 7.59075 0.501787 6 0.5ZM6 11.3C5.05065 11.3 4.12262 11.0185 3.33326 10.491C2.54391 9.96362 1.92868 9.21396 1.56538 8.33687C1.20208 7.45979 1.10702 6.49467 1.29223 5.56356C1.47744 4.63245 1.9346 3.77718 2.60589 3.10589C3.27718 2.43459 4.13246 1.97744 5.06357 1.79223C5.99467 1.60702 6.95979 1.70208 7.83688 2.06538C8.71396 2.42868 9.46362 3.04391 9.99105 3.83326C10.5185 4.62262 10.8 5.55065 10.8 6.5C10.7985 7.77259 10.2924 8.99264 9.3925 9.8925C8.49264 10.7924 7.27259 11.2985 6 11.3Z" fill="currentColor" />
+                <path d="M4.3252 3.96463L6.95494 6.50013L4.3252 9.03588L5.19044 9.86988L8.68694 6.50013L5.19044 3.12988L4.3252 3.96463Z" fill="currentColor" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="header-column layout-3" v-if="pageData.pageLayout == 3">
+          <div class="column-card">
+            <div class="card-top">
+              <div class="top-user">
+                <div class="user-info">
+                  <div class="info-name">用户001</div>
+                  <div class="info-number">188****8888</div>
+                </div>
+                <img class="user-avatar" src="/assets/addons/wdsxh/img/mine/avatar.png">
+              </div>
+              <div class="top-label" v-if="!selectPageStyle.hideMember">
+                <div class="bg"></div>
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M8.90473 2.745V3.115L7.13473 2.09C6.46473 1.705 5.52973 1.705 4.86473 2.09L3.09473 3.12V2.745C3.09473 1.62 3.70973 1 4.83473 1H7.16473C8.28973 1 8.90473 1.62 8.90473 2.745Z" fill="currentColor" />
+                  <path d="M8.92 3.98512L8.85 3.95012L8.17 3.56012L6.76 2.74512C6.33 2.49512 5.67 2.49512 5.24 2.74512L3.83 3.55512L3.15 3.95512L3.06 4.00012C2.185 4.59012 2.125 4.70012 2.125 5.64512V7.90512C2.125 8.85012 2.185 8.96012 3.08 9.56512L5.24 10.8101C5.455 10.9401 5.725 10.9951 6 10.9951C6.27 10.9951 6.545 10.9351 6.76 10.8101L8.94 9.55012C9.82 8.96012 9.875 8.85512 9.875 7.90512V5.64512C9.875 4.70012 9.815 4.59012 8.92 3.98512ZM7.395 6.75012L7.09 7.12512C7.04 7.18012 7.005 7.28512 7.01 7.36012L7.04 7.84012C7.06 8.13512 6.85 8.28512 6.575 8.18012L6.13 8.00012C6.06 7.97512 5.945 7.97512 5.875 8.00012L5.43 8.17512C5.155 8.28512 4.945 8.13012 4.965 7.83512L4.995 7.35512C5 7.28012 4.965 7.17512 4.915 7.12012L4.605 6.75012C4.415 6.52512 4.5 6.27512 4.785 6.20012L5.25 6.08012C5.325 6.06012 5.41 5.99012 5.45 5.93012L5.71 5.53012C5.87 5.28012 6.125 5.28012 6.29 5.53012L6.55 5.93012C6.59 5.99512 6.68 6.06012 6.75 6.08012L7.215 6.20012C7.5 6.27512 7.585 6.52512 7.395 6.75012Z" fill="currentColor" />
+                </svg>
+                <span class="text">会员</span>
+              </div>
+              <div class="top-icon">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="58" height="53" viewBox="0 0 58 53" fill="none">
+                  <path d="M34 0H58L24 53H0L34 0Z" fill="url(#paint0_linear_95_16249)" />
+                  <defs>
+                    <linearGradient id="paint0_linear_95_16249" x1="21" y1="0" x2="21" y2="53" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="currentColor" stop-opacity="0.2" />
+                      <stop offset="1" stop-color="currentColor" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="58" height="53" viewBox="0 0 58 53" fill="none">
+                  <path d="M34 0H58L24 53H0L34 0Z" fill="url(#paint0_linear_95_16249)" />
+                  <defs>
+                    <linearGradient id="paint0_linear_95_16249" x1="21" y1="0" x2="21" y2="53" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="currentColor" stop-opacity="0.2" />
+                      <stop offset="1" stop-color="currentColor" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="58" height="53" viewBox="0 0 58 53" fill="none">
+                  <path d="M34 0H58L24 53H0L34 0Z" fill="url(#paint0_linear_95_16249)" />
+                  <defs>
+                    <linearGradient id="paint0_linear_95_16249" x1="21" y1="0" x2="21" y2="53" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="currentColor" stop-opacity="0.2" />
+                      <stop offset="1" stop-color="currentColor" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+            <div class="card-bottom" v-if="!selectPageStyle.hideMember">
+              <div class="box-text">到期时间{{currentDate || "2025/01/01"}}</div>
+              <div class="box-btn">
+                <span class="text">电子会牌</span>
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="none">
+                  <path d="M6 0.5C4.81331 0.5 3.65327 0.851894 2.66658 1.51118C1.67988 2.17047 0.910851 3.10754 0.456725 4.2039C0.00259974 5.30025 -0.11622 6.50665 0.115291 7.67054C0.346802 8.83442 0.918246 9.90352 1.75736 10.7426C2.59648 11.5817 3.66557 12.1532 4.82946 12.3847C5.99334 12.6162 7.19974 12.4974 8.2961 12.0433C9.39245 11.5891 10.3295 10.8201 10.9888 9.83341C11.6481 8.84672 12 7.68668 12 6.5C11.9982 4.90925 11.3655 3.38416 10.2407 2.25933C9.11583 1.1345 7.59075 0.501787 6 0.5ZM6 11.3C5.05065 11.3 4.12262 11.0185 3.33326 10.491C2.54391 9.96362 1.92868 9.21396 1.56538 8.33687C1.20208 7.45979 1.10702 6.49467 1.29223 5.56356C1.47744 4.63245 1.9346 3.77718 2.60589 3.10589C3.27718 2.43459 4.13246 1.97744 5.06357 1.79223C5.99467 1.60702 6.95979 1.70208 7.83688 2.06538C8.71396 2.42868 9.46362 3.04391 9.99105 3.83326C10.5185 4.62262 10.8 5.55065 10.8 6.5C10.7985 7.77259 10.2924 8.99264 9.3925 9.8925C8.49264 10.7924 7.27259 11.2985 6 11.3Z" fill="currentColor" />
+                  <path d="M4.3252 3.96463L6.95494 6.50013L4.3252 9.03588L5.19044 9.86988L8.68694 6.50013L5.19044 3.12988L4.3252 3.96463Z" fill="currentColor" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-content">
+        <draggable :list="pageData.items" class="content-drag" @update="handleDrag" :options="{animation: 120, filter: '.diy-float' }">
+          <div class="drag-column" v-for="(item, index) in pageData.items">
+            <!-- 商城订单 -->
+            <div v-if="item.type == 'mallOrderDiy'" class="column-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+              <div class="diy-order" :style="{opacity: item.show ? 1 : 0.5}">
+                <div class="order-head">
+                  <span class="head-title">商城订单</span>
+                  <div class="head-btn">查看全部</div>
+                </div>
+                <div class="order-list">
+                  <div class="list-item" v-for="(menu, number) in item.data">
+                    <div class="item-image" :style="{width: `${item.style.iconSize}px`, height: `${item.style.iconSize}px`}">
+                      <img class="image" :src="menu.imgUrl">
+                      <div class="count" v-if="number == 0">1</div>
+                    </div>
+                    <div class="item-text" :style="{fontSize: `${item.style.fontSize}px`, color: item.style.textColor, marginTop: `${item.style.graphicSpace}px`}">{{menu.text}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 我的名片 -->
+            <div v-else-if="item.type == 'cardDiy'" class="column-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+              <div class="diy-card" :style="{opacity: item.show ? 1 : 0.5}">
+                <div class="card-head">
+                  <span class="head-title">我的名片(2)</span>
+                  <div class="head-btn">查看全部</div>
+                </div>
+                <div class="card-list">
+                  <div class="list-item">
+                    <img class="item-image" src="/assets/addons/wdsxh/img/mine/card.png">
+                  </div>
+                  <div class="list-item">
+                    <img class="item-image" src="/assets/addons/wdsxh/img/mine/card.png">
+                  </div>
+                  <div class="list-item">
+                    <img class="item-image" src="/assets/addons/wdsxh/img/mine/card.png">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 导航组 -->
+            <div v-else-if="item.type == 'navDiy'" class="column-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+              <div class="diy-nav" :style="{opacity: item.show ? 1 : 0.5}">
+                <div class="nav-title">{{item.name}}</div>
+                <div class="nav-list" :class="{'vertical-layout': item.style.layout == 2}" :style="{'row-gap': `${item.style.itemSpace}px`}">
+                  <div class="list-item" v-for="(nav, number) in item.data" :style="{width: `calc(100% / ${parseInt(item.style.rowsNum)})`, gap: `${item.style.graphicSpace}px`}">
+                    <div class="item-image" :style="{width: `${item.style.iconSize}px`, height: `${item.style.iconSize}px`}">
+                      <img class="image" :src="nav.imgUrl">
+                    </div>
+                    <div class="item-text" :style="{fontSize: `${item.style.fontSize}px`, color: item.style.textColor}">{{nav.text}}</div>
+                    <i class="item-icon el-icon-arrow-right" :style="{fontSize: `${item.style.fontSize - 2}px`}"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 管理员中心 -->
+            <div v-else-if="item.type == 'adminDiy'" class="column-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+              <div class="diy-nav" :style="{opacity: item.show ? 1 : 0.5}">
+                <div class="nav-title">{{item.name}}</div>
+                <div class="nav-list" :class="{'vertical-layout': item.style.layout == 2}" :style="{'row-gap': `${item.style.itemSpace}px`}">
+                  <div class="list-item" v-for="(nav, number) in item.data" :style="{width: `calc(100% / ${parseInt(item.style.rowsNum)})`, gap: `${item.style.graphicSpace}px`}">
+                    <div class="item-image" :style="{width: `${item.style.iconSize}px`, height: `${item.style.iconSize}px`}">
+                      <img class="image" :src="nav.imgUrl">
+                    </div>
+                    <div class="item-text" :style="{fontSize: `${item.style.fontSize}px`, color: item.style.textColor}">{{nav.text}}</div>
+                    <i class="item-icon el-icon-arrow-right" :style="{fontSize: `${item.style.fontSize - 2}px`}"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </draggable>
+      </div>
+      <div class="phone-footer">
+        <div class="footer-line"></div>
+      </div>
+    </div>
+  </div>
+</div>

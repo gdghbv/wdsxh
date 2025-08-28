@@ -12,7 +12,7 @@
 	export default {
 		globalData: {
 			// 接口地址
-			adminPath: "https://www.example.com",
+			adminPath: "https://xhdemo.funkia.cn",
 			// 入会字段
 			applyField: [],
 		},

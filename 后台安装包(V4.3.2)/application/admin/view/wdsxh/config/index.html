@@ -1,0 +1,383 @@
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#introduce" aria-controls="introduce" role="tab" data-toggle="tab">系统设置</a></li>
+            <li role="presentation"><a href="#applet" aria-controls="applet" role="tab" data-toggle="tab">小程序设置</a></li>
+            <li role="presentation"><a href="#payment" aria-controls="payment" role="tab" data-toggle="tab">支付设置</a></li>
+            <li role="presentation"><a href="#applet_notice" aria-controls="applet_notice" role="tab" data-toggle="tab">小程序消息通知</a></li>
+            <li role="presentation"><a href="#agreement" aria-controls="agreement" role="tab" data-toggle="tab">协议设置</a></li>
+            <li role="presentation"><a href="#record_number" aria-controls="record_number" role="tab" data-toggle="tab">备案号</a></li>
+            <li role="presentation"><a href="#wananchi" aria-controls="wananchi" role="tab" data-toggle="tab">公众号设置</a></li>
+            <li role="presentation"><a href="#data_screen" aria-controls="data_screen" role="tab" data-toggle="tab">数据大屏设置</a></li>
+            <li role="presentation"><a href="#alibaba_cloud" aria-controls="alibaba_cloud" role="tab" data-toggle="tab">阿里云短信服务</a></li>
+        </ul>
+    </div>
+    <form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+        <div class="tab-content">
+            <!--系统设置-->
+            <div role="tabpanel" class="tab-pane active" id="introduce">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Organize')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-organize" class="form-control" name="row[organize]" type="text" value="{$row.organize|htmlentities}">
+                            <span class="help-block">提示：请手动输入组织类型，例如商会，协会，学会，研究会等，小程序会显示相应的组织类型</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Share_title')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-share_title" class="form-control" name="row[share_title]" type="text" value="{$row.share_title|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Share_image')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-share_image" class="form-control" size="50" name="row[share_image]" type="text" value="{$row.share_image|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-share_image" class="btn btn-danger faupload" data-input-id="c-share_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-share_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-share_image" class="btn btn-primary fachoose" data-input-id="c-share_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-share_image"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-share_image"></ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('登录图片')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-login_img" class="form-control" size="50" name="row[login_img]" type="text" value="{$row.login_img|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-login_img" class="btn btn-danger faupload" data-input-id="c-login_img" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-login_img"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-login_img" class="btn btn-primary fachoose" data-input-id="c-login_img" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-login_img"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-login_img"></ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">技术支持图标:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-technical_support_image" class="form-control" size="50" name="row[technical_support_image]" type="text" value="{$row.technical_support_image|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-technical_support_image" class="btn btn-danger faupload" data-input-id="c-technical_support_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-technical_support_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-technical_support_image" class="btn btn-primary fachoose" data-input-id="c-technical_support_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-technical_support_image"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-technical_support_image"></ul>
+                            <div>备注：小程序个人中心使用</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">技术支持跳转类型:</label>
+                        <div class="col-xs-12 col-sm-8">
+
+                            <div class="radio">
+                                {foreach name="jumpTypeList" item="vo"}
+                                <label for="row[jump_type]-{$key|htmlentities}"><input id="row[jump_type]-{$key|htmlentities}" name="row[jump_type]" type="radio" value="{$key|htmlentities}" {in name="key" value="$row.jump_type"}checked{/in} /> {$vo|htmlentities}</label>
+                                {/foreach}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group call_mobile {if $row.jump_type != '2'}hide{/if}">
+                        <label class="control-label col-xs-12 col-sm-2">拨打电话:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-call_mobile" class="form-control" name="row[call_mobile]" type="number" value="{$row.call_mobile|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group jump_link {if $row.jump_type != '3'}hide{/if}">
+                        <label class="control-label col-xs-12 col-sm-2">外部链接:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-jump_link" class="form-control" name="row[jump_link]" type="text" placeholder="输入完整网址链接，如“http://www.baidu.com”" value="{$row.jump_link|htmlentities}">
+                            <span class="help-block">注意：外部链接必须在小程序控制台设置业务域名</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Theme_colors')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="form-inline">
+                                <input id="c-theme_colors" class="form-control" size="50" name="row[theme_colors]" type="text" value="{$row.theme_colors|htmlentities}">
+                                <span><button type="button" id="colorpicker" class="btn btn-danger colorpicker" data-input-id="c-theme_colors"><i class="fa fa-eyedropper"></i> {:__('选择颜色')}</button></span>
+                                <span class="msg-box n-right" for="c-theme_colors"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">文本校验开关:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="radio">
+                                {foreach name="securityTextSwitchList" item="vo"}
+                                <label for="row[security_text_switch]-{$key|htmlentities}"><input id="row[security_text_switch]-{$key|htmlentities}" name="row[security_text_switch]" type="radio" value="{$key|htmlentities}" {in name="key" value="$row.security_text_switch"}checked{/in} /> {$vo|htmlentities}</label>
+                                {/foreach}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--小程序设置-->
+            <div role="tabpanel" class="tab-pane" id="applet">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Applet_appid')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-applet_appid" class="form-control" name="row[applet_appid]" type="text" value="{$row.applet_appid|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Applet_secret')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-applet_secret" class="form-control" name="row[applet_secret]" type="text" value="{$row.applet_secret|htmlentities}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--支付设置-->
+            <div role="tabpanel" class="tab-pane" id="payment">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Mch_id')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-mch_id" class="form-control" name="row[mch_id]" type="text" value="{$row.mch_id|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Key')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-key" class="form-control" name="row[key]" type="text" value="{$row.key|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Cert_path')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-cert_path" class="form-control" size="50" name="row[cert_path]" type="text" value="{$row.cert_path|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-cert_path" class="btn btn-danger faupload" data-input-id="c-cert_path" data-preview-id="p-cert_path"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-cert_path" class="btn btn-primary fachoose" data-input-id="c-cert_path" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                            </div>
+                            <div>
+                                请在 “application/extra/upload.php”,文件中 mimetype(可上传的文件类型)加上'pem'文件类型
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Key_path')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-key_path" class="form-control" size="50" name="row[key_path]" type="text" value="{$row.key_path|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-key_path" class="btn btn-danger faupload" data-input-id="c-key_path" data-preview-id="p-key_path"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-key_path" class="btn btn-primary fachoose" data-input-id="c-key_path" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">发货信息管理:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <select  id="c-delivery_management" class="form-control selectpicker" name="row[delivery_management]">
+                                {foreach name="DeliveryManagementList" item="vo"}
+                                <option value="{$key|htmlentities}" {in name="key" value="$row.delivery_management"}selected{/in}>{$vo|htmlentities}</option>
+                                {/foreach}
+                            </select>
+                            <div style="color: #f11414">
+                                小程序平台有发货管理的菜单就开启这个开关，如果没有发货管理菜单就关闭这个开关
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--小程序消息通知-->
+            <div role="tabpanel" class="tab-pane" id="applet_notice">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Applet_initiation_admin')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-applet_initiation_admin" class="form-control" name="row[applet_initiation_admin]" type="text" value="{$row.applet_initiation_admin|htmlentities}">
+                            <span class="help-block" style="color: #f11414">模板关键词：申请人、联系电话、状态</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Applet_initiation_audit')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-applet_initiation_audit" class="form-control" name="row[applet_initiation_audit]" type="text" value="{$row.applet_initiation_audit|htmlentities}">
+                            <span class="help-block" style="color: #f11414">模板关键词：会员姓名、操作时间、审核状态、备注</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Applet_initiation_success')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-applet_initiation_success" class="form-control" name="row[applet_initiation_success]" type="text" value="{$row.applet_initiation_success|htmlentities}">
+                            <span class="help-block" style="color: #f11414">模板关键词：来自、通过时间、温馨提醒</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Applet_member_expiretime')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-applet_member_expiretime" class="form-control" name="row[applet_member_expiretime]" type="text" value="{$row.applet_member_expiretime|htmlentities}">
+                            <span class="help-block" style="color: #f11414">模板关键词：会员名称、会员类型、到期时间、备注</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Applet_activity_apply')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-applet_activity_apply" class="form-control" name="row[applet_activity_apply]" type="text" value="{$row.applet_activity_apply|htmlentities}">
+                            <span class="help-block" style="color: #f11414">模板关键词：活动名称、付款金额、活动地点、活动时间、联系电话</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">订单发货通知(软件/建站/技术开发):</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-applet_order_shipping_notification" class="form-control" name="row[applet_order_shipping_notification]" type="text" value="{$row.applet_order_shipping_notification|htmlentities}">
+                            <span class="help-block" style="color: #f11414">模板关键词：商品名称、订单号、发货时间、快递单号、订单金额</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">确认收货通知(软件/建站/技术开发):</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-applet_confirm_receipt_notification" class="form-control" name="row[applet_confirm_receipt_notification]" type="text" value="{$row.applet_confirm_receipt_notification|htmlentities}">
+                            <span class="help-block" style="color: #f11414">模板关键词：订单号、付款金额、备注</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--协议设置-->
+            <div role="tabpanel" class="tab-pane" id="agreement">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('User_agreement')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <textarea id="c-user_agreement" class="form-control editor" rows="5" name="row[user_agreement]" cols="50">{$row.user_agreement|htmlentities}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Privacy_policy')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <textarea id="c-privacy_policy" class="form-control editor" rows="5" name="row[privacy_policy]" cols="50">{$row.privacy_policy|htmlentities}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--备案号设置-->
+            <div role="tabpanel" class="tab-pane" id="record_number">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">域名备案号:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-domain_record_number" class="form-control" name="row[domain_record_number]" type="text" value="{$row.domain_record_number|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">小程序备案号:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-applet_record_number" class="form-control" name="row[applet_record_number]" type="text" value="{$row.applet_record_number|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">公安备案号:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-public_security_record_number" class="form-control" name="row[public_security_record_number]" type="text" value="{$row.public_security_record_number|htmlentities}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--公众号设置-->
+            <div role="tabpanel" class="tab-pane" id="wananchi">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Wananchi_appid')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-wananchi_appid" class="form-control" name="row[wananchi_appid]" type="text" value="{$row.wananchi_appid|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Wananchi_secret')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-wananchi_secret" class="form-control" name="row[wananchi_secret]" type="text" value="{$row.wananchi_secret|htmlentities}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--数据大屏设置-->
+            <div role="tabpanel" class="tab-pane" id="data_screen">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">数据大屏标题:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-data_screen_title" class="form-control" name="row[data_screen_title]" type="text" value="{$row.data_screen_title|htmlentities}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--阿里云短信服务-->
+            <div role="tabpanel" class="tab-pane" id="alibaba_cloud">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">阿里云短信签名名称:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-alibaba_cloud_sign_name" class="form-control" name="row[alibaba_cloud_sign_name]" type="text" value="{$row.alibaba_cloud_sign_name|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">阿里云短信AccessKey ID:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-alibaba_cloud_access_key_id" class="form-control" name="row[alibaba_cloud_access_key_id]" type="text" value="{$row.alibaba_cloud_access_key_id|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">阿里云短信accessKey Secret:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-alibaba_cloud_access_key_secret" class="form-control" name="row[alibaba_cloud_access_key_secret]" type="text" value="{$row.alibaba_cloud_access_key_secret|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">入会成功通知短信模板:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-alibaba_initiation_success_notify" class="form-control" name="row[alibaba_initiation_success_notify]" type="text" value="{$row.alibaba_initiation_success_notify|htmlentities}">
+                            <span class="help-block" style="color: #f11414">模板内容：尊敬的${leavelname},欢迎您加入沃德商协会，沃德商协会秘书处随时为您服务，请登录官方小程序沃德商协会进行会员权益查看和使用，感谢您的支持</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">会费即将到期通知短信模板:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-alibaba_member_soon_expiretime_notify" class="form-control" name="row[alibaba_member_soon_expiretime_notify]" type="text" value="{$row.alibaba_member_soon_expiretime_notify|htmlentities}">
+                            <span class="help-block" style="color: #f11414">模板内容：
+尊敬的${member_name}，您好!感谢您对沃德商协会的支持与贡献。您的会费即将在${time}到期，为了持续我们为您服务，请通过我们的官方小程序沃德商协会续缴会费。如有任何疑问，欢迎随时联系协会秘书处。谢谢！</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">会员到期通知短信模板:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-alibaba_member_expiretime_notify" class="form-control" name="row[alibaba_member_expiretime_notify]" type="text" value="{$row.alibaba_member_expiretime_notify|htmlentities}">
+                            <span class="help-block" style="color: #f11414">模板内容：
+尊敬的${leavelname},您好，沃德商协会您的${leavel}会员已到期，为了您持续享受会员权益，建议您及时登录官方小程序沃德商协会及时缴纳会费，感谢您对秘书处的配合！</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">新会员入会申请通知短信模板:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-alibaba_initiation_admin_notify" class="form-control" name="row[alibaba_initiation_admin_notify]" type="text" value="{$row.alibaba_initiation_admin_notify|htmlentities}">
+                            <span class="help-block" style="color: #f11414">模板内容：
+有新的会员申请加入，姓名${name}，手机号${phone},请及时登录小程序或者管理后台进行审核！ </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group layer-footer">
+                <label class="control-label col-xs-12 col-sm-2"></label>
+                <div class="col-xs-12 col-sm-8">
+                    <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+                    <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

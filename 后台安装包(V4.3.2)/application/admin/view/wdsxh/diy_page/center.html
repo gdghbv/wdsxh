@@ -1,0 +1,1017 @@
+<div class="main-center">
+  <div class="center-box" style="background: url('/assets/addons/wdsxh/img/phone-bg.png') no-repeat center / contain;">
+    <div class="box-phone">
+      <div class="phone-header" @click="handleEdit(-1)" :class="{selected: -1 == selectedIndex}" :style="{background: pageData.page.style.titleBackgroundColor}">
+        <div class="header-status">
+          <img class="status-camera" src="/assets/addons/wdsxh/img/phone-camera.png">
+          <img class="status-bar" :src="`/assets/addons/wdsxh/img/${pageData.page.style.titleTextColor}.png`">
+        </div>
+        <div class="header-title" :style="{color: pageData.page.style.titleTextColor}">{{ pageData.page.params.title }}</div>
+      </div>
+      <div class="phone-content" :style="{backgroundImage: `url(${pageData.page.style.backgroundImage})`, backgroundColor: pageData.page.style.backgroundColor}">
+        <div class="content-scroll" :style="{padding: `0 ${pageData.page.style.paddingLeft}px`}">
+          <draggable :list="pageData.items" class="scroll-drag" @update="handleDrag" :options="{animation: 120, filter: '.diy-float' }" :style="{paddingTop: `${pageData.page.style.paddingTop}px`, paddingBottom: `${pageData.page.style.paddingTop}px`}">
+            <div class="drag-item" v-for="(item, index) in pageData.items">
+              <!-- 轮播图 -->
+              <div v-if="item.type == 'carouselDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-carousel" :style="{'--dot-color': (item.style.dotColor || '#409EFF'), padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <el-carousel :height="`${item.style.height}px`" :style="{borderRadius: `${item.style.borderRadius}px`}">
+                    <el-carousel-item v-for="(carousel, index) in item.data">
+                      <img class="image" :src="carousel.imgUrl">
+                    </el-carousel-item>
+                  </el-carousel>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 单图组 -->
+              <div v-else-if="item.type == 'imagesDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-images" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <img class="image" :src="images.imgUrl" v-for="images in item.data" :style="{marginTop: `${item.style.itemSpace}px`, borderRadius: `${item.style.borderRadius}px`}">
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 导航组 -->
+              <div v-else-if="item.type == 'navDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-nav" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <div class="nav-list">
+                    <div class="list-item" v-for="(nav, number) in item.data" v-if="!item.style.rowsLimit || item.style.rowsLimit == -1 || (number < item.style.rowsNum * item.style.rowsLimit)" :style="{marginTop: (number >= parseInt(item.style.rowsNum) ? `${item.style.itemSpace}px` : 0), width: `calc(100% / ${parseInt(item.style.rowsNum)})`}">
+                      <div class="item-image" :style="{width: `${item.style.iconSize}px`, height: `${item.style.iconSize}px`}">
+                        <img class="image" :src="nav.imgUrl" :style="{borderRadius: `${item.style.borderRadius}px`}">
+                      </div>
+                      <span class="item-text" :style="{fontSize: `${item.style.fontSize}px`, color: item.style.textColor}">{{nav.text}}</span>
+                    </div>
+                  </div>
+                  <div class="nav-dots" v-if="item.style.rowsLimit && parseInt(item.style.rowsLimit) > 1 && item.data.length > item.style.rowsNum * item.style.rowsLimit">
+                    <div class="dots-item" :style="{background: i == 0 ? (item.style.dotColor || '#409EFF') : '#ffffff'}" v-for="(d, i) in Math.ceil(item.data.length / item.style.rowsNum / item.style.rowsLimit)" :key='i'></div>
+                  </div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 图片魔方 -->
+              <div v-else-if="item.type == 'cubeDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-cube" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <div class="cube-list" :style="{margin: `-${parseInt(item.style.itemSpace) / 2}px`}" v-if="parseInt(item.style.layout) > -1">
+                    <div class="list-item" v-for="cube in item.data" :style="{width: `calc(100% / ${parseInt(item.style.layout)})`, padding: `${(parseInt(item.style.itemSpace) / 2)}px`}">
+                      <img class="item-image" :src="cube.imgUrl" :style="{borderRadius: `${item.style.borderRadius}px`}">
+                    </div>
+                  </div>
+                  <div class="cube-display" v-else>
+                    <div class="display-left" v-if="item.style.imgFloat == 'left'" :style="{width: `${item.style.imgWidth}%`, paddingRight: `${parseInt(item.style.itemSpace) / 2}px`}">
+                      <img :src="item.data[0].imgUrl" :style="{borderRadius: `${item.style.borderRadius}px`}">
+                    </div>
+                    <div class="display-right" :style="`width:${100 - item.style.imgWidth}%; padding-${item.style.imgFloat}: ${parseInt(item.style.itemSpace) / 2}px;`" v-if="item.style.model == 1">
+                      <div v-if="item.data.length >= 2" :style="{paddingBottom: `${(parseInt(item.style.itemSpace) / 2)}px`}" class="right-1">
+                        <img :src="item.data[1].imgUrl" :style="{borderRadius: `${item.style.borderRadius}px`}">
+                      </div>
+                      <div class="right-2" :style="{paddingTop: `${(parseInt(item.style.itemSpace) / 2)}px`}">
+                        <div v-if="item.data.length >= 3" :style="{paddingRight: `${parseInt(item.style.itemSpace) / 2}px`}" class="right-2-left">
+                          <img :src="item.data[2].imgUrl" :style="{borderRadius: `${item.style.borderRadius}px`}">
+                        </div>
+                        <div v-if="item.data.length >= 4" :style="{paddingLeft: `${parseInt(item.style.itemSpace) / 2}px`}" class="right-2-right">
+                          <img :src="item.data[3].imgUrl" :style="{borderRadius: `${item.style.borderRadius}px`}">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="display-right" :style="`width:${100 - item.style.imgWidth}%; padding-${item.style.imgFloat}: ${parseInt(item.style.itemSpace) / 2}px;`" v-else>
+                      <div class="right-3" :style="{margin: '-'+(parseInt(item.style.itemSpace) / 2)+'px 0',height: `calc(100% + ${item.style.itemSpace}px)`}">
+                        <div class="item" v-for="(img, num) in item.data" v-if="num > 0 && num < 4" :style="{height:`calc(100% / ${item.data.length > 4 ? 3 : item.data.length - 1})`, padding: `${(parseInt(item.style.itemSpace) / 2)}px`}">
+                          <img :src="img.imgUrl" :style="{borderRadius: `${item.style.borderRadius}px`}">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="display-left" v-if="item.style.imgFloat == 'right'" :style="{width: `${item.style.imgWidth}%`, paddingLeft: `${parseInt(item.style.itemSpace) / 2}px`}">
+                      <img :src="item.data[0].imgUrl" :style="{borderRadius: `${item.style.borderRadius}px`}">
+                    </div>
+                  </div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 信息卡片 -->
+              <div v-else-if="item.type == 'infoCardDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-infoCard" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <!-- 图片 -->
+                  <img class="infoCard-image" :src="item.params.image" :style="{borderRadius: `${item.style.borderRadius}px`}">
+                  <div class="infoCard-info">
+                    <div class="info-title">{{ item.params.title }}</div>
+                    <div class="info-brief" v-if="item.params.content">{{ item.params.content }}</div>
+                    <div class="info-btn" :style="{background: item.style.btnBackground, color: item.style.btnColor, borderRadius: `${item.style.btnBorderRadius}px`}">{{ item.params.btnTxt }}</div>
+                  </div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 按钮组 -->
+              <div v-else-if="item.type == 'textButtonDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-textButton" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background:item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <span class="textButton-item" v-for="textButton in item.data" :style="{color: item.style.textColor, fontSize: `${item.style.fontSize}px`}">{{textButton.text}}</span>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 标题 -->
+              <div v-else-if="item.type == 'titleDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-title" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <div class="title-content" :style="{fontSize: `${item.style.fontSize}px`, color: item.style.color}">
+                    <i v-if="item.style.fontStyle == 'italic'">{{item.params.title}}</i>
+                    <b v-else-if="item.style.fontStyle == 'bold'">{{item.params.title}}</b>
+                    <span v-else>{{item.params.title}}</span>
+                  </div>
+                  <div class="title-btn" :style="{fontSize: `${item.style.btnSize}px`, color: item.style.btnColor}">
+                    <span v-if="item.params.btnType == 'text'">{{item.params.btnText}}</span>
+                    <svg v-else :width="item.style.iconSize" :height="item.style.iconSize" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8 0C6.41775 0 4.87103 0.469191 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346633 6.40034 -0.15496 8.00887 0.153721 9.56071C0.462403 11.1126 1.22433 12.538 2.34315 13.6568C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99112 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7601 14.6517 12.4446C15.5308 11.129 16 9.58224 16 7.99999C15.9976 5.87899 15.154 3.84555 13.6542 2.34578C12.1544 0.846001 10.121 0.00238211 8 0ZM8 14.4C6.7342 14.4 5.49682 14.0246 4.44435 13.3214C3.39188 12.6182 2.57157 11.6186 2.08717 10.4492C1.60277 9.27972 1.47603 7.99289 1.72298 6.75142C1.96992 5.50994 2.57946 4.36957 3.47452 3.47451C4.36957 2.57946 5.50994 1.96992 6.75142 1.72297C7.9929 1.47603 9.27972 1.60277 10.4492 2.08717C11.6186 2.57157 12.6182 3.39187 13.3214 4.44435C14.0246 5.49682 14.4 6.73419 14.4 7.99999C14.3981 9.69678 13.7231 11.3235 12.5233 12.5233C11.3235 13.7231 9.69679 14.398 8 14.4Z" fill="currentColor" />
+                      <path d="M5.76701 4.61984L9.27334 8.0005L5.76701 11.3815L6.92068 12.4935L11.5827 8.0005L6.92068 3.50684L5.76701 4.61984Z" fill="currentColor" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 视频 -->
+              <div v-else-if="item.type == 'videoDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-video" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <video :src="item.params.videoUrl" :poster="item.params.poster" :autoplay="item.params.autoplay == 1" controls>
+                    您的浏览器不支持视频组件
+                  </video>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 地图 -->
+              <div v-else-if="item.type == 'mapDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-map" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <div class="map-box" :style="{height: `${item.style.height}px`, borderRadius: `${item.style.borderRadius}px`}">
+                    <img class=" box-icon" src="/assets/addons/wdsxh/img/icon_map.png">
+                    <span class="box-text">地图组件，设置位置后前端展示</span>
+                  </div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 新闻资讯 -->
+              <div v-else-if="item.type == 'articleDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-article" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <div class="article-title flex-between-center" :style="{marginBottom: `${item.style.titleSpace}px`}" v-if="item.params.showTitle">
+                    <div class="title-content" :style="{fontSize: `${item.style.titleFontSize}px`, color: item.style.titleColor}">
+                      <i v-if="item.style.titleFontStyle == 'italic'">{{item.params.titleText}}</i>
+                      <b v-else-if="item.style.titleFontStyle == 'bold'">{{item.params.titleText}}</b>
+                      <span v-else>{{item.params.titleText}}</span>
+                    </div>
+                    <div class="title-btn flex-center" :style="{fontSize: `${item.style.titleBtnSize}px`, color: item.style.titleBtnColor}">
+                      <span v-if="item.params.titleBtnType == 'text'">{{item.params.titleBtnText}}</span>
+                      <svg v-else :width="item.style.titleIconSize" :height="item.style.titleIconSize" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 0C6.41775 0 4.87103 0.469191 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346633 6.40034 -0.15496 8.00887 0.153721 9.56071C0.462403 11.1126 1.22433 12.538 2.34315 13.6568C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99112 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7601 14.6517 12.4446C15.5308 11.129 16 9.58224 16 7.99999C15.9976 5.87899 15.154 3.84555 13.6542 2.34578C12.1544 0.846001 10.121 0.00238211 8 0ZM8 14.4C6.7342 14.4 5.49682 14.0246 4.44435 13.3214C3.39188 12.6182 2.57157 11.6186 2.08717 10.4492C1.60277 9.27972 1.47603 7.99289 1.72298 6.75142C1.96992 5.50994 2.57946 4.36957 3.47452 3.47451C4.36957 2.57946 5.50994 1.96992 6.75142 1.72297C7.9929 1.47603 9.27972 1.60277 10.4492 2.08717C11.6186 2.57157 12.6182 3.39187 13.3214 4.44435C14.0246 5.49682 14.4 6.73419 14.4 7.99999C14.3981 9.69678 13.7231 11.3235 12.5233 12.5233C11.3235 13.7231 9.69679 14.398 8 14.4Z" fill="currentColor" />
+                        <path d="M5.76701 4.61984L9.27334 8.0005L5.76701 11.3815L6.92068 12.4935L11.5827 8.0005L6.92068 3.50684L5.76701 4.61984Z" fill="currentColor" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="article-list">
+                    <div class="list-item" :class="{'flex-row-reverse': item.style.imgFloat == 'right'}" :style="{marginTop:`${item.style.itemSpace}px`}" v-for="article in item.params.count">
+                      <img class="item-image" src="/assets/addons/wdsxh/img/item.png" :style="{width: `${item.style.imgWidth}px`, height: `${item.style.imgHeight}px`, borderRadius: `${item.style.borderRadius}px`}" v-if="item.params.showImg">
+                      <div class="item-info" :style="`height: ${item.style.imgHeight}px;`">
+                        <div class="info-title" :style="{fontSize: `${item.style.nameSize}px`, fontWeight: item.style.nameWeight}">这是文章标题（仅为示例，具体内容根据选择的新闻变化）</div>
+                        <div class="info-group">
+                          <div class="group-view flex align-items-center" v-if="item.params.showReadNum">
+                            <img class="view-icon" :style="{width: `${Number(item.style.dateSize) + 4}px`, height: `${Number(item.style.dateSize) + 4}px`}" src="/assets/addons/wdsxh/img/see.png">
+                            <span class="view-number" :style="{fontSize: `${item.style.dateSize}px`}">100</span>
+                          </div>
+                          <div class="group-date" :style="{fontSize: `${item.style.dateSize}px`, textAlign: (!item.params.showReadNum && item.style.imgFloat == 'right') ? 'left' : 'right'}">{{getCurrentDate()}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 商会介绍 -->
+              <div v-else-if="item.type == 'introduceDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-introduce" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <template v-if="item.params.showImg">
+                    <img class="introduce-image" :src="item.params.imgUrl" :style="{width: `${item.style.iconSize}px`, height: `${item.style.iconSize}px`, borderRadius: `${item.style.borderRadius}px`}">
+                  </template>
+                  <div class="introduce-name" :style="{fontSize: `${item.style.nameSize}px`, fontWeight:item.style.nameWeight}">
+                    {{ item.params.name }}
+                  </div>
+                  <div class="introduce-btn" :style="{background:`linear-gradient(90deg, ${item.style.btnColor1} 0, ${item.style.btnColor2} 100%)`, fontSize: `${item.style.btnSize}px`, borderRadius: `${item.style.btnBorderRadius}px`}" v-if="item.params.btnName">
+                    {{ item.params.btnName }}
+                  </div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 会员列表 -->
+              <div v-else-if="item.type == 'memberDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-member" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <div class="member-title flex-between-center" :style="{marginBottom: `${item.style.titleSpace}px`}" v-if="item.params.showTitle">
+                    <div class="title-content" :style="{fontSize: `${item.style.titleFontSize}px`, color: item.style.titleColor}">
+                      <i v-if="item.style.titleFontStyle == 'italic'">{{item.params.titleText}}</i>
+                      <b v-else-if="item.style.titleFontStyle == 'bold'">{{item.params.titleText}}</b>
+                      <span v-else>{{item.params.titleText}}</span>
+                    </div>
+                    <div class="title-btn flex-center" :style="{fontSize: `${item.style.titleBtnSize}px`, color: item.style.titleBtnColor}">
+                      <span v-if="item.params.titleBtnType == 'text'">{{item.params.titleBtnText}}</span>
+                      <svg v-else :width="item.style.titleIconSize" :height="item.style.titleIconSize" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 0C6.41775 0 4.87103 0.469191 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346633 6.40034 -0.15496 8.00887 0.153721 9.56071C0.462403 11.1126 1.22433 12.538 2.34315 13.6568C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99112 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7601 14.6517 12.4446C15.5308 11.129 16 9.58224 16 7.99999C15.9976 5.87899 15.154 3.84555 13.6542 2.34578C12.1544 0.846001 10.121 0.00238211 8 0ZM8 14.4C6.7342 14.4 5.49682 14.0246 4.44435 13.3214C3.39188 12.6182 2.57157 11.6186 2.08717 10.4492C1.60277 9.27972 1.47603 7.99289 1.72298 6.75142C1.96992 5.50994 2.57946 4.36957 3.47452 3.47451C4.36957 2.57946 5.50994 1.96992 6.75142 1.72297C7.9929 1.47603 9.27972 1.60277 10.4492 2.08717C11.6186 2.57157 12.6182 3.39187 13.3214 4.44435C14.0246 5.49682 14.4 6.73419 14.4 7.99999C14.3981 9.69678 13.7231 11.3235 12.5233 12.5233C11.3235 13.7231 9.69679 14.398 8 14.4Z" fill="currentColor" />
+                        <path d="M5.76701 4.61984L9.27334 8.0005L5.76701 11.3815L6.92068 12.4935L11.5827 8.0005L6.92068 3.50684L5.76701 4.61984Z" fill="currentColor" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="member-list">
+                    <div class="list-item" :style="{marginLeft:`${item.style.itemSpace}px`}" v-for="member in item.params.count">
+                      <div class="item-avatar">
+                        <img src="/assets/addons/wdsxh/img/menu.png" :style="{width: `${item.style.iconSize}px`, height: `${item.style.iconSize}px`, borderRadius: `${item.style.iconRadius}px`}">
+                        <div class="position" :style="{
+                        fontSize: `${item.style.pSize}px`,
+                        color: item.style.pColor,
+                        background: item.style.pBackground,
+                        borderRadius: item.style.pRadiusType == 'full' ? `${item.style.pRadius}px` : item.style.pRadiusType == 'half' ? `0 ${item.style.pRadius}px 0 ${item.style.pRadius}px`:''
+                      }">会员</div>
+                      </div>
+                      <div class="item-name" :style="{fontSize: `${item.style.nameSize}px`, color: item.style.nameColor}">
+                        会员姓名
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 商会活动 -->
+              <div v-else-if="item.type == 'activityDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-activity" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <div class="activity-title flex-between-center" :style="{marginBottom: `${item.style.titleSpace}px`}" v-if="item.params.showTitle">
+                    <div class="title-content" :style="{fontSize: `${item.style.titleFontSize}px`, color: item.style.titleColor}">
+                      <i v-if="item.style.titleFontStyle == 'italic'">{{item.params.titleText}}</i>
+                      <b v-else-if="item.style.titleFontStyle == 'bold'">{{item.params.titleText}}</b>
+                      <span v-else>{{item.params.titleText}}</span>
+                    </div>
+                    <div class="title-btn flex-center" :style="{fontSize: `${item.style.titleBtnSize}px`, color: item.style.titleBtnColor}">
+                      <span v-if="item.params.titleBtnType == 'text'">{{item.params.titleBtnText}}</span>
+                      <svg v-else :width="item.style.titleIconSize" :height="item.style.titleIconSize" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 0C6.41775 0 4.87103 0.469191 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346633 6.40034 -0.15496 8.00887 0.153721 9.56071C0.462403 11.1126 1.22433 12.538 2.34315 13.6568C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99112 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7601 14.6517 12.4446C15.5308 11.129 16 9.58224 16 7.99999C15.9976 5.87899 15.154 3.84555 13.6542 2.34578C12.1544 0.846001 10.121 0.00238211 8 0ZM8 14.4C6.7342 14.4 5.49682 14.0246 4.44435 13.3214C3.39188 12.6182 2.57157 11.6186 2.08717 10.4492C1.60277 9.27972 1.47603 7.99289 1.72298 6.75142C1.96992 5.50994 2.57946 4.36957 3.47452 3.47451C4.36957 2.57946 5.50994 1.96992 6.75142 1.72297C7.9929 1.47603 9.27972 1.60277 10.4492 2.08717C11.6186 2.57157 12.6182 3.39187 13.3214 4.44435C14.0246 5.49682 14.4 6.73419 14.4 7.99999C14.3981 9.69678 13.7231 11.3235 12.5233 12.5233C11.3235 13.7231 9.69679 14.398 8 14.4Z" fill="currentColor" />
+                        <path d="M5.76701 4.61984L9.27334 8.0005L5.76701 11.3815L6.92068 12.4935L11.5827 8.0005L6.92068 3.50684L5.76701 4.61984Z" fill="currentColor" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="activity-list">
+                    <div class="list-item" :style="{marginTop:`${item.style.itemSpace}px`}" v-for="activity in item.params.count">
+                      <img class="item-image" src="/assets/addons/wdsxh/img/item.png" :style="{width: `${item.style.imgWidth}px`, height:`${item.style.imgHeight}px`, borderRadius:`${item.style.borderRadius}px`}" v-if="item.params.showImg">
+                      <div class="item-info" :style="{height:`${item.style.imgHeight}px`}">
+                        <div class="info-name" :style="{fontSize:`${item.style.nameSize}px`, fontWeight:item.style.nameWeight}">
+                          活动名称（仅为示例）
+                        </div>
+                        <div class="info-type">
+                          <svg style="margin-right: 4px;" :style="{color:item.style.iconColor}" v-if="item.style.showIcon" :width="item.style.iconSize" :height="item.style.iconSize" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.00004 1.83301C4.32671 1.83301 1.33337 4.82634 1.33337 8.49967C1.33337 12.173 4.32671 15.1663 8.00004 15.1663C11.6734 15.1663 14.6667 12.173 14.6667 8.49967C14.6667 4.82634 11.6734 1.83301 8.00004 1.83301ZM10.9 10.8797C10.8067 11.0397 10.64 11.1263 10.4667 11.1263C10.38 11.1263 10.2934 11.1063 10.2134 11.053L8.14671 9.81967C7.63337 9.51301 7.25337 8.83967 7.25337 8.24634V5.51301C7.25337 5.23967 7.48004 5.01301 7.75337 5.01301C8.02671 5.01301 8.25337 5.23967 8.25337 5.51301V8.24634C8.25337 8.48634 8.45337 8.83967 8.66004 8.95967L10.7267 10.193C10.9667 10.333 11.0467 10.6397 10.9 10.8797Z" fill="currentColor" />
+                          </svg>
+                          <div class="text" :style="{fontSize:`${item.style.contentSize}px`}">
+                            01/01 8:00 | 周一
+                          </div>
+                        </div>
+                        <div class="info-type">
+                          <svg style="margin-right: 4px;" :style="{color:item.style.iconColor}" v-if="item.style.showIcon" :width=" item.style.iconSize" :height="item.style.iconSize" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_4930_3306)">
+                              <path d="M13.7466 6.13366C13.0466 3.05366 10.3599 1.66699 7.99994 1.66699C7.99994 1.66699 7.99994 1.66699 7.99327 1.66699C5.63994 1.66699 2.94661 3.04699 2.24661 6.12699C1.46661 9.56699 3.57328 12.4803 5.47994 14.3137C6.18661 14.9937 7.09328 15.3337 7.99994 15.3337C8.90661 15.3337 9.81328 14.9937 10.5133 14.3137C12.4199 12.4803 14.5266 9.57366 13.7466 6.13366ZM7.99994 9.47366C6.83994 9.47366 5.89994 8.53366 5.89994 7.37366C5.89994 6.21366 6.83994 5.27366 7.99994 5.27366C9.15994 5.27366 10.0999 6.21366 10.0999 7.37366C10.0999 8.53366 9.15994 9.47366 7.99994 9.47366Z" fill="currentColor" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_4930_3306">
+                                <rect width="16" height="16" fill="white" transform="translate(0 0.5)" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <div class="text" :style="{fontSize:`${item.style.contentSize}px`}">
+                            山东省青岛市
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 活动接龙 -->
+              <div v-else-if="item.type == 'chainsDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-chains" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <div class="chains-title flex-between-center" :style="{marginBottom: `${item.style.titleSpace}px`}" v-if="item.params.showTitle">
+                    <div class="title-content" :style="{fontSize: `${item.style.titleFontSize}px`, color: item.style.titleColor}">
+                      <i v-if="item.style.titleFontStyle == 'italic'">{{item.params.titleText}}</i>
+                      <b v-else-if="item.style.titleFontStyle == 'bold'">{{item.params.titleText}}</b>
+                      <span v-else>{{item.params.titleText}}</span>
+                    </div>
+                    <div class="title-btn flex-center" :style="{fontSize: `${item.style.titleBtnSize}px`, color: item.style.titleBtnColor}">
+                      <span v-if="item.params.titleBtnType == 'text'">{{item.params.titleBtnText}}</span>
+                      <svg v-else :width="item.style.titleIconSize" :height="item.style.titleIconSize" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 0C6.41775 0 4.87103 0.469191 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346633 6.40034 -0.15496 8.00887 0.153721 9.56071C0.462403 11.1126 1.22433 12.538 2.34315 13.6568C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99112 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7601 14.6517 12.4446C15.5308 11.129 16 9.58224 16 7.99999C15.9976 5.87899 15.154 3.84555 13.6542 2.34578C12.1544 0.846001 10.121 0.00238211 8 0ZM8 14.4C6.7342 14.4 5.49682 14.0246 4.44435 13.3214C3.39188 12.6182 2.57157 11.6186 2.08717 10.4492C1.60277 9.27972 1.47603 7.99289 1.72298 6.75142C1.96992 5.50994 2.57946 4.36957 3.47452 3.47451C4.36957 2.57946 5.50994 1.96992 6.75142 1.72297C7.9929 1.47603 9.27972 1.60277 10.4492 2.08717C11.6186 2.57157 12.6182 3.39187 13.3214 4.44435C14.0246 5.49682 14.4 6.73419 14.4 7.99999C14.3981 9.69678 13.7231 11.3235 12.5233 12.5233C11.3235 13.7231 9.69679 14.398 8 14.4Z" fill="currentColor" />
+                        <path d="M5.76701 4.61984L9.27334 8.0005L5.76701 11.3815L6.92068 12.4935L11.5827 8.0005L6.92068 3.50684L5.76701 4.61984Z" fill="currentColor" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="chains-list">
+                    <div class="list-item" :style="{marginTop:`${item.style.itemSpace}px`}" v-for="chains in item.params.count">
+                      <div class="item-title" :style="{fontSize: `${item.style.nameSize}px`, fontWeight: item.style.nameWeight}">活动接龙标题（仅为示例）</div>
+                      <div class="item-info" :style="{fontSize: `${item.style.contentSize}px`}">
+                        <span>2021-10-07 20:00 反馈</span>
+                        <span>浏览1000 参与10</span>
+                      </div>
+                      <div class="item-line"></div>
+                      <div class="item-btn">
+                        <div class="btn-box">
+                          <svg v-if="item.style.showIcon" :style="{color:item.style.iconColor}" :width="item.style.iconSize" :height="item.style.iconSize" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g opacity="0.000000" />
+                            <path d="M10.7933 1.33301L5.20667 1.33301C2.78003 1.33301 1.33337 2.7793 1.33337 5.20605L1.33337 10.7861C1.33337 13.2197 2.78003 14.666 5.20667 14.666L10.7867 14.666C13.2134 14.666 14.66 13.2197 14.66 10.793L14.66 5.20605C14.6667 2.7793 13.2201 1.33301 10.7933 1.33301ZM10.9401 6.55273C10.5333 7.71289 9.44006 8.49316 8.21338 8.49316C8.20667 8.49316 8.20667 8.49316 8.20007 8.49316L6.82666 8.48633C6.82666 8.48633 6.82666 8.48633 6.82007 8.48633C6.31335 8.48633 5.87341 8.82617 5.73999 9.31348C6.33337 9.5 6.76672 10.0527 6.76672 10.7061C6.76672 11.5127 6.10669 12.1729 5.30005 12.1729C4.49341 12.1729 3.83337 11.5127 3.83337 10.7061C3.83337 10.1133 4.19336 9.59961 4.70007 9.37305L4.70007 6.4668C4.19336 6.2666 3.83337 5.77344 3.83337 5.19922C3.83337 4.44629 4.44666 3.83301 5.20007 3.83301C5.95337 3.83301 6.56665 4.44629 6.56665 5.19922C6.56665 5.7793 6.20667 6.2666 5.70007 6.4668L5.70007 7.81348C6.02673 7.60645 6.41333 7.48633 6.82007 7.48633L6.82666 7.48633L8.20007 7.49316C8.98669 7.51953 9.68677 7.0127 9.96667 6.2793C9.64001 6.02637 9.42676 5.63965 9.42676 5.19922C9.42676 4.44629 10.04 3.83301 10.7933 3.83301C11.5468 3.83301 12.16 4.44629 12.16 5.19922C12.1667 5.90625 11.6267 6.47949 10.9401 6.55273Z" fill="currentColor" fill-opacity="1.000000" fill-rule="nonzero" />
+                          </svg>
+                          <div class="text" :style="{fontSize: `${item.style.btnSize}px`, color: item.style.btnColor}">邀请填写</div>
+                        </div>
+                        <div class="btn-box">
+                          <svg v-if="item.style.showIcon" :style="{color:item.style.iconColor}" :width="item.style.iconSize" :height="item.style.iconSize" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle id="Ellipse 52" cx="8.000000" cy="8.000000" r="6.000000" fill="currentColor" fill-opacity="1.000000" />
+                            <path id="Vector" d="M6.13196 7.58008C6.63196 8.5625 7.4375 9.36426 8.42017 9.86816L9.18402 9.10449C9.27777 9.01074 9.41669 8.97949 9.53821 9.02051C9.92706 9.14941 10.3472 9.21875 10.7778 9.21875C10.9688 9.21875 11.125 9.375 11.125 9.56641L11.125 10.7773C11.125 10.9688 10.9688 11.125 10.7778 11.125C7.51733 11.125 4.875 8.48242 4.875 5.22266C4.875 5.03125 5.03125 4.875 5.22223 4.875L6.4375 4.875C6.62848 4.875 6.78473 5.03125 6.78473 5.22266C6.78473 5.65625 6.85419 6.07324 6.98267 6.46191C7.02081 6.58301 6.99304 6.71875 6.89581 6.81641L6.13196 7.58008Z" fill="#FFFFFF" fill-opacity="1.000000" fill-rule="nonzero" />
+                          </svg>
+                          <div class="text" :style="{fontSize: `${item.style.btnSize}px`, color: item.style.btnColor}">电话</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 活动相册 -->
+              <div v-else-if="item.type == 'albumDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-album" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <div class="album-title flex-between-center" :style="{marginBottom: `${item.style.titleSpace}px`}" v-if="item.params.showTitle">
+                    <div class="title-content" :style="{fontSize: `${item.style.titleFontSize}px`, color: item.style.titleColor}">
+                      <i v-if="item.style.titleFontStyle == 'italic'">{{item.params.titleText}}</i>
+                      <b v-else-if="item.style.titleFontStyle == 'bold'">{{item.params.titleText}}</b>
+                      <span v-else>{{item.params.titleText}}</span>
+                    </div>
+                    <div class="title-btn flex-center" :style="{fontSize: `${item.style.titleBtnSize}px`, color: item.style.titleBtnColor}">
+                      <span v-if="item.params.titleBtnType == 'text'">{{item.params.titleBtnText}}</span>
+                      <svg v-else :width="item.style.titleIconSize" :height="item.style.titleIconSize" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 0C6.41775 0 4.87103 0.469191 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346633 6.40034 -0.15496 8.00887 0.153721 9.56071C0.462403 11.1126 1.22433 12.538 2.34315 13.6568C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99112 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7601 14.6517 12.4446C15.5308 11.129 16 9.58224 16 7.99999C15.9976 5.87899 15.154 3.84555 13.6542 2.34578C12.1544 0.846001 10.121 0.00238211 8 0ZM8 14.4C6.7342 14.4 5.49682 14.0246 4.44435 13.3214C3.39188 12.6182 2.57157 11.6186 2.08717 10.4492C1.60277 9.27972 1.47603 7.99289 1.72298 6.75142C1.96992 5.50994 2.57946 4.36957 3.47452 3.47451C4.36957 2.57946 5.50994 1.96992 6.75142 1.72297C7.9929 1.47603 9.27972 1.60277 10.4492 2.08717C11.6186 2.57157 12.6182 3.39187 13.3214 4.44435C14.0246 5.49682 14.4 6.73419 14.4 7.99999C14.3981 9.69678 13.7231 11.3235 12.5233 12.5233C11.3235 13.7231 9.69679 14.398 8 14.4Z" fill="currentColor" />
+                        <path d="M5.76701 4.61984L9.27334 8.0005L5.76701 11.3815L6.92068 12.4935L11.5827 8.0005L6.92068 3.50684L5.76701 4.61984Z" fill="currentColor" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="album-list">
+                    <div class="list-item" :style="{marginTop: `${item.style.itemSpace}px`}" v-for="album in item.params.count">
+                      <div class="item-left">
+                        <div class="left-time" :style="{fontSize: `${item.style.timeSize}px`}">
+                          12<span :style="{fontSize:`${item.style.timeSize - 4 }px`}">/15</span>
+                        </div>
+                        <div class="left-block" :style="{backgroundColor: item.style.iconColor}"></div>
+                        <div class="left-line"></div>
+                      </div>
+                      <div class="item-right">
+                        <div class="right-title" :style="{fontSize: `${item.style.nameSize}px`, fontWeight: item.style.nameWeight}">这是相册标题（仅为示例）</div>
+                        <img class="right-single" :style="{borderRadius: `${item.style.borderRadius}px`}" src="/assets/addons/wdsxh/img/item.png" v-if="album == 1">
+                        <div class="right-multiple" v-else-if="album > 1">
+                          <div class="image" v-for="img in album">
+                            <img :style="{borderRadius: `${item.style.borderRadius}px`}" src="/assets/addons/wdsxh/img/item.png">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 商城商品 -->
+              <div v-else-if="item.type == 'goodsDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-goods" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <div class="goods-title flex-between-center" :style="{marginBottom: `${item.style.titleSpace}px`}" v-if="item.params.showTitle">
+                    <div class="title-content" :style="{fontSize: `${item.style.titleFontSize}px`, color: item.style.titleColor}">
+                      <i v-if="item.style.titleFontStyle == 'italic'">{{item.params.titleText}}</i>
+                      <b v-else-if="item.style.titleFontStyle == 'bold'">{{item.params.titleText}}</b>
+                      <span v-else>{{item.params.titleText}}</span>
+                    </div>
+                    <div class="title-btn flex-center" :style="{fontSize: `${item.style.titleBtnSize}px`, color: item.style.titleBtnColor}">
+                      <span v-if="item.params.titleBtnType == 'text'">{{item.params.titleBtnText}}</span>
+                      <svg v-else :width="item.style.titleIconSize" :height="item.style.titleIconSize" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 0C6.41775 0 4.87103 0.469191 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346633 6.40034 -0.15496 8.00887 0.153721 9.56071C0.462403 11.1126 1.22433 12.538 2.34315 13.6568C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99112 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7601 14.6517 12.4446C15.5308 11.129 16 9.58224 16 7.99999C15.9976 5.87899 15.154 3.84555 13.6542 2.34578C12.1544 0.846001 10.121 0.00238211 8 0ZM8 14.4C6.7342 14.4 5.49682 14.0246 4.44435 13.3214C3.39188 12.6182 2.57157 11.6186 2.08717 10.4492C1.60277 9.27972 1.47603 7.99289 1.72298 6.75142C1.96992 5.50994 2.57946 4.36957 3.47452 3.47451C4.36957 2.57946 5.50994 1.96992 6.75142 1.72297C7.9929 1.47603 9.27972 1.60277 10.4492 2.08717C11.6186 2.57157 12.6182 3.39187 13.3214 4.44435C14.0246 5.49682 14.4 6.73419 14.4 7.99999C14.3981 9.69678 13.7231 11.3235 12.5233 12.5233C11.3235 13.7231 9.69679 14.398 8 14.4Z" fill="currentColor" />
+                        <path d="M5.76701 4.61984L9.27334 8.0005L5.76701 11.3815L6.92068 12.4935L11.5827 8.0005L6.92068 3.50684L5.76701 4.61984Z" fill="currentColor" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="goods-list">
+                    <div class="list-item" :style="{marginTop:`${item.style.itemSpace}px`}" v-for="goods in item.params.count">
+                      <img class="item-image" :style="{height: `${item.style.imgHeight}px`, borderRadius: `${item.style.borderRadius}px ${item.style.borderRadius}px 0 0`}" src="/assets/addons/wdsxh/img/item.png">
+                      <div class="item-title" :style="{fontSize: `${item.style.nameSize}px`, fontWeight: item.style.nameWeight}">商城商品名称（仅为示例）</div>
+                      <div class="item-price" :style="{fontSize: `${item.style.priceSize}px`, color: item.style.priceColor}">￥999.99</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 会员供需 -->
+              <div v-else-if="item.type == 'demandDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-demand" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <div class="demand-title flex-between-center" :style="{marginBottom: `${item.style.titleSpace}px`}" v-if="item.params.showTitle">
+                    <div class="title-content" :style="{fontSize: `${item.style.titleFontSize}px`, color: item.style.titleColor}">
+                      <i v-if="item.style.titleFontStyle == 'italic'">{{item.params.titleText}}</i>
+                      <b v-else-if="item.style.titleFontStyle == 'bold'">{{item.params.titleText}}</b>
+                      <span v-else>{{item.params.titleText}}</span>
+                    </div>
+                    <div class="title-btn flex-center" :style="{fontSize: `${item.style.titleBtnSize}px`, color: item.style.titleBtnColor}">
+                      <span v-if="item.params.titleBtnType == 'text'">{{item.params.titleBtnText}}</span>
+                      <svg v-else :width="item.style.titleIconSize" :height="item.style.titleIconSize" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 0C6.41775 0 4.87103 0.469191 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346633 6.40034 -0.15496 8.00887 0.153721 9.56071C0.462403 11.1126 1.22433 12.538 2.34315 13.6568C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99112 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7601 14.6517 12.4446C15.5308 11.129 16 9.58224 16 7.99999C15.9976 5.87899 15.154 3.84555 13.6542 2.34578C12.1544 0.846001 10.121 0.00238211 8 0ZM8 14.4C6.7342 14.4 5.49682 14.0246 4.44435 13.3214C3.39188 12.6182 2.57157 11.6186 2.08717 10.4492C1.60277 9.27972 1.47603 7.99289 1.72298 6.75142C1.96992 5.50994 2.57946 4.36957 3.47452 3.47451C4.36957 2.57946 5.50994 1.96992 6.75142 1.72297C7.9929 1.47603 9.27972 1.60277 10.4492 2.08717C11.6186 2.57157 12.6182 3.39187 13.3214 4.44435C14.0246 5.49682 14.4 6.73419 14.4 7.99999C14.3981 9.69678 13.7231 11.3235 12.5233 12.5233C11.3235 13.7231 9.69679 14.398 8 14.4Z" fill="currentColor" />
+                        <path d="M5.76701 4.61984L9.27334 8.0005L5.76701 11.3815L6.92068 12.4935L11.5827 8.0005L6.92068 3.50684L5.76701 4.61984Z" fill="currentColor" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="demand-list" :style="{rowGap:`${item.style.itemSpace}px`}">
+                    <div class="list-item" v-for="demand in item.params.count">
+                      <div class="item-top">
+                        <img class="top-avatar" src="/assets/addons/wdsxh/img/menu.png">
+                        <div class="top-info">
+                          <div class="info-title">用户00{{demand}}</div>
+                          <div class="info-subtitle">会员 | 5分钟前</div>
+                        </div>
+                        <div class="top-btn" :style="{background: item.style.btnColor, color: item.style.btnTextColor}" v-if="item.params.showContact">联系TA</div>
+                      </div>
+                      <div class="item-center">
+                        <div class="center-title" :style="{fontSize: item.style.nameSize+'px', fontWeight: item.style.nameWeight}">这是供需标题（仅为示例）</div>
+                        <div class="center-content" :style="{fontSize: item.style.contentSize+'px'}">这是供需内容（仅为示例，具体内容根据选择的供需变化，至多显示两行）</div>
+                        <div class="center-image" v-if="demand != 2">
+                          <div class="image-box">
+                            <img class="image" src="/assets/addons/wdsxh/img/01.jpg">
+                          </div>
+                          <div class="image-box">
+                            <img class="image" src="/assets/addons/wdsxh/img/02.jpg">
+                          </div>
+                          <div class="image-box">
+                            <img class="image" src="/assets/addons/wdsxh/img/03.jpg">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="item-bottom">
+                        <div class="bottom-label">
+                          <svg :style="{color: item.style.addressColor}" width="12" height="12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="none">
+                            <path d="M6 11C8.75 11 11 8.75 11 6C11 3.25 8.75 1 6 1C3.25 1 1 3.25 1 6C1 8.75 3.25 11 6 11Z" stroke="currentColor" stroke-miterlimit="10" />
+                            <path d="M6.75 4.00012C5.235 4.00012 4 5.24012 4 6.75012C4 8.00012 4 8.00012 5.25 8.00012C6.76 8.00012 8 6.76012 8 5.25012C8 3.96225 8 4.00012 6.75 4.00012Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          <div class="label-text" :style="{color: item.style.addressColor}">山东省青岛市黄岛区</div>
+                          <div class="label-bg" :style="{background: item.style.addressColor}"></div>
+                        </div>
+                        <div class="bottom-other">
+                          <div class="other-btn">
+                            <img class="btn-icon" src="/assets/addons/wdsxh/img/see.png">
+                            <span class="btn-text">99</span>
+                          </div>
+                          <div class="other-btn">
+                            <img class="btn-icon" src="/assets/addons/wdsxh/img/share.png">
+                            <span class="btn-text">分享</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 会员地图 -->
+              <div v-else-if="item.type == 'memberMapDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-member-map" :class="{'flex-column': item.category.styleMode == 2 && item.map.heightType == 1}" :style="{height: item.map.heightType == 2 ? `auto` : '673px', background: item.map.background, borderRadius: `${item.map.itemBorderRadius}px`}">
+                  <div class="map-classify style-2" v-if="item.category.styleMode == 2" :style="{background: item.category.background, padding: `0 ${item.category.paddingLeft}px`}">
+                    <div class="classify-list" :style="{columnGap: `${item.category.itemSpace}px`, padding: `${item.category.paddingTop}px 0`}">
+                      <div class="list-item" :style="{background: item.category.btnActiveBackground, borderRadius: `${item.category.btnBorderRadius}px`, padding: `${item.category.btnPaddingTop}px ${item.category.btnPaddingLeft}px`}">
+                        <b :style="{color: item.category.btnActiveColor}">全部</b>
+                      </div>
+                      <div class="list-item" :style="{marginLeft: `${item.category.itemSpace}px`, background: item.category.btnBackground, borderRadius: `${item.category.btnBorderRadius}px`, padding: `${item.category.btnPaddingTop}px ${item.category.btnPaddingLeft}px`}">
+                        <span :style="{color: item.category.btnColor}">仅为示例</span>
+                      </div>
+                      <div class="list-item" :style="{marginLeft: `${item.category.itemSpace}px`, background: item.category.btnBackground, borderRadius: `${item.category.btnBorderRadius}px`, padding: `${item.category.btnPaddingTop}px ${item.category.btnPaddingLeft}px`}">
+                        <span :style="{color: item.category.btnColor}">仅为示例</span>
+                      </div>
+                      <div class="list-item" :style="{marginLeft: `${item.category.itemSpace}px`, background: item.category.btnBackground, borderRadius: `${item.category.btnBorderRadius}px`, padding: `${item.category.btnPaddingTop}px ${item.category.btnPaddingLeft}px`}">
+                        <span :style="{color: item.category.btnColor}">仅为示例</span>
+                      </div>
+                    </div>
+                    <div class="classify-more" :style="{color: item.category.expandColor}">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 17 17" fill="none">
+                        <path d="M8.50001 11.6994C8.03335 11.6994 7.56668 11.5194 7.21335 11.1661L2.86668 6.81944C2.67335 6.62611 2.67335 6.30611 2.86668 6.11277C3.06001 5.91944 3.38001 5.91944 3.57335 6.11277L7.92001 10.4594C8.24001 10.7794 8.76001 10.7794 9.08001 10.4594L13.4267 6.11277C13.62 5.91944 13.94 5.91944 14.1333 6.11277C14.3267 6.30611 14.3267 6.62611 14.1333 6.81944L9.78668 11.1661C9.43335 11.5194 8.96668 11.6994 8.50001 11.6994Z" fill="currentColor" />
+                      </svg>
+                      <span>展开列表</span>
+                    </div>
+                  </div>
+                  <div class="map-classify style-1" v-else :style="{
+                    top: `${item.category.marginTop}px`,
+                    left: item.category.position == 'right' ? 'initial' : `${item.category.marginLeft}px`,
+                    right: item.category.position == 'right' ? `${item.category.marginLeft}px` : 'initial',
+                    width: item.category.widthType == 2 ? `${item.category.widthNumber}%` : 'auto',
+                    maxWidth: `calc((100% - ${item.category.marginLeft * 2}px) * ${item.category.widthType == 2 ? `${item.category.widthNumber / 100}` : 1})`,
+                    maxHeight: item.map.heightType == 2 ? `${item.map.height - (item.category.marginTop * 2)}px` : `${673 - (item.category.marginTop * 2)}px`}">
+                    <div class="classify-more" :style="{
+                      background: item.category.background,
+                      borderRadius: `${item.category.borderRadius}px`,
+                      left: item.category.position == 'right' ? 'initial' : `${item.category.marginLeft}px`,
+                      right: item.category.position == 'right' ? `${item.category.marginLeft}px` : 'initial',
+                      color: item.category.expandColor}">
+                      <span>展开列表</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
+                        <path d="M4.80056 8.50001C4.80056 8.03335 4.98056 7.56668 5.33389 7.21335L9.68056 2.86668C9.87389 2.67335 10.1939 2.67335 10.3872 2.86668C10.5806 3.06001 10.5806 3.38001 10.3872 3.57335L6.04056 7.92001C5.72056 8.24001 5.72056 8.76001 6.04056 9.08001L10.3872 13.4267C10.5806 13.62 10.5806 13.94 10.3872 14.1333C10.1939 14.3267 9.87389 14.3267 9.68056 14.1333L5.33389 9.78668C4.98056 9.43335 4.80056 8.96668 4.80056 8.50001Z" fill="currentColor" />
+                      </svg>
+                    </div>
+                    <div style="overflow: hidden;" :style="{
+                      borderRadius: `${item.category.borderRadius}px`,
+                      background: item.category.background,
+                      maxHeight: item.map.heightType == 2 ? `${item.map.height - (item.category.marginTop * 2) - 40}px` : `${633 - (item.category.marginTop * 2)}px`}">
+                      <div class="classify-list" :style="{rowGap: `${item.category.itemSpace}px`, padding: `${item.category.paddingTop}px ${item.category.paddingLeft}px`}">
+                        <div class="list-item" :style="{color: item.category.btnActiveColor, background: item.category.btnActiveBackground, borderRadius: `${item.category.btnBorderRadius}px`, padding: `${item.category.btnPaddingTop}px ${item.category.btnPaddingLeft}px`}">
+                          <b>全部</b>
+                        </div>
+                        <div class="list-item" :style="{color: item.category.btnColor, background: item.category.btnBackground, borderRadius: `${item.category.btnBorderRadius}px`, padding: `${item.category.btnPaddingTop}px ${item.category.btnPaddingLeft}px`}">
+                          <span>仅为示例</span>
+                        </div>
+                        <div class="list-item" :style="{color: item.category.btnColor, background: item.category.btnBackground, borderRadius: `${item.category.btnBorderRadius}px`, padding: `${item.category.btnPaddingTop}px ${item.category.btnPaddingLeft}px`}">
+                          <span>仅为示例</span>
+                        </div>
+                        <div class="list-item" :style="{color: item.category.btnColor, background: item.category.btnBackground, borderRadius: `${item.category.btnBorderRadius}px`, padding: `${item.category.btnPaddingTop}px ${item.category.btnPaddingLeft}px`}">
+                          <span>仅为示例</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="map-box" :style="{height: item.map.heightType == 2 ? `${item.map.height}px` : '100%', padding: `${item.map.paddingTop}px ${item.map.paddingLeft}px`}">
+                    <div class="box-map" :style="{borderRadius: `${item.map.borderRadius}px`}">
+                      <img class="icon" src="/assets/addons/wdsxh/img/icon_map.png">
+                      <span class="text">地图组件，设置位置后前端展示</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 搜索 -->
+              <div v-else-if="item.type == 'searchDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-search" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <div class="search-input" :style="{padding: `${item.style.inputPaddingTop}px ${item.style.inputPaddingLeft}px`, background: item.style.inputBackground, borderRadius: `${item.style.inputBorderRadius}px`}">
+                    <svg :width="item.style.iconSize" :height="item.style.iconSize" :style="{color: item.style.iconColor}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+                      <g clip-path="url(#clip0_3907_10643)">
+                        <path d="M12.9167 11.6667H12.2583L12.025 11.4417C12.8417 10.4917 13.3333 9.25833 13.3333 7.91667C13.3333 4.925 10.9083 2.5 7.91667 2.5C4.925 2.5 2.5 4.925 2.5 7.91667C2.5 10.9083 4.925 13.3333 7.91667 13.3333C9.25833 13.3333 10.4917 12.8417 11.4417 12.025L11.6667 12.2583V12.9167L15.8333 17.075L17.075 15.8333L12.9167 11.6667ZM7.91667 11.6667C5.84167 11.6667 4.16667 9.99167 4.16667 7.91667C4.16667 5.84167 5.84167 4.16667 7.91667 4.16667C9.99167 4.16667 11.6667 5.84167 11.6667 7.91667C11.6667 9.99167 9.99167 11.6667 7.91667 11.6667Z" fill="currentColor" />
+                      </g>
+                    </svg>
+                    <span class="input-placeholder" :style="{fontSize: `${item.style.fontSize}px`, color: item.style.placeholderColor}">{{item.params.placeholder}}</span>
+                  </div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 辅助线条 -->
+              <div v-else-if="item.type == 'lineDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-line" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background:item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <div class="line" :style="{borderTopWidth: `${item.style.lineHeight}px`, borderTopColor: item.style.lineColor, borderTopStyle: item.style.lineStyle}"></div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 辅助空白 -->
+              <div v-else-if="item.type == 'blankDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-blank" :style="{height: `${item.style.height}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}"></div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 消息通知 -->
+              <div v-else-if="item.type == 'noticeDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-notice" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <img class="notice-icon" :style="{width: `${item.style.iconSize}px`, height: `${item.style.iconSize}px`}" :src="item.params.icon" v-if="item.params.showImg">
+                  <div class="notice-text" :style="{fontSize: `${item.style.fontSize}px`, color: item.style.textColor}">{{item.params.text}}</div>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 文本组 -->
+              <div v-else-if="item.type == 'textDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-text" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <p :style="{color: item.style.textColor, fontSize: `${item.style.fontSize}px`, textAlign: item.style.textAlign}">
+                    <i v-if="item.style.fontStyle == 'italic'">{{item.style.text}}</i>
+                    <b v-else-if="item.style.fontStyle == 'bold'">{{item.style.text}}</b>
+                    <span v-else>{{item.style.text}}</span>
+                  </p>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 富文本 -->
+              <div v-else-if="item.type == 'richTextDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-richText" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}" v-html="item.params.content"></div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 警告提示 -->
+              <div v-else-if="item.type == 'warnDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-warn" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <el-alert :title="item.params.title" :type="item.params.type" :effect="item.params.effect" :description="item.params.description" :closable="item.params.closable" :show-icon="item.params.showIcon"></el-alert>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 时间线 -->
+              <div v-else-if="item.type == 'timelineDiy'" class="item-diy" @click="handleEdit(index)" :class="{selected: index === selectedIndex}">
+                <div class="diy-timeline" :style="{padding: `${item.style.paddingTop}px ${item.style.paddingLeft}px`, background: item.style.background, borderRadius: `${item.style.itemBorderRadius}px`}">
+                  <el-timeline>
+                    <el-timeline-item v-for="timeline in item.data" :color="timeline.color" :hide-timestamp="!timeline.hide" :timestamp="timeline.time">
+                      {{timeline.content}}
+                    </el-timeline-item>
+                  </el-timeline>
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn" @click.stop="handleMoveUp(index)">
+                    <i slot="reference" class="el-icon-arrow-up"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleMoveDown(index)">
+                    <i slot="reference" class="el-icon-arrow-down"></i>
+                  </div>
+                  <div class="operate-btn" @click.stop="handleCopy(index)">
+                    <i slot="reference" class="el-icon-copy-document"></i>
+                  </div>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+              <!-- 悬浮按钮 -->
+              <div v-else-if="item.type == 'floatDiy'" class="item-diy item-absolute" @click="handleEdit(index)" :class="{selected: index === selectedIndex}" :style="{ right: `${item.style.right}%`, bottom: `${item.style.bottom}%`}">
+                <div class="diy-float" :style="{opacity: item.style.opacity / 100}">
+                  <img class="image" :src="item.params.image" :style="{width: `${item.style.btnSize}px`}">
+                </div>
+                <div class="diy-operate" @click.stop>
+                  <div class="operate-btn">
+                    <el-popconfirm title="确定删除该组件吗？" @confirm="handleDelete(index)">
+                      <i slot="reference" class="el-icon-delete"></i>
+                    </el-popconfirm>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </draggable>
+        </div>
+      </div>
+      <div class="phone-footer">
+        <div class="footer-line"></div>
+      </div>
+    </div>
+  </div>
+</div>

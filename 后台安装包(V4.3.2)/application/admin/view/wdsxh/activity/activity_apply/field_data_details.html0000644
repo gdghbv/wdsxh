@@ -1,0 +1,83 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    {volist name="row.custom_content" id="vo"}
+    {if in_array($vo['type'],array('text','number','radio','checkbox','select','date','datetime','time'))}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input data-rule="required" class="form-control" name="row[name]" type="text" value="{$vo.value|htmlentities}" disabled>
+        </div>
+    </div>
+    {/if}
+
+    {if $vo['type'] == 'map'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input data-rule="required" class="form-control" name="row[name]" type="text" value="{$vo.value.address|htmlentities}" disabled>
+        </div>
+    </div>
+    {/if}
+
+    {if $vo['type'] == 'image'}
+    <?php $image_array = explode(',',$vo['value']);?>
+    {volist name="image_array" id="vv"}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            {notempty name="vv"}
+            <img src="{$vv|htmlentities}" style="width: 30%;height: 30%;">
+            {/notempty}
+        </div>
+    </div>
+    {/volist}
+    {/if}
+    {if $vo['type'] == 'video'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                {notempty name="vv"}
+                <video src="{$vo.value|htmlentities}" controls="controls" style="width: 50%;height: 30%;"></video>
+                {/notempty}
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-video_file"></ul>
+        </div>
+    </div>
+    {/if}
+    {if $vo['type'] == 'textarea'}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{$vo['label']}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea class="form-control" rows="5" name="row[introduce_content]" cols="50" disabled>{$vo.value|htmlentities}</textarea>
+        </div>
+    </div>
+    {/if}
+    {/volist}
+
+
+    {if $row['state'] == 1}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('State')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                <label for="row[state]-2"><input id="row[state]-2" data-rule="required" name="row[state]" type="radio" value="2" /> 通过</label>
+                <label for="row[state]-3"><input id="row[state]-3" data-rule="required" name="row[state]" type="radio" value="3" /> 驳回</label>
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group hide reject">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Reject')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-reject" class="form-control" name="row[reject]" type="text" value="{$row.reject|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed">{:__('OK')}</button>
+        </div>
+    </div>
+    {/if}
+</form>

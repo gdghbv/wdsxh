@@ -1,0 +1,94 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Min')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-min" data-rule="required" class="form-control" name="row[min]" type="number" value="{$row.min|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Max')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-max" data-rule="required" class="form-control" name="row[max]" type="number" value="{$row.max|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Price')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-price" data-rule="required" class="form-control" step="0.01" name="row[price]" type="number" value="{$row.price|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Open_area')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="checkbox">
+                <!-- 添加全选复选框 -->
+                <label for="select-all">
+                    <input id="select-all" type="checkbox" /> 全选
+                </label>
+                <br>
+
+                {foreach name="openAreaList" item="vo"}
+                <label for="row[open_area][]-{$key|htmlentities}">
+                    <input id="row[open_area][]-{$key|htmlentities}" class="area-checkbox" name="row[open_area][]" type="checkbox" value="{$key|htmlentities}" {in name="key" value="$row.open_area"}checked{/in} /> {$vo|htmlentities}
+                </label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // JavaScript 代码实现全选功能
+        document.getElementById('select-all').addEventListener('change', function() {
+            var checkboxes = document.querySelectorAll('.area-checkbox');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = event.target.checked;
+            });
+        });
+
+        // 监听每个省市区复选框的变化，如果全部选中则自动勾选“全选”复选框
+        var checkboxes = document.querySelectorAll('.area-checkbox');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                var allChecked = true;
+                checkboxes.forEach(function(cb) {
+                    if (!cb.checked) {
+                        allChecked = false;
+                    }
+                });
+                document.getElementById('select-all').checked = allChecked;
+            });
+        });
+
+        // 页面加载时，检查是否所有省市区复选框都被选中，如果是，则勾选“全选”复选框
+        window.addEventListener('load', function() {
+            var allChecked = true;
+            checkboxes.forEach(function(cb) {
+                if (!cb.checked) {
+                    allChecked = false;
+                }
+            });
+            document.getElementById('select-all').checked = allChecked;
+        });
+    </script>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            
+            <div class="radio">
+            {foreach name="statusList" item="vo"}
+            <label for="row[status]-{$key|htmlentities}"><input id="row[status]-{$key|htmlentities}" name="row[status]" type="radio" value="{$key|htmlentities}" {in name="key" value="$row.status"}checked{/in} /> {$vo|htmlentities}</label>
+            {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+        </div>
+    </div>
+</form>

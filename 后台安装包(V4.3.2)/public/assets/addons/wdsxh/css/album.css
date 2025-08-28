@@ -1,0 +1,180 @@
+.album-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.album-container .container-main {
+  flex: 1;
+  padding: 2rem 0 2.5rem;
+}
+
+.album-container .container-main .main-content .cont-item {
+  margin-top: 1rem;
+  cursor: pointer;
+  background: #fff;
+  padding: 1rem;
+  border-radius: .5rem;
+}
+
+.album-container .container-main .main-content .cont-item:first-child {
+  margin-top: 0;
+}
+
+.album-container .container-main .main-content .cont-item .item-date {
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.375rem;
+  color: #5A5B6E;
+}
+
+.album-container .container-main .main-content .cont-item .item-title {
+  margin-top: 1rem;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  color: #8D929C;
+  -webkit-line-clamp: 2;
+  transition: color .3s;
+}
+
+.album-container .container-main .main-content .cont-item .item-box {
+  margin-top: 1rem;
+}
+
+.album-container .container-main .main-content .cont-item .item-box .box-timeline .point {
+  width: .625rem;
+  height: .625rem;
+  border-radius: .125rem;
+  background: var(--main-color);
+}
+
+.album-container .container-main .main-content .cont-item .item-box .box-timeline .line {
+  width: 1px;
+  height: calc(100% - .625rem);
+  background: #F0F0F0;
+}
+
+.album-container .container-main .main-content .cont-item .item-box .box-single {
+  flex: 1;
+  margin-left: 1rem;
+}
+
+.album-container .container-main .main-content .cont-item .item-box .box-single .image {
+  width: 16.75rem;
+  height: 7.5rem;
+  border-radius: .5rem;
+  overflow: hidden;
+}
+
+.album-container .container-main .main-content .cont-item .item-box .box-single .image img {
+  width: 100%;
+  height: 100%;
+  transition: transform .3s;
+}
+
+.album-container .container-main .main-content .cont-item .item-box .box-single .video {
+  width: 16.75rem;
+  height: 7.5rem;
+  border-radius: .5rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.album-container .container-main .main-content .cont-item .item-box .box-single .video .play {
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 9;
+  transform: translate(-50%, -50%);
+  width: 2rem;
+  height: 2rem;
+}
+
+.album-container .container-main .main-content .cont-item .item-box .box-single .video .cover {
+  width: 100%;
+  height: 100%;
+}
+
+.album-container .container-main .main-content .cont-item .item-box .box-multiple {
+  flex: 1;
+  margin-left: 1rem;
+}
+
+.album-container .container-main .main-content .cont-item .item-box .box-multiple .image {
+  width: 7.5rem;
+  height: 7.5rem;
+  margin-left: .5rem;
+  border-radius: .5rem;
+  overflow: hidden;
+}
+
+.album-container .container-main .main-content .cont-item .item-box .box-multiple .image img {
+  width: 100%;
+  height: 100%;
+  transition: transform .3s;
+}
+
+.album-container .container-main .main-content .cont-item .item-box .box-multiple .image:first-child {
+  margin-left: 0;
+}
+
+.album-container .container-main .main-content .cont-item:hover .item-title {
+  color: var(--main-color);
+}
+
+@media screen and (max-width: 767px) {
+  .album-container .container-main {
+    padding: 2rem 0;
+  }
+  .album-container .container-main .main-content .cont-item .item-title {
+    margin-top: .75rem;
+    height: auto;
+  }
+  .album-container .container-main .main-content .cont-item .item-box {
+    margin-top: .75rem;
+  }
+  .album-container .container-main .main-content .cont-item .item-box .box-single {
+    margin-left: .75rem;
+  }
+  .album-container .container-main .main-content .cont-item .item-box .box-single .image {
+    width: 100%;
+    height: 0;
+    padding-top: 48%;
+    position: relative;
+  }
+  .album-container .container-main .main-content .cont-item .item-box .box-single .image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .album-container .container-main .main-content .cont-item .item-box .box-single .video {
+    width: 100%;
+    height: 0;
+    padding-top: 48%;
+    position: relative;
+  }
+  .album-container .container-main .main-content .cont-item .item-box .box-single .video .cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .album-container .container-main .main-content .cont-item .item-box .box-multiple {
+    margin-left: .75rem;
+  }
+  .album-container .container-main .main-content .cont-item .item-box .box-multiple .image {
+    width: 32%;
+    height: 0;
+    padding-top: 32%;
+    margin-left: 2%;
+    position: relative;
+  }
+  .album-container .container-main .main-content .cont-item .item-box .box-multiple .image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .album-container .container-main .main-content .cont-item:hover .item-title {
+    color: #8D929C;
+  }
+}

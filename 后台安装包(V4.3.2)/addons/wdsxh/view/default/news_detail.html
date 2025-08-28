@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Page-Enter" content="blendTrans(Duration=0.5)" />
+  <title>新闻详情</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <link rel="stylesheet" href="__CDN__/assets/addons/wdsxh/css/normalize.css" />
+  <link rel="stylesheet" href="__CDN__/assets/addons/wdsxh/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="__CDN__/assets/addons/wdsxh/css/public.css" />
+  <link rel="stylesheet" href="__CDN__/assets/addons/wdsxh/css/news_detail.css" />
+</head>
+
+<body>
+  <div class="news-detail-container container-fluid">
+    <!-- 头部导航栏模块 -->
+    <header class="container-header" data-type="news">{include file="header" /}</header>
+    <!-- 内容区 -->
+    <main class="container-main">
+      <div class="main-nav row">
+        <div class="col-2"></div>
+        <div class="col-8 flex">
+          <span style="margin-left: 0;">当前位置：</span>
+          <a id="toBack"><i class="versionName"></i>新闻</a>
+          <span class="line">|</span>
+          <span>新闻详情</span>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      <div class="main-content row">
+        <div class="col-2"></div>
+        <div class="col-8">
+          <div class="title"></div>
+          <div class="info flex justify-content-center">
+            <div class="info-tag release">发布人：</div>
+            <div class="info-tag createtime">发布人：</div>
+          </div>
+          <div class="content"></div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+    </main>
+    <!-- 底部 -->
+    <footer class="container-footer">{include file="footer" /}</footer>
+  </div>
+  <script src="__CDN__/assets/addons/wdsxh/common/jquery.min.js"></script>
+  <script src="__CDN__/assets/addons/wdsxh/common/bootstrap.min.js"></script>
+  <script src="__CDN__/assets/addons/wdsxh/common/xlPaging.js"></script>
+  <script src="__CDN__/assets/addons/wdsxh/js/main.js"></script>
+  <script src="__CDN__/assets/addons/wdsxh/js/public.js"></script>
+  <script src="__CDN__/assets/addons/wdsxh/js/news_detail.js"></script>
+</body>
+
+</html>
