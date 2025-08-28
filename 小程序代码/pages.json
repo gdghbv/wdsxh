@@ -1,0 +1,700 @@
+// +----------------------------------------------------------------------
+// | 麦沃德科技赋能开发者，助力商协会发展 
+// +----------------------------------------------------------------------
+// | Copyright (c) 2017～2024  www.wdsxh.cn    All rights reserved.
+// +----------------------------------------------------------------------
+// | 沃德商协会系统并不是自由软件，不加密，并不代表开源，未经许可不可自由转售和商用
+// +----------------------------------------------------------------------
+// | Author: MY WORLD Team <bd@maiwd.cn>   www.maiwd.cn
+// +----------------------------------------------------------------------
+
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/member/index",
+			"style": {
+				"navigationBarTitleText": "会员风采",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/mall/index",
+			"style": {
+				"navigationBarTitleText": "商城"
+			}
+		},
+		{
+			"path": "pages/demand/index",
+			"style": {
+				"navigationBarTitleText": "供需",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/mine/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/login/index",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/webview/webview",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "default"
+			}
+		},
+		{
+			"path": "pages/webview/imageText",
+			"style": {
+				"navigationBarTitleText": "详情"
+			}
+		},
+		{
+			"path": "pages/mine/settings/system",
+			"style": {
+				"navigationBarTitleText": "系统设置"
+			}
+		},
+		{
+			"path": "pages/mine/problem/index",
+			"style": {
+				"navigationBarTitleText": "常见问题",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/mine/problem/details",
+			"style": {
+				"navigationBarTitleText": "常见问题"
+			}
+		},
+		{
+			"path": "pages/mine/settings/user",
+			"style": {
+				"navigationBarTitleText": "修改信息"
+			}
+		},
+		{
+			"path": "pages/mine/settings/agreement",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/mine/subscribe/index",
+			"style": {
+				"navigationBarTitleText": "消息订阅",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/index/association",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/article/index",
+			"style": {
+				"navigationBarTitleText": "平台动态",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/article/details",
+			"style": {
+				"navigationBarTitleText": "平台动态"
+			}
+		},
+		{
+			"path": "pages/member/search/index",
+			"style": {
+				"navigationBarTitleText": "会员搜索"
+			}
+		},
+		{
+			"path": "pages/member/search/result",
+			"style": {
+				"navigationBarTitleText": "搜索结果"
+			}
+		},
+		{
+			"path": "pages/member/details",
+			"style": {
+				"navigationBarTitleText": "会员详情"
+			}
+		},
+		{
+			"path": "pages/member/industry",
+			"style": {
+				"navigationBarTitleText": "会员风采"
+			}
+		},
+		{
+			"path": "pages/member/units",
+			"style": {
+				"navigationBarTitleText": "会员单位"
+			}
+		},
+		{
+			"path": "pages/member/enterprise",
+			"style": {
+				"navigationBarTitleText": "会员企业"
+			}
+		},
+		{
+			"path": "pages/member/organization",
+			"style": {
+				"navigationBarTitleText": "会员团体"
+			}
+		},
+		{
+			"path": "pages/member/apply/index",
+			"style": {
+				"navigationBarTitleText": "申请入会"
+			}
+		},
+		{
+			"path": "pages/member/apply/enterprise",
+			"style": {
+				"navigationBarTitleText": "申请入会"
+			}
+		},
+		{
+			"path": "pages/member/apply/editor",
+			"style": {
+				"navigationBarTitleText": "编辑内容"
+			}
+		},
+		{
+			"path": "pages/member/apply/success",
+			"style": {
+				"navigationBarTitleText": "提交成功"
+			}
+		},
+		{
+			"path": "pages/member/fees/index",
+			"style": {
+				"navigationBarTitleText": "会费缴纳"
+			}
+		},
+		{
+			"path": "pages/member/fees/pay",
+			"style": {
+				"navigationBarTitleText": "会费缴纳"
+			}
+		},
+		{
+			"path": "pages/member/fees/success",
+			"style": {
+				"navigationBarTitleText": "提交成功"
+			}
+		},
+		{
+			"path": "pages/member/information",
+			"style": {
+				"navigationBarTitleText": "编辑资料"
+			}
+		},
+		{
+			"path": "pages/demand/search/index",
+			"style": {
+				"navigationBarTitleText": "供需搜索"
+			}
+		},
+		{
+			"path": "pages/demand/search/result",
+			"style": {
+				"navigationBarTitleText": "搜索结果"
+			}
+		},
+		{
+			"path": "pages/diy/index",
+			"style": {
+				// #ifdef MP-WEIXIN
+				"enablePullDownRefresh": true,
+				// #endif 
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/diy/richText",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/diy/search",
+			"style": {
+				"navigationBarTitleText": "搜索结果"
+			}
+		},
+		{
+			"path": "pages/error/error",
+			"style": {
+				"navigationBarTitleText": "系统维护"
+			}
+		},
+		{
+			"path": "pages/error/browser",
+			"style": {
+				"navigationBarTitleText": "系统错误"
+			}
+		}
+	],
+	"subPackages": [{
+			"root": "pagesMall",
+			"pages": [{
+					"path": "goods/details",
+					"style": {
+						"navigationBarTitleText": "商品详情"
+					}
+				},
+				{
+					"path": "goods/list",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "goods/order",
+					"style": {
+						"navigationBarTitleText": "订单确认"
+					}
+				},
+				{
+					"path": "address/index",
+					"style": {
+						"navigationBarTitleText": "地址管理"
+					}
+				},
+				{
+					"path": "address/add",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "order/index",
+					"style": {
+						"navigationBarTitleText": "我的订单",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "order/details",
+					"style": {
+						"navigationBarTitleText": "订单详情"
+					}
+				},
+				{
+					"path": "order/payment",
+					"style": {
+						"navigationBarTitleText": "订单支付"
+					}
+				},
+				{
+					"path": "order/success",
+					"style": {
+						"navigationBarTitleText": "支付成功"
+					}
+				},
+				{
+					"path": "refund/apply",
+					"style": {
+						"navigationBarTitleText": "申请退款"
+					}
+				},
+				{
+					"path": "refund/index",
+					"style": {
+						"navigationBarTitleText": "退款列表",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "refund/details",
+					"style": {
+						"navigationBarTitleText": "退款详情"
+					}
+				},
+				{
+					"path": "refund/goods",
+					"style": {
+						"navigationBarTitleText": "填写信息"
+					}
+				},
+				{
+					"path": "refund/success",
+					"style": {
+						"navigationBarTitleText": "提交成功"
+					}
+				},
+				{
+					"path": "cart/index",
+					"style": {
+						"navigationBarTitleText": "购物车",
+						"enablePullDownRefresh": true
+					}
+				}
+			]
+		},
+		{
+			"root": "pagesDemand",
+			"pages": [{
+					"path": "demand/details",
+					"style": {
+						"navigationBarTitleText": "供需详情"
+					}
+				},
+				{
+					"path": "demand/list",
+					"style": {
+						"navigationBarTitleText": "我的发布",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "demand/publish",
+					"style": {
+						"navigationBarTitleText": "供需详情"
+					}
+				},
+				{
+					"path": "demand/edit",
+					"style": {
+						"navigationBarTitleText": "发布供需"
+					}
+				}
+			]
+		},
+		{
+			"root": "pagesTools",
+			"pages": [{
+					"path": "certificate/index",
+					"style": {
+						"navigationBarTitleText": "证书查询"
+					}
+				},
+				{
+					"path": "certificate/result",
+					"style": {
+						"navigationBarTitleText": "查询结果"
+					}
+				},
+				{
+					"path": "album/index",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "album/details",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "phoneBook/index",
+					"style": {
+						"navigationBarTitleText": "通讯录",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "sequence/index",
+					"style": {
+						"navigationBarTitleText": "活动接龙",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "sequence/details",
+					"style": {
+						"navigationBarTitleText": "活动接龙详情"
+					}
+				},
+				{
+					"path": "sequence/feedback",
+					"style": {
+						"navigationBarTitleText": "活动接龙反馈"
+					}
+				},
+				{
+					"path": "sequence/feedInfo",
+					"style": {
+						"navigationBarTitleText": "反馈信息"
+					}
+				},
+				{
+					"path": "suggest/index",
+					"style": {
+						"navigationBarTitleText": "需求建议"
+					}
+				},
+				{
+					"path": "publicize/index",
+					"style": {
+						"navigationBarTitleText": "推广会员",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "questionnaire/index",
+					"style": {
+						"navigationBarTitleText": "问卷调查",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "suggest/success",
+					"style": {
+						"navigationBarTitleText": "提交成功"
+					}
+				},
+				{
+					"path": "questionnaire/details",
+					"style": {
+						"navigationBarTitleText": "问卷详情"
+					}
+				},
+				{
+					"path": "questionnaire/info",
+					"style": {
+						"navigationBarTitleText": "问卷反馈详情"
+					}
+				},
+				{
+					"path": "institution/index",
+					"style": {
+						"navigationBarTitleText": "机构列表",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "institution/details",
+					"style": {
+						"navigationBarTitleText": "机构详情"
+					}
+				},
+				{
+					"path": "institution/apply",
+					"style": {
+						"navigationBarTitleText": "申请加入"
+					}
+				},
+				{
+					"path": "institution/editor",
+					"style": {
+						"navigationBarTitleText": "介绍内容"
+					}
+				},
+				{
+					"path": "institution/success",
+					"style": {
+						"navigationBarTitleText": "提交成功"
+					}
+				}
+			]
+		},
+		{
+			"root": "pagesActivity",
+			"pages": [{
+					"path": "index/index",
+					"style": {
+						"navigationBarTitleText": "活动列表",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "index/details",
+					"style": {
+						"navigationBarTitleText": "活动详情"
+					}
+				},
+				{
+					"path": "index/apply",
+					"style": {
+						"navigationBarTitleText": "填写报名信息"
+					}
+				},
+				{
+					"path": "index/order",
+					"style": {
+						"navigationBarTitleText": "订单详情"
+					}
+				},
+				{
+					"path": "index/success",
+					"style": {
+						"navigationBarTitleText": "支付成功"
+					}
+				},
+				{
+					"path": "order/index",
+					"style": {
+						"navigationBarTitleText": "我的活动",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "order/details",
+					"style": {
+						"navigationBarTitleText": "活动详情"
+					}
+				},
+				{
+					"path": "order/success",
+					"style": {
+						"navigationBarTitleText": "提交成功"
+					}
+				},
+				{
+					"path": "verification/index",
+					"style": {
+						"navigationBarTitleText": "活动核销"
+					}
+				},
+				{
+					"path": "verification/details",
+					"style": {
+						"navigationBarTitleText": "活动核销"
+					}
+				},
+				{
+					"path": "search/index",
+					"style": {
+						"navigationBarTitleText": "活动搜索"
+					}
+				},
+				{
+					"path": "search/result",
+					"style": {
+						"navigationBarTitleText": "搜索结果"
+					}
+				}
+			]
+		},
+		{
+			"root": "pagesCard",
+			"pages": [{
+					"path": "mine/index",
+					"style": {
+						"navigationBarTitleText": "我的名片",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "mine/details",
+					"style": {
+						"navigationBarTitleText": "名片详情"
+					}
+				},
+				{
+					"path": "mine/edit",
+					"style": {
+						"navigationBarTitleText": "新建名片"
+					}
+				},
+				{
+					"path": "mine/manage",
+					"style": {
+						"navigationBarTitleText": "名片管理",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "mine/custom",
+					"style": {
+						"navigationBarTitleText": "自定义背景"
+					}
+				},
+				{
+					"path": "mine/editor",
+					"style": {
+						"navigationBarTitleText": "编辑内容"
+					}
+				},
+				{
+					"path": "card/details",
+					"style": {
+						"navigationBarTitleText": "名片详情"
+					}
+				}
+			]
+		},
+		{
+			"root": "pagesAdmin",
+			"pages": [{
+					"path": "examine/index",
+					"style": {
+						"navigationBarTitleText": "审核会员",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "examine/details",
+					"style": {
+						"navigationBarTitleText": "审核会员详情"
+					}
+				}
+			]
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"navigationStyle": "custom",
+		"backgroundColor": "#FFFFFF"
+	},
+	"tabBar": {
+		"color": "#ffffff",
+		"selectedColor": "#ffffff",
+		"borderStyle": "white",
+		"backgroundColor": "#ffffff",
+		"custom": true,
+		"list": [{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"visible": false
+			},
+			{
+				"pagePath": "pages/member/index",
+				"text": "会员",
+				"visible": false
+			},
+			{
+				"pagePath": "pages/mall/index",
+				"text": "商城",
+				"visible": false
+			},
+			{
+				"pagePath": "pages/demand/index",
+				"text": "供需",
+				"visible": false
+			},
+			{
+				"pagePath": "pages/mine/index",
+				"text": "我的",
+				"visible": false
+			}
+		]
+	}
+}

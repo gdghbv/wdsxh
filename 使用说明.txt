@@ -1,0 +1,9 @@
+文档地址：https://www.wdadmin.cn/document_details.html?id=3
+=========================================================
+ 外网面板地址: https://8.134.8.106:23932/322fea1e
+ 内网面板地址: https://172.17.255.134:23932/322fea1e
+ username: gidrlliy
+ password: aaf46865
+=========================================================
+后台地址:http://xhdemo.funkia.cn/RIYFicvMAr.php/index/login
+账号 admin 密码:admin888
