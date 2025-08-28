@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "审核会员",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "examine-item": "/pagesAdmin/component/examine",
+    "confirm-modal": "/pages/component/modal/confirm"
+  }
+}

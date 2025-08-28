@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "退款列表",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "mall-refund": "/pagesMall/component/mall/refund"
+  }
+}

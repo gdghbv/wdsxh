@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "会员风采",
+  "usingComponents": {
+    "member-item": "/pages/component/member/index"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "会员风采",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "menu-carousel": "/pages/component/menu/carousel",
+    "member-item": "/pages/component/member/index",
+    "region-modal": "/pages/component/modal/region",
+    "level-modal": "/pages/component/modal/level"
+  }
+}

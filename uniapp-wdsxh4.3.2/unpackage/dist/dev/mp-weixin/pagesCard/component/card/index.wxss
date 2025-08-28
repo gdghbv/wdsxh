@@ -1,0 +1,121 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.component-card .card-item {
+  background: #FFF;
+  margin-top: 32rpx;
+}
+.component-card .card-item:first-child {
+  margin-top: 0;
+}
+.component-card .card-item .item-image {
+  position: relative;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+.component-card .card-item .item-image .image-btn {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 14rpx 16rpx;
+  border-radius: 16rpx 0;
+  background: var(--theme-color);
+}
+.component-card .card-item .item-image .image-btn .icon {
+  width: 32rpx;
+  height: 32rpx;
+}
+.component-card .card-item .item-image .image-btn .text {
+  margin-left: 8rpx;
+  color: #FFF;
+  font-size: 24rpx;
+  line-height: 34rpx;
+}
+.component-card .card-item .item-bottom {
+  padding: 20rpx 32rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.component-card .card-item .item-bottom .bottom-default {
+  display: flex;
+  align-items: center;
+}
+.component-card .card-item .item-bottom .bottom-default .default-label {
+  color: #5A5B6E;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  margin-right: 16rpx;
+}
+.component-card .card-item .item-bottom .bottom-default .default-switch {
+  width: 80rpx;
+  height: 40rpx;
+  padding: 3rpx;
+  background: #D9D9D9;
+  border-radius: 20rpx;
+  transition: all 0.3s;
+}
+.component-card .card-item .item-bottom .bottom-default .default-switch .switch-round {
+  width: 34rpx;
+  height: 34rpx;
+  border-radius: 50%;
+  background: #fff;
+  margin-left: 0;
+  transition: all 0.3s;
+}
+.component-card .card-item .item-bottom .bottom-default .default-switch.active {
+  background: var(--theme-color);
+}
+.component-card .card-item .item-bottom .bottom-default .default-switch.active .switch-round {
+  margin-left: calc(100% - 34rpx);
+}
+.component-card .card-item .item-bottom .bottom-render {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  line-height: 1.3;
+}
+.component-card .card-item .item-bottom .bottom-render::after {
+  display: none;
+}
+.component-card .card-item .item-bottom .bottom-render .render-icon {
+  width: 28rpx;
+  height: 28rpx;
+  border-radius: 8rpx;
+  overflow: hidden;
+  background: var(--theme-color);
+}
+.component-card .card-item .item-bottom .bottom-render .render-text {
+  margin-left: 8rpx;
+  color: #5A5B6E;
+  font-size: 28rpx;
+  line-height: 40rpx;
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "介绍内容",
+  "usingComponents": {
+    "sp-editor": "/uni_modules/sp-editor/components/sp-editor/sp-editor"
+  }
+}

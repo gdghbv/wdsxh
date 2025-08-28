@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "商品详情",
+  "usingComponents": {
+    "mp-html": "/uni_modules/mp-html/components/mp-html/mp-html",
+    "carousel": "/pages/component/carousel/carousel",
+    "quantity-modal": "/pagesMall/component/modal/quantity"
+  }
+}

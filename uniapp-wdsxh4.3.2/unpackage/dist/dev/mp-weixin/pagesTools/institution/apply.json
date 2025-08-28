@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "申请加入",
+  "usingComponents": {
+    "sp-editor": "/uni_modules/sp-editor/components/sp-editor/sp-editor",
+    "select-level": "/pages/component/picker/select"
+  }
+}

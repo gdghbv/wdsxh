@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "问卷详情",
+  "usingComponents": {
+    "question-problem": "/pagesTools/component/questionnaire/problem"
+  }
+}

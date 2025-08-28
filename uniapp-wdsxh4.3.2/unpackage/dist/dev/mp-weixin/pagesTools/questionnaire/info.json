@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "问卷反馈详情",
+  "usingComponents": {
+    "question-info": "/pagesTools/component/questionnaire/info"
+  }
+}

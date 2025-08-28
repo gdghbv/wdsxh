@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "活动接龙",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "chains-item": "/pages/component/chains/index"
+  }
+}

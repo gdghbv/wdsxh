@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "搜索结果",
+  "usingComponents": {
+    "member-item": "/pages/component/member/index",
+    "member-units": "/pages/component/member/units",
+    "activity-item": "/pages/component/activity/index",
+    "article-item": "/pages/component/article/index",
+    "goods-item": "/pages/component/mall/goods"
+  }
+}

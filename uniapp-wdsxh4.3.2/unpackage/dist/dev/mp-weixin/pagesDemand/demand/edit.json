@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "发布供需",
+  "usingComponents": {
+    "select-picker": "/pages/component/picker/select"
+  }
+}

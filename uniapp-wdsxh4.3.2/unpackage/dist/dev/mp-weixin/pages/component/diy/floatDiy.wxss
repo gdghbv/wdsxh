@@ -1,0 +1,117 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 在线客服 */
+.diy-float {
+	position: fixed;
+	z-index: 999;
+}
+.diy-float .float-icon {
+	padding: 10rpx;
+}
+.diy-float .float-icon image {
+	display: block;
+	width: 90rpx;
+	height: 90rpx;
+}
+.diy-float .float-absolute {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+.btn-normal {
+	position: relative;
+	display: block;
+	margin: 0;
+	padding: 0;
+	line-height: normal;
+	background: none;
+	border-radius: 0;
+	box-shadow: none;
+	border: none;
+	font-size: unset;
+	text-align: unset;
+	overflow: visible;
+	color: inherit;
+}
+.btn-normal:after {
+	border: none;
+}
+.btn-normal.button-hover {
+	color: inherit;
+}
+button:after {
+	content: none;
+	border: none;
+}
+

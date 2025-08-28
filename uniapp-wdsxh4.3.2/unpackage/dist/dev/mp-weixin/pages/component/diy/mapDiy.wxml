@@ -1,0 +1,1 @@
+<view class="diy-map" style="{{'padding:'+(paddingTop+' '+paddingLeft)+';'+('background:'+(showStyle.background)+';')+('border-radius:'+(itemBorderRadius)+';')}}"><map class="map" style="{{'height:'+(height)+';'}}" latitude="{{showParams.latitude}}" longitude="{{showParams.longitude}}" data-event-opts="{{[['tap',[['onClick',['$event']]]]]}}" bindtap="__e"></map></view>

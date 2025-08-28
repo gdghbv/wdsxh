@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "会员团体",
+  "usingComponents": {
+    "mp-html": "/uni_modules/mp-html/components/mp-html/mp-html",
+    "member-custom": "/pages/component/member/custom"
+  }
+}

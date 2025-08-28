@@ -1,0 +1,430 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.component-user-info .layout-1 {
+  padding-bottom: 16rpx;
+}
+.component-user-info .layout-1 .user-info-content {
+  padding: 48rpx 32rpx 32rpx;
+}
+.component-user-info .layout-1 .user-info-content .content-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 50%;
+  margin-right: 48rpx;
+}
+.component-user-info .layout-1 .user-info-content .content-box {
+  color: #5A5B6E;
+}
+.component-user-info .layout-1 .user-info-content .content-box .name {
+  font-size: 36rpx;
+  font-weight: 600;
+  line-height: 50rpx;
+}
+.component-user-info .layout-1 .user-info-content .content-box .phone {
+  font-size: 32rpx;
+  line-height: 44rpx;
+  margin-top: 16rpx;
+  text-align: left;
+}
+.component-user-info .layout-1 .user-info-login {
+  padding: 48rpx 32rpx 32rpx;
+}
+.component-user-info .layout-1 .user-info-login .login-text {
+  color: #5A5B6E;
+  font-size: 36rpx;
+  font-weight: 600;
+  height: 128rpx;
+  line-height: 128rpx;
+}
+.component-user-info .layout-1 .user-info-member {
+  margin-top: 16rpx;
+  position: relative;
+  background: linear-gradient(90deg, #BABABA, #FEFEFE 50.802%, #CECECE 100%);
+  min-height: 190rpx;
+  padding: 32rpx 48rpx;
+  border-radius: 10rpx;
+}
+.component-user-info .layout-1 .user-info-member::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 16rpx;
+  right: 16rpx;
+  bottom: -8rpx;
+  height: 128rpx;
+  z-index: -1;
+  border-radius: 10rpx;
+  background: #C1C1C1;
+}
+.component-user-info .layout-1 .user-info-member::before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 32rpx;
+  right: 32rpx;
+  bottom: -16rpx;
+  height: 128rpx;
+  z-index: -1;
+  border-radius: 10rpx;
+  background: #929292;
+}
+.component-user-info .layout-1 .user-info-member .member-image .image-circular {
+  width: 296rpx;
+  height: auto;
+  position: absolute;
+  top: 0;
+  left: 34rpx;
+  bottom: 6rpx;
+  z-index: 5;
+}
+.component-user-info .layout-1 .user-info-member .member-image .image-note {
+  width: 156rpx;
+  height: 140rpx;
+  position: absolute;
+  top: 26rpx;
+  right: 36rpx;
+  z-index: 5;
+}
+.component-user-info .layout-1 .user-info-member .member-image .image-auth {
+  position: absolute;
+  top: 16rpx;
+  right: 80rpx;
+  bottom: 0;
+  z-index: 5;
+  width: auto;
+}
+.component-user-info .layout-1 .user-info-member .member-box {
+  position: relative;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.component-user-info .layout-1 .user-info-member .member-box .box-title {
+  color: #5A5B6E;
+}
+.component-user-info .layout-1 .user-info-member .member-box .box-title .title {
+  font-size: 32rpx;
+  font-weight: 600;
+  line-height: 44rpx;
+}
+.component-user-info .layout-1 .user-info-member .member-box .box-title .subtitle {
+  font-size: 24rpx;
+  line-height: 44rpx;
+  margin-left: 8rpx;
+}
+.component-user-info .layout-1 .user-info-member .member-box .box-btn {
+  margin-top: 24rpx;
+  padding: 12rpx 20rpx;
+  border-radius: 8rpx;
+  background: #ffffff;
+}
+.component-user-info .layout-1 .user-info-member .member-box .box-btn text {
+  color: #5A5B6E;
+  font-size: 24rpx;
+  line-height: 34rpx;
+}
+.component-user-info .layout-1 .user-info-member .member-box .box-btn .icon {
+  margin-left: 16rpx;
+  width: 24rpx;
+  height: 24rpx;
+  background-size: 24rpx;
+}
+.component-user-info .layout-1 .user-info-member .member-box .box-tag {
+  margin-top: 24rpx;
+  color: #ffffff;
+  font-size: 24rpx;
+  line-height: 34rpx;
+}
+.component-user-info .layout-1 .user-info-member.state-1 {
+  background: linear-gradient(90deg, #325DFF, #88C1FF 50.802%, #489FFF 100%);
+}
+.component-user-info .layout-1 .user-info-member.state-1::after {
+  background: #82ACFF;
+}
+.component-user-info .layout-1 .user-info-member.state-1::before {
+  background: #C6E1FF;
+}
+.component-user-info .layout-1 .user-info-member.state-1 .member-box .box-title {
+  color: #FFFFFF;
+}
+.component-user-info .layout-1 .user-info-member.state-1 .member-box .box-btn text {
+  color: #325DFF;
+}
+.component-user-info .layout-1 .user-info-member.state-2 {
+  background: linear-gradient(90deg, #FF9D00, #FF8D4E 50.802%, #FFD9AD 100%);
+}
+.component-user-info .layout-1 .user-info-member.state-2::after {
+  background: #FFC66B;
+}
+.component-user-info .layout-1 .user-info-member.state-2::before {
+  background: #FFE2B4;
+}
+.component-user-info .layout-1 .user-info-member.state-2 .member-box .box-title {
+  color: #FFFFFF;
+}
+.component-user-info .layout-1 .user-info-member.state-2 .member-box .box-btn text {
+  color: #F39700;
+}
+.component-user-info .layout-1 .user-info-member.state-3 {
+  background: linear-gradient(90deg, #379CFA, #57C3FF 50.802%, #8DC8FF 100%);
+}
+.component-user-info .layout-1 .user-info-member.state-3::after {
+  background: #83C3FF;
+}
+.component-user-info .layout-1 .user-info-member.state-3::before {
+  background: #B4DBFF;
+}
+.component-user-info .layout-1 .user-info-member.state-3 .member-box .box-title {
+  color: #FFFFFF;
+}
+.component-user-info .layout-1 .user-info-member.state-3 .member-box .box-btn text {
+  color: #379CFA;
+}
+.component-user-info .layout-1 .user-info-member.state-4 {
+  background: linear-gradient(90deg, #FA3737, #FF5757 50.802%, #FF8D8D 100%);
+}
+.component-user-info .layout-1 .user-info-member.state-4::after {
+  background: #FF6B6B;
+}
+.component-user-info .layout-1 .user-info-member.state-4::before {
+  background: #FFB4B4;
+}
+.component-user-info .layout-1 .user-info-member.state-4 .member-box .box-title {
+  color: #FFFFFF;
+}
+.component-user-info .layout-1 .user-info-member.state-4 .member-box .box-btn text {
+  color: #FA3737;
+}
+.component-user-info .layout-2 {
+  padding-bottom: 48rpx;
+}
+.component-user-info .layout-2 .user-info-content {
+  padding: 48rpx 32rpx 0;
+}
+.component-user-info .layout-2 .user-info-content .content-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 50%;
+  margin-right: 48rpx;
+}
+.component-user-info .layout-2 .user-info-content .content-box {
+  color: #5A5B6E;
+}
+.component-user-info .layout-2 .user-info-content .content-box .name {
+  font-size: 36rpx;
+  font-weight: 600;
+  line-height: 50rpx;
+}
+.component-user-info .layout-2 .user-info-content .content-box .phone {
+  font-size: 32rpx;
+  line-height: 44rpx;
+  margin-top: 16rpx;
+  text-align: left;
+}
+.component-user-info .layout-2 .user-info-login {
+  padding: 48rpx 32rpx 0;
+}
+.component-user-info .layout-2 .user-info-login .login-text {
+  color: #5A5B6E;
+  font-size: 36rpx;
+  font-weight: 600;
+  height: 128rpx;
+  line-height: 128rpx;
+}
+.component-user-info .layout-2 .user-info-member {
+  margin-top: 48rpx;
+  position: relative;
+  border-radius: 16rpx;
+  background: #303752;
+  padding: 24rpx 32rpx;
+}
+.component-user-info .layout-2 .user-info-member .member-box .box-icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 16rpx;
+}
+.component-user-info .layout-2 .user-info-member .member-box .box-title {
+  color: #FFF;
+}
+.component-user-info .layout-2 .user-info-member .member-box .box-title .title {
+  font-size: 28rpx;
+  font-weight: 600;
+  line-height: 40rpx;
+}
+.component-user-info .layout-2 .user-info-member .member-box .box-title .subtitle {
+  font-size: 28rpx;
+  line-height: 40rpx;
+}
+.component-user-info .layout-2 .user-info-member .member-box .box-btn {
+  margin-left: 24rpx;
+  padding: 12rpx 20rpx;
+  border-radius: 30rpx;
+  background: #ffffff;
+}
+.component-user-info .layout-2 .user-info-member .member-box .box-btn text {
+  color: var(--theme-color);
+  font-size: 24rpx;
+  line-height: 34rpx;
+}
+.component-user-info .layout-2 .user-info-member .member-box .box-btn .icon {
+  margin-left: 16rpx;
+  width: 24rpx;
+  height: 24rpx;
+  background-size: 24rpx;
+}
+.component-user-info .layout-3 {
+  background: #FFF;
+  border-radius: 16rpx 16rpx 0 0;
+}
+.component-user-info .layout-3 .user-info-top {
+  border-radius: 16rpx 16rpx 0 0;
+  padding: 24rpx 48rpx;
+  position: relative;
+  z-index: 1;
+}
+.component-user-info .layout-3 .user-info-top .top-content {
+  position: relative;
+  z-index: 1;
+}
+.component-user-info .layout-3 .user-info-top .top-content .content-box {
+  color: #5A5B6E;
+}
+.component-user-info .layout-3 .user-info-top .top-content .content-box .name {
+  font-size: 36rpx;
+  font-weight: 600;
+  line-height: 50rpx;
+}
+.component-user-info .layout-3 .user-info-top .top-content .content-box .phone {
+  font-size: 32rpx;
+  line-height: 44rpx;
+  margin-top: 16rpx;
+  text-align: left;
+}
+.component-user-info .layout-3 .user-info-top .top-content .content-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 50%;
+  margin-left: 48rpx;
+  position: relative;
+  top: -56rpx;
+}
+.component-user-info .layout-3 .user-info-top .top-login {
+  position: relative;
+  z-index: 1;
+}
+.component-user-info .layout-3 .user-info-top .top-login .login-text {
+  color: #5A5B6E;
+  font-size: 36rpx;
+  font-weight: 600;
+  height: 128rpx;
+  line-height: 128rpx;
+}
+.component-user-info .layout-3 .user-info-top .top-label {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 30rpx;
+  background: #FFF;
+  box-shadow: 0 0 8rpx 0 rgba(255, 255, 255, 0.5);
+  padding: 12rpx 16rpx;
+  min-width: 136rpx;
+  margin-top: 16rpx;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.component-user-info .layout-3 .user-info-top .top-label .bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0.1;
+  background: var(--theme-color);
+}
+.component-user-info .layout-3 .user-info-top .top-label .icon {
+  width: 24rpx;
+  height: 24rpx;
+  background-size: 24rpx;
+}
+.component-user-info .layout-3 .user-info-top .top-label .text {
+  color: var(--theme-color);
+  font-size: 20rpx;
+  line-height: 28rpx;
+  margin-left: 8px;
+}
+.component-user-info .layout-3 .user-info-top .top-icon {
+  position: absolute;
+  right: 16rpx;
+  bottom: 0;
+  height: 106rpx;
+  display: flex;
+}
+.component-user-info .layout-3 .user-info-top .top-icon .icon {
+  width: 116rpx;
+  height: 106rpx;
+  background-size: 100%;
+  margin-left: -52rpx;
+  color: var(--theme-color);
+}
+.component-user-info .layout-3 .user-info-top .top-bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  border-radius: 16rpx 16rpx 0 0;
+}
+.component-user-info .layout-3 .user-info-bottom {
+  position: relative;
+  background: #FFF;
+  padding: 14rpx 32rpx;
+}
+.component-user-info .layout-3 .user-info-bottom .bottom-box .box-title {
+  color: #5A5B6E;
+  font-size: 28rpx;
+  line-height: 40rpx;
+}
+.component-user-info .layout-3 .user-info-bottom .bottom-box .box-btn {
+  margin-left: 24rpx;
+  padding: 12rpx 20rpx;
+  border-radius: 30rpx;
+  background: var(--theme-color);
+}
+.component-user-info .layout-3 .user-info-bottom .bottom-box .box-btn text {
+  color: #FFF;
+  font-size: 24rpx;
+  line-height: 34rpx;
+}
+.component-user-info .layout-3 .user-info-bottom .bottom-box .box-btn .icon {
+  margin-left: 16rpx;
+  width: 24rpx;
+  height: 24rpx;
+  background-size: 24rpx;
+}

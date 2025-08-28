@@ -1,0 +1,245 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.component-problem .problem-form .problem-form-item {
+  margin-top: 32rpx;
+}
+.component-problem .problem-form .problem-form-item:first-child {
+  margin-top: 0;
+}
+.component-problem .problem-form .problem-form-item .item-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #5A5B6E;
+}
+.component-problem .problem-form .problem-form-item .item-text {
+  margin-top: 32rpx;
+  padding: 36rpx 32rpx;
+  border-radius: 16rpx;
+  background: #FFFFFF;
+}
+.component-problem .problem-form .problem-form-item .item-text .placeholder {
+  font-size: 28rpx;
+  line-height: 40rpx;
+  color: #8D929C;
+}
+.component-problem .problem-form .problem-form-item .item-radio .item-radio-option {
+  margin-top: 32rpx;
+  display: flex;
+  align-items: center;
+}
+.component-problem .problem-form .problem-form-item .item-radio .item-radio-option .item-radio-button {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 8rpx;
+  background: #FFFFFF;
+  position: relative;
+}
+.component-problem .problem-form .problem-form-item .item-radio .item-radio-option .item-radio-button .radio-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.component-problem .problem-form .problem-form-item .item-radio .item-radio-option .item-radio-txt {
+  padding-left: 16rpx;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  color: #5A5B6E;
+}
+.component-problem .problem-form .problem-form-item .item-checkbox .item-checkbox-option {
+  margin-top: 32rpx;
+  display: flex;
+  align-items: center;
+}
+.component-problem .problem-form .problem-form-item .item-checkbox .item-checkbox-option .item-checkbox-button {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 8rpx;
+  background: #FFFFFF;
+  position: relative;
+}
+.component-problem .problem-form .problem-form-item .item-checkbox .item-checkbox-option .item-checkbox-button .checkbox-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.component-problem .problem-form .problem-form-item .item-checkbox .item-checkbox-option .item-checkbox-txt {
+  padding-left: 16rpx;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  color: #5A5B6E;
+}
+.component-problem .problem-form .problem-form-item .item-date {
+  margin-top: 32rpx;
+  padding: 36rpx 32rpx;
+  border-radius: 16rpx;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+}
+.component-problem .problem-form .problem-form-item .item-date .input {
+  color: #5A5B6E;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  flex: 1;
+}
+.component-problem .problem-form .problem-form-item .item-date .placeholder {
+  color: #ACADB7;
+  font-size: 28rpx;
+  line-height: 40rpx;
+}
+.component-problem .problem-form .problem-form-item .item-date .icon {
+  width: 32rpx;
+  height: 32rpx;
+}
+.component-problem .problem-form .problem-form-item .item-select {
+  margin-top: 32rpx;
+  padding: 36rpx 32rpx;
+  border-radius: 16rpx;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+}
+.component-problem .problem-form .problem-form-item .item-select .input {
+  color: #5A5B6E;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  flex: 1;
+}
+.component-problem .problem-form .problem-form-item .item-select .placeholder {
+  color: #ACADB7;
+  font-size: 28rpx;
+  line-height: 40rpx;
+}
+.component-problem .problem-form .problem-form-item .item-select .icon {
+  width: 32rpx;
+  height: 32rpx;
+}
+.component-problem .problem-form .problem-form-item .item-textarea {
+  margin-top: 32rpx;
+  padding: 36rpx 32rpx;
+  border-radius: 16rpx;
+  background: #FFFFFF;
+}
+.component-problem .problem-form .problem-form-item .item-textarea .item-textarea-height {
+  height: 136rpx;
+  width: 100%;
+}
+.component-problem .problem-form .problem-form-item .item-textarea .placeholder {
+  font-size: 28rpx;
+  line-height: 40rpx;
+  color: #8D929C;
+}
+.component-problem .problem-form .problem-form-item .item-upload {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 8rpx;
+}
+.component-problem .problem-form .problem-form-item .item-upload .upload-image {
+  position: relative;
+  width: 31%;
+  height: 0;
+  padding-top: 31%;
+  margin-top: 24rpx;
+  margin-right: 3.5%;
+}
+.component-problem .problem-form .problem-form-item .item-upload .upload-image:nth-child(3n) {
+  margin-right: 0;
+}
+.component-problem .problem-form .problem-form-item .item-upload .upload-image .image-select {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 10rpx;
+}
+.component-problem .problem-form .problem-form-item .item-upload .upload-image .image-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 10rpx;
+  background: var(--theme-color);
+  padding: 56rpx;
+}
+.component-problem .problem-form .problem-form-item .item-upload .upload-image .image-delete {
+  position: absolute;
+  top: -16rpx;
+  right: -16rpx;
+  width: 48rpx;
+  height: 48rpx;
+}
+.component-problem .problem-form .problem-form-item .item-upload .upload-image .image-choose {
+  position: absolute;
+  top: 20rpx;
+  left: 20rpx;
+  right: 20rpx;
+  bottom: 20rpx;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 6rpx;
+}
+.component-problem .problem-form .problem-form-item .item-upload .upload-image .image-choose .icon {
+  width: 80rpx;
+  height: 80rpx;
+  padding: 18rpx;
+  background: var(--theme-color);
+  border-radius: 50%;
+}
+.component-problem .problem-form .problem-form-item .item-upload .upload-image .image-choose .text {
+  margin-top: 16rpx;
+  color: var(--theme-color);
+  font-size: 28rpx;
+  line-height: 40rpx;
+}
+.component-problem .problem-form .problem-form-item .item-upload .upload-image .image-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background: var(--theme-color);
+  opacity: 0.08;
+}
+.component-problem .problem-form .problem-form-item .item-upload .upload-empty {
+  color: #5A5B6E;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  margin-top: 24rpx;
+}

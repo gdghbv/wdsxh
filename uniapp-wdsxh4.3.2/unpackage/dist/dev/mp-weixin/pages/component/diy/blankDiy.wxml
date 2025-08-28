@@ -1,0 +1,1 @@
+<view class="diy-blank" style="{{'height:'+(height)+';'+('background:'+(showStyle.background)+';')+('border-radius:'+(itemBorderRadius)+';')}}"></view>

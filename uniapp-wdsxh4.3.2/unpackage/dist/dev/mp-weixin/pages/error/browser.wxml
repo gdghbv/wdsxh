@@ -1,0 +1,1 @@
+<view class="container"><title-bar vue-id="53442be4-1" showBack="{{true}}" title="系统错误" bind:__l="__l"></title-bar><view class="container-main"><image class="main-icon" src="/static/error.png" mode="widthFix"></image><view class="main-tips flex-direction-column align-items-center"><text>该网页仅支持微信浏览器</text><text>请使用微信浏览器打开</text></view></view></view>

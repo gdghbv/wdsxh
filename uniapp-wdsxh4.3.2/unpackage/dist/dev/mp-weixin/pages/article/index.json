@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "平台动态",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "article-item": "/pages/component/article/index"
+  }
+}

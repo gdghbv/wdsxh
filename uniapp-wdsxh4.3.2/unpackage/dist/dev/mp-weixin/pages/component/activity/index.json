@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "activity-poster": "/pages/component/activity/poster",
+    "activity-certificate": "/pages/component/activity/certificate"
+  }
+}

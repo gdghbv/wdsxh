@@ -1,0 +1,32 @@
+{
+  "component": true,
+  "usingComponents": {
+    "carousel-diy": "/pages/component/diy/carouselDiy",
+    "images-diy": "/pages/component/diy/imagesDiy",
+    "nav-diy": "/pages/component/diy/navDiy",
+    "cube-diy": "/pages/component/diy/cubeDiy",
+    "info-card-diy": "/pages/component/diy/infoCardDiy",
+    "text-button-diy": "/pages/component/diy/textButtonDiy",
+    "title-diy": "/pages/component/diy/titleDiy",
+    "video-diy": "/pages/component/diy/videoDiy",
+    "map-diy": "/pages/component/diy/mapDiy",
+    "article-diy": "/pages/component/diy/articleDiy",
+    "introduce-diy": "/pages/component/diy/introduceDiy",
+    "member-diy": "/pages/component/diy/memberDiy",
+    "activity-diy": "/pages/component/diy/activityDiy",
+    "chains-diy": "/pages/component/diy/chainsDiy",
+    "album-diy": "/pages/component/diy/albumDiy",
+    "goods-diy": "/pages/component/diy/goodsDiy",
+    "demand-diy": "/pages/component/diy/demandDiy",
+    "member-map-diy": "/pages/component/diy/memberMapDiy",
+    "search-diy": "/pages/component/diy/searchDiy",
+    "line-diy": "/pages/component/diy/lineDiy",
+    "blank-diy": "/pages/component/diy/blankDiy",
+    "notice-diy": "/pages/component/diy/noticeDiy",
+    "text-diy": "/pages/component/diy/textDiy",
+    "rich-text-diy": "/pages/component/diy/richTextDiy",
+    "warn-diy": "/pages/component/diy/warnDiy",
+    "timeline-diy": "/pages/component/diy/timelineDiy",
+    "float-diy": "/pages/component/diy/floatDiy"
+  }
+}

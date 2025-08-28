@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "select-picker": "/pages/component/picker/select",
+    "date-picker": "/pages/component/picker/date"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "color-picker": "/uni_modules/sp-editor/components/sp-editor/color-picker",
+    "link-edit": "/uni_modules/sp-editor/components/sp-editor/link-edit",
+    "fab-tool": "/uni_modules/sp-editor/components/sp-editor/fab-tool"
+  }
+}

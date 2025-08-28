@@ -1,0 +1,86 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.component-modal-confirm {
+  position: relative;
+  z-index: 999;
+}
+.component-modal-confirm .modal-confirm {
+  width: 544rpx;
+  max-width: 92vw;
+  border-radius: 16rpx;
+  background: #FFF;
+  padding-top: 32rpx;
+}
+.component-modal-confirm .modal-confirm .confirm-title {
+  color: #5A5B6E;
+  font-size: 32rpx;
+  font-weight: 600;
+  line-height: 44rpx;
+  padding: 0 32rpx 16rpx;
+  text-align: center;
+}
+.component-modal-confirm .modal-confirm .confirm-content {
+  padding: 32rpx 48rpx 64rpx;
+  color: #5A5B6E;
+  text-align: center;
+  font-size: 32rpx;
+  line-height: 44rpx;
+  white-space: pre-wrap;
+}
+.component-modal-confirm .modal-confirm .confirm-input {
+  padding: 16rpx 32rpx 32rpx;
+}
+.component-modal-confirm .modal-confirm .confirm-input .textarea {
+  padding: 32rpx;
+  border-radius: 16rpx;
+  background: #F6F7FB;
+  width: 100%;
+  box-sizing: border-box;
+  height: 240rpx;
+  color: #5A5B6E;
+  font-size: 28rpx;
+  line-height: 40rpx;
+}
+.component-modal-confirm .modal-confirm .confirm-input .placeholder {
+  color: #8D929C;
+}
+.component-modal-confirm .modal-confirm .confirm-footer {
+  border-top: 1px solid #E5E5E5;
+  display: flex;
+}
+.component-modal-confirm .modal-confirm .confirm-footer .footer-btn {
+  flex: 1;
+  width: 50%;
+  padding: 28rpx 20rpx;
+  text-align: center;
+  font-size: 32rpx;
+  line-height: 48rpx;
+  border-left: 1px solid #E5E5E5;
+}
+.component-modal-confirm .modal-confirm .confirm-footer .footer-btn:first-child {
+  border-left: none;
+}
