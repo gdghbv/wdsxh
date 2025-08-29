@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "名片详情",
-  "usingComponents": {
-    "mp-html": "/uni_modules/mp-html/components/mp-html/mp-html",
-    "card-item": "/pagesCard/component/card/item"
-  }
-}

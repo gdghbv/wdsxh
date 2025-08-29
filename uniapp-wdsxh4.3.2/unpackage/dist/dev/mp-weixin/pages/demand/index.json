@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "供需",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "demand-item": "/pages/component/demand/index"
-  }
-}

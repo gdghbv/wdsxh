@@ -1,1 +1,0 @@
-<view class="diy-line" style="{{'padding:'+(paddingTop+' '+paddingLeft)+';'+('background:'+(showStyle.background)+';')+('border-radius:'+(itemBorderRadius)+';')}}"><view class="line" style="{{'border-top:'+(line)+';'}}"></view></view>

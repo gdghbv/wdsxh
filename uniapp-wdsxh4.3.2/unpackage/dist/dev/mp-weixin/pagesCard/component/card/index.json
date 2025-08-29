@@ -1,6 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "card-item": "/pagesCard/component/card/item"
-  }
-}

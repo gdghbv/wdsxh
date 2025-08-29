@@ -1,1 +1,0 @@
-<view class="container"><title-bar vue-id="57b85035-1" title="{{agreementTitle}}" bind:__l="__l"></title-bar><block wx:if="{{loadEnd}}"><view class="container-main"><mp-html vue-id="57b85035-2" content="{{content}}" bind:__l="__l"></mp-html></view></block><tab-bar vue-id="57b85035-3" bind:__l="__l"></tab-bar></view>

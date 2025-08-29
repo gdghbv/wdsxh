@@ -1,1 +1,0 @@
-<view class="container"><title-bar vue-id="47c3de69-1" title="{{navigationBarTitle}}" bind:__l="__l"></title-bar><block wx:if="{{loadEnd}}"><view class="container-main"><mp-html vue-id="47c3de69-2" content="{{editorContent}}" bind:__l="__l"></mp-html></view></block></view>

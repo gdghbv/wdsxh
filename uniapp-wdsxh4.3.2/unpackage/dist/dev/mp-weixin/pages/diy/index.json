@@ -1,7 +1,0 @@
-{
-  "enablePullDownRefresh": true,
-  "navigationBarTitleText": "",
-  "usingComponents": {
-    "diy-mode": "/pages/component/diy/index"
-  }
-}

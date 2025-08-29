@@ -1,9 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "uni-datetime-picker": "/uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker",
-    "select-picker": "/pages/component/picker/select",
-    "date-picker": "/pages/component/picker/date",
-    "time-picker": "/pages/component/picker/time"
-  }
-}

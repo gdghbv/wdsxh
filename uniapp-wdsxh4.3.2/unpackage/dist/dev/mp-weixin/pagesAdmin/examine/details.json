@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "审核会员详情",
-  "usingComponents": {
-    "examine-custom": "/pagesAdmin/component/examine-custom",
-    "confirm-modal": "/pages/component/modal/confirm"
-  }
-}

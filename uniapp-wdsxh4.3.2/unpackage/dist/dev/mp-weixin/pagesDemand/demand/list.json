@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "我的发布",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "demand-item": "/pages/component/demand/index"
-  }
-}

@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "会员单位",
-  "usingComponents": {
-    "member-units": "/pages/component/member/units"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "购物车",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "mall-cart": "/pagesMall/component/mall/cart",
-    "quantity-modal": "/pagesMall/component/modal/quantity"
-  }
-}

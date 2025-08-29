@@ -1,6 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "u-alert-tips": "/components/u-alert-tips/u-alert-tips"
-  }
-}

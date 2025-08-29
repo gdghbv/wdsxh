@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "填写报名信息",
-  "usingComponents": {
-    "activity-apply": "/pages/component/activity/apply"
-  }
-}

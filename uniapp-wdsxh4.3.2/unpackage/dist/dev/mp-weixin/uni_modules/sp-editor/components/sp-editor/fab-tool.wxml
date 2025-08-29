@@ -1,1 +1,0 @@
-<view class="fab-tool"><view id="toolfab"><slot></slot></view><view class="fab-tool-content" style="{{(placementStyle)}}" id="placementfab"><block wx:if="{{visible}}"><slot name="content"></slot></block></view></view>

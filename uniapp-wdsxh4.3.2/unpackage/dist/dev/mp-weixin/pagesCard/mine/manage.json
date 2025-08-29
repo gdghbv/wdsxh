@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "名片管理",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "card-item": "/pagesCard/component/card/index"
-  }
-}

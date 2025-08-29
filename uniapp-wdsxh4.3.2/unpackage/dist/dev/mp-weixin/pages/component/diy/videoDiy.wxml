@@ -1,1 +1,0 @@
-<view class="diy-video" style="{{'padding:'+(paddingTop+' '+paddingLeft)+';'+('background:'+(showStyle.background)+';')+('border-radius:'+(itemBorderRadius)+';')}}"><video src="{{showParams.videoUrl}}" poster="{{$root.m0}}" autoplay="{{showParams.autoplay==1}}" controls="false"></video></view>

@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "活动核销",
-  "usingComponents": {
-    "activity-item": "/pages/component/activity/index"
-  }
-}

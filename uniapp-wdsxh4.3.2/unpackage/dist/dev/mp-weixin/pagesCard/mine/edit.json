@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "新建名片",
-  "usingComponents": {
-    "select-picker": "/pagesCard/component/picker/select",
-    "card-poster": "/pagesCard/component/card/poster"
-  }
-}

@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "商城",
-  "usingComponents": {
-    "carousel": "/pages/component/mall/carousel"
-  }
-}

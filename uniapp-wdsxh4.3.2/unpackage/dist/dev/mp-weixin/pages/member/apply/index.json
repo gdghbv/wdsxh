@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "申请入会",
-  "usingComponents": {
-    "member-apply": "/pages/component/member/apply",
-    "select-picker": "/pages/component/picker/select"
-  }
-}
