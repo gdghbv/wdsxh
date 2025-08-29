@@ -338,6 +338,7 @@
 					if (this.selectRegion.area) data.native_place += "/" + this.selectRegion.area
 					if (this.selectLevel.length) data.member_level_id = this.selectLevel.map(item => item.id).join()
 					this.$util.request("member.list", data).then(res => {
+						console.log("这是memberlist：",res)
 						if (fn) fn()
 						if (res.code == 1) {
 							let list = res.data.data

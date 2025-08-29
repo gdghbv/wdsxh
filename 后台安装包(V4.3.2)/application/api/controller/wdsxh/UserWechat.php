@@ -54,7 +54,7 @@ class UserWechat extends Api
         if (!$wechat_id) {
             $this->error('用户信息不存在');
         }
-        $data = $this->model->where('id',$wechat_id)->field("nickname,REPLACE(mobile,SUBSTR(mobile,4,4),'****') mobile,avatar")->find();
+        $data = $this->model->where('id',$wechat_id)->field("nickname,REPLACE(mobile,SUBSTR(mobile,4,4),'****') mobile,avatar,points,total_points")->find();
         $data['apply_member_state'] = $this->query_apply_member_state($wechat_id);
 
         if ($data['apply_member_state']['state'] == '6') {
@@ -220,29 +220,7 @@ class UserWechat extends Api
 
         $this->success('更新成功！',$this->auth->getUserinfo());
     }
-
-    /**
-     * Desc 获取手机号
-     * Create on 2025/8/18 上午11:45
-     * Create by wangyafang
-     */
-    public function get_mobile()
-    {
-        if(!$this->request->isGet()) {
-            $this->error('请求类型错误');
-        }
-
-        $wechatObj = (new \app\api\model\wdsxh\UserWechat())->where('user_id',$this->auth->id)->find();
-        if (!$wechatObj) {
-            $this->error('微信用户信息不存在');
-        }
-
-        $this->success('请求成功', [
-            'mobile' => $wechatObj->mobile,
-        ]);
-    }
-
-         /**
+        /**
      * Desc  查看用户积分详情
      * Create on 2025/8/12 10:03
      * Create by JustWorking

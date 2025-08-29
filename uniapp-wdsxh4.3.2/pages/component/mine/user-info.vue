@@ -20,6 +20,9 @@
 					<view class="name text-ellipsis">{{userInfo.nickname}}</view>
 					<view class="phone text-ellipsis" v-if="userInfo.mobile">{{userInfo.mobile}}</view>
 					<button class="phone clear" open-type="getPhoneNumber" @getphonenumber="bindPhoneNumber" @click.stop v-else>绑定手机号</button>
+				<StarRating :points="userInfo.points"
+				             :totalPoints="userInfo.total_points"
+												  />
 				</view>
 			</view>
 			<!-- 登录 -->
@@ -268,8 +271,12 @@
 
 <script>
 	import svgData from "@/common/svg.js"
+		import StarRating from '@/pages/component/mine/star-rating.vue'
 	import { mapState } from "vuex"
 	export default {
+		components: {
+		    StarRating
+		  },
 		name: "userInfo",
 		props: ['showStyle'],
 		data() {

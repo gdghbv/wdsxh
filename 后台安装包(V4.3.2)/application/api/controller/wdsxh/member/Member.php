@@ -612,7 +612,7 @@ class Member extends Api
 
         $field = 'member.id,member.name,member.avatar,member.native_place,
         member.member_level_id,level.name level_name,member.latitude,member.longitude,
-        industry_category.name industry_category_name';
+        industry_category.name industry_category_name,user_wechat.total_points';
 
         //经纬度
         if (!empty($longitude) && !empty($latitude)) {
@@ -657,6 +657,7 @@ class Member extends Api
             ->where($where)
             ->join('wdsxh_member_level level','level.id = member.member_level_id')
             ->join('wdsxh_member_industry_category industry_category','industry_category.id = member.industry_category_id')
+            ->join('wdsxh_user_wechat user_wechat', 'user_wechat.id = member.wechat_id', 'LEFT')            
             ->count();
 
         $data = $this->model
@@ -677,6 +678,7 @@ class Member extends Api
             ->where($where)
             ->join('wdsxh_member_level level','level.id = member.member_level_id')
             ->join('wdsxh_member_industry_category industry_category','industry_category.id = member.industry_category_id')
+            ->join('wdsxh_user_wechat user_wechat', 'user_wechat.id = member.wechat_id', 'LEFT') 
             ->field($field)->order($order)
             ->page($page)->limit($limit)
             ->select();

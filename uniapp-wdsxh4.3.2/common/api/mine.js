@@ -22,6 +22,12 @@ export default {
 		url: '/api/wdsxh/person_center_diy_page/details',
 		method: 'GET',
 	},
+	//个人积分详情
+	pointsLog: {
+		url: '/api/wdsxh/user_wechat/points_log',
+		auth: true,
+		 method: 'GET',
+	},
 	// 电子会牌
 	poster: {
 		url: '/api/wdsxh/willbrand/index',
