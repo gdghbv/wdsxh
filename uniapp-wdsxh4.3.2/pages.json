@@ -254,6 +254,20 @@
 			"style": {
 				"navigationBarTitleText": "系统错误"
 			}
+		},
+		{
+			"path" : "pages/member/pointsLog",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/component/member/points-log",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 	],
 	"subPackages": [{
