@@ -38,5 +38,3 @@ package-lock.json
 
 # uni-app 生成的文件
 project.config.json
-
-unpackage/*
